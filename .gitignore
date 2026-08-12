@@ -2,6 +2,9 @@
 .env
 *.key
 *.pem
+terraform/*.tfvars
+terraform/.terraform/
+terraform/.terraform.lock.hcl
 
 # Flutter / Dart
 .dart_tool/
