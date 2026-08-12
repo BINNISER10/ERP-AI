@@ -1,0 +1,42 @@
+<odoo>
+    <record id="view_nexus_ai_business_setup_wizard" model="ir.ui.view">
+        <field name="name">nexus.ai.business.setup.wizard.form</field>
+        <field name="model">nexus.ai.business.setup.wizard</field>
+        <field name="arch" type="xml">
+            <form>
+                <field name="state" invisible="1"/>
+                <sheet>
+                    <group string="Business Information" invisible="state != 'input'">
+                        <field name="business_type"/>
+                        <field name="industry"/>
+                        <field name="size"/>
+                        <field name="country_code"/>
+                        <field name="language"/>
+                        <field name="company_id" groups="base.group_multi_company"/>
+                    </group>
+                    <group string="AI Setup Plan" invisible="state != 'result'">
+                        <field name="summary_ar" readonly="1"/>
+                        <field name="summary_en" readonly="1"/>
+                        <field name="modules_text" string="Recommended Modules" readonly="1"/>
+                        <field name="product_categories_text" string="Product Categories" readonly="1"/>
+                        <field name="warehouses_text" string="Warehouses" readonly="1"/>
+                        <field name="steps_text" string="Setup Steps" readonly="1"/>
+                        <field name="result_json" invisible="1"/>
+                    </group>
+                </sheet>
+                <footer>
+                    <button name="action_generate" type="object" string="Generate Setup Plan" class="oe_highlight" invisible="state != 'input'"/>
+                    <button name="action_apply" type="object" string="Apply Setup" class="oe_highlight" invisible="state != 'result'"/>
+                    <button string="Cancel" special="cancel" class="btn-secondary"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_nexus_ai_business_setup_wizard" model="ir.actions.act_window">
+        <field name="name">AI Business Setup</field>
+        <field name="res_model">nexus.ai.business.setup.wizard</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+    </record>
+</odoo>

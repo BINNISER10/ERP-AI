@@ -3,7 +3,7 @@ import logging
 
 from fastapi import FastAPI
 
-from app.routers import sql, ocr, health
+from app.routers import sql, ocr, health, ai_assistant
 
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
@@ -17,3 +17,4 @@ app = FastAPI(
 app.include_router(health.router)
 app.include_router(sql.router, prefix="/api/v1/sql", tags=["sql-agent"])
 app.include_router(ocr.router, prefix="/api/v1/ocr", tags=["ocr-engine"])
+app.include_router(ai_assistant.router, prefix="/api/v1/ai", tags=["ai-assistant"])

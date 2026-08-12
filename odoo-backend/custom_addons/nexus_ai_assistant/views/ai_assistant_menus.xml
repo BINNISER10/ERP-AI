@@ -1,0 +1,7 @@
+<odoo>
+    <menuitem id="menu_nexus_ai_assistant_root" name="AI Assistant" sequence="10"/>
+
+    <menuitem id="menu_nexus_ai_business_setup" name="Business Setup Wizard" parent="menu_nexus_ai_assistant_root" action="action_nexus_ai_business_setup_wizard" sequence="10"/>
+    <menuitem id="menu_nexus_ai_monitor" name="AI Monitor" parent="menu_nexus_ai_assistant_root" action="action_nexus_ai_monitor_wizard" sequence="20"/>
+    <menuitem id="menu_nexus_ai_config" name="Configuration" parent="menu_nexus_ai_assistant_root" action="action_nexus_ai_config" sequence="100"/>
+</odoo>

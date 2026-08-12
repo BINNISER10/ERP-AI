@@ -1,0 +1,11 @@
+<odoo>
+    <data noupdate="1">
+        <record id="ai_config_default" model="nexus.ai.config">
+            <field name="name">Default AI Assistant Config</field>
+            <field name="ai_service_url">http://ai_services:8000</field>
+            <field name="ai_provider">auto</field>
+            <field name="request_timeout">60</field>
+            <field name="company_id" ref="base.main_company"/>
+        </record>
+    </data>
+</odoo>
