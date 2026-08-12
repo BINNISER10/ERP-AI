@@ -40,10 +40,10 @@ The user provided the following information:
 - language: {request.language}
 
 Return a JSON object with these keys:
-- modules: list of Odoo technical module names that should be installed (e.g., ["stock", "sale_management", "purchase", "point_of_sale", "account_accountant", "project", "mrp"]).
-- warehouses: list of warehouse names suitable for this business.
-- product_categories: list of product category names.
-- chart_of_accounts_summary: list of top-level account names with suggested codes, e.g., {{"name": "Revenues", "code": "4000"}}.
+- modules: list of plain Odoo technical module name strings that should be installed (e.g., ["stock", "sale_management", "purchase", "point_of_sale", "account_accountant", "project", "mrp"]).
+- warehouses: list of plain warehouse name strings (e.g., ["Main Warehouse", "Riyadh Store"]).
+- product_categories: list of plain product category name strings (e.g., ["Electronics", "Mobile Accessories", "Laptops"]).
+- chart_of_accounts_summary: list of objects with name and code, e.g., {{"name": "Revenues", "code": "4000"}}.
 - pos_config: an object with `name` and `product_categories` for a POS if applicable, otherwise null.
 - steps: list of setup steps in Arabic.
 - summary_ar: short Arabic summary.

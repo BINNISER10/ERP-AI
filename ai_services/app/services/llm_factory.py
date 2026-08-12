@@ -94,7 +94,14 @@ class OllamaLLM(BaseLLM):
             url = f"{self.base_url}/api/generate"
             response = requests.post(
                 url,
-                json={"model": self.model, "prompt": prompt, "stream": False},
+                json={
+                    "model": self.model,
+                    "prompt": prompt,
+                    "stream": False,
+                    "format": "json",
+                    "keep_alive": 3600,
+                    "options": {"num_predict": 1024},
+                },
                 timeout=settings.request_timeout,
             )
             response.raise_for_status()

@@ -53,12 +53,12 @@ class BusinessSetupRequest(BaseModel):
 
 
 class BusinessSetupResponse(BaseModel):
-    modules: list[str] = []
-    warehouses: list[str] = []
-    product_categories: list[str] = []
+    modules: list[str | dict] = []
+    warehouses: list[str | dict] = []
+    product_categories: list[str | dict] = []
     chart_of_accounts_summary: list[dict] = []
     pos_config: dict | None = None
-    steps: list[str] = []
+    steps: list[str | dict] = []
     summary_ar: str = ""
     summary_en: str = ""
 

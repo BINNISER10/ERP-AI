@@ -13,7 +13,6 @@ _logger = logging.getLogger(__name__)
 class AiAssistantConfig(models.Model):
     _name = "nexus.ai.config"
     _description = "Nexus AI Assistant Configuration"
-    _inherit = ["mail.thread"]
 
     name = fields.Char(default="AI Assistant Configuration")
     active = fields.Boolean(default=True)
@@ -35,7 +34,7 @@ class AiAssistantConfig(models.Model):
         default="auto",
         required=True,
     )
-    request_timeout = fields.Integer(default=60)
+    request_timeout = fields.Integer(default=180)
 
     _sql_constraints = [
         ("company_uniq", "unique(company_id)", "Only one AI config is allowed per company."),

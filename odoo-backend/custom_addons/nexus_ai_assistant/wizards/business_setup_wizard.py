@@ -82,6 +82,18 @@ class AiBusinessSetupWizard(models.TransientModel):
             "language": self.language,
         }
 
+    def _stringify_name(self, item):
+        """Return a clean string from either a plain name or a {'name': ...} object."""
+        if isinstance(item, dict):
+            return item.get("name") or item.get("Name") or str(item)
+        return str(item)
+
+    def _normalize_result(self, result):
+        """Ensure list-of-name fields are plain strings, even if the AI returns objects."""
+        for key in ("modules", "warehouses", "product_categories", "steps"):
+            if key in result and isinstance(result[key], list):
+                result[key] = [self._stringify_name(it) for it in result[key]]
+
     def action_generate(self):
         self.ensure_one()
         config = self.env["nexus.ai.config"].get_config()
@@ -91,6 +103,7 @@ class AiBusinessSetupWizard(models.TransientModel):
             # but we can pass it in future versions if the endpoint supports it.
             pass
         result = config._call_ai_service("api/v1/ai/wizard/business-setup", payload)
+        self._normalize_result(result)
         self.result_json = json.dumps(result, ensure_ascii=False)
         self.summary_ar = result.get("summary_ar", "")
         self.summary_en = result.get("summary_en", "")
