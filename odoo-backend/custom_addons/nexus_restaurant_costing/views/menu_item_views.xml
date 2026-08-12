@@ -4,14 +4,14 @@
         <field name="name">menu.item.tree</field>
         <field name="model">menu.item</field>
         <field name="arch" type="xml">
-            <tree>
+            <list>
                 <field name="name"/>
                 <field name="product_id"/>
                 <field name="recipe_bom_id"/>
                 <field name="sale_price"/>
                 <field name="recipe_cost"/>
                 <field name="profit_margin"/>
-            </tree>
+            </list>
         </field>
     </record>
 
@@ -48,7 +48,7 @@
     <record id="action_menu_item" model="ir.actions.act_window">
         <field name="name">Menu Items</field>
         <field name="res_model">menu.item</field>
-        <field name="view_mode">tree,form</field>
+        <field name="view_mode">list,form</field>
     </record>
 
     <menuitem id="menu_menu_item" name="Menu Items" parent="menu_restaurant_root" action="action_menu_item" sequence="20"/>

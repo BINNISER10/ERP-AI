@@ -4,7 +4,7 @@
         <field name="name">fuel.shift.log.tree</field>
         <field name="model">fuel.shift.log</field>
         <field name="arch" type="xml">
-            <tree>
+            <list>
                 <field name="name"/>
                 <field name="date"/>
                 <field name="pump_id"/>
@@ -13,7 +13,7 @@
                 <field name="closing_meter"/>
                 <field name="volume_sold"/>
                 <field name="state"/>
-            </tree>
+            </list>
         </field>
     </record>
 
@@ -23,7 +23,7 @@
         <field name="arch" type="xml">
             <form string="Fuel Shift Log">
                 <header>
-                    <button name="action_confirm" type="object" string="Confirm" states="draft" class="oe_highlight"/>
+                    <button name="action_confirm" type="object" string="Confirm" invisible="state != 'draft'" class="oe_highlight"/>
                     <field name="state" widget="statusbar" statusbar_visible="draft,confirmed"/>
                 </header>
                 <sheet>
@@ -51,7 +51,7 @@
     <record id="action_fuel_shift_log" model="ir.actions.act_window">
         <field name="name">Shift Logs</field>
         <field name="res_model">fuel.shift.log</field>
-        <field name="view_mode">tree,form</field>
+        <field name="view_mode">list,form</field>
     </record>
 
     <menuitem id="menu_fuel_shift_log" name="Shift Logs" parent="menu_fuel_root" action="action_fuel_shift_log" sequence="30"/>

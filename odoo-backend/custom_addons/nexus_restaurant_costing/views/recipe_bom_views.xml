@@ -4,13 +4,13 @@
         <field name="name">recipe.bom.tree</field>
         <field name="model">recipe.bom</field>
         <field name="arch" type="xml">
-            <tree>
+            <list>
                 <field name="name"/>
                 <field name="product_id"/>
                 <field name="version"/>
                 <field name="total_recipe_cost"/>
                 <field name="company_id" groups="base.group_multi_company"/>
-            </tree>
+            </list>
         </field>
     </record>
 
@@ -31,7 +31,7 @@
                     <notebook>
                         <page string="Ingredients">
                             <field name="line_ids">
-                                <tree editable="bottom">
+                                <list editable="bottom">
                                     <field name="product_id"/>
                                     <field name="quantity"/>
                                     <field name="uom_id" readonly="1"/>
@@ -39,7 +39,7 @@
                                     <field name="ingredient_cost" readonly="1"/>
                                     <field name="is_modifiable"/>
                                     <field name="modifier_options" optional="hide"/>
-                                </tree>
+                                </list>
                             </field>
                         </page>
                     </notebook>
@@ -51,7 +51,7 @@
     <record id="action_recipe_bom" model="ir.actions.act_window">
         <field name="name">Recipe BOMs</field>
         <field name="res_model">recipe.bom</field>
-        <field name="view_mode">tree,form</field>
+        <field name="view_mode">list,form</field>
     </record>
 
     <menuitem id="menu_restaurant_root" name="Restaurant" sequence="90"/>

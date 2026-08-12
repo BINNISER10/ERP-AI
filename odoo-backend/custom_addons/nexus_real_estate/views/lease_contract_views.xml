@@ -4,7 +4,7 @@
         <field name="name">lease.contract.tree</field>
         <field name="model">lease.contract</field>
         <field name="arch" type="xml">
-            <tree>
+            <list>
                 <field name="name"/>
                 <field name="property_id"/>
                 <field name="unit_id"/>
@@ -13,7 +13,7 @@
                 <field name="end_date"/>
                 <field name="rent_amount"/>
                 <field name="state"/>
-            </tree>
+            </list>
         </field>
     </record>
 
@@ -23,9 +23,9 @@
         <field name="arch" type="xml">
             <form string="Lease Contract">
                 <header>
-                    <button name="action_activate" type="object" string="Activate" states="draft" class="oe_highlight"/>
-                    <button name="action_terminate" type="object" string="Terminate" states="active,draft"/>
-                    <button name="action_create_invoice" type="object" string="Create Invoice" states="active" class="btn-primary"/>
+                    <button name="action_activate" type="object" string="Activate" invisible="state != 'draft'" class="oe_highlight"/>
+                    <button name="action_terminate" type="object" string="Terminate" invisible="state not in ('active', 'draft')"/>
+                    <button name="action_create_invoice" type="object" string="Create Invoice" invisible="state != 'active'" class="btn-primary"/>
                     <field name="state" widget="statusbar" statusbar_visible="draft,active,expired,terminated"/>
                 </header>
                 <sheet>
@@ -54,7 +54,7 @@
     <record id="action_lease_contract" model="ir.actions.act_window">
         <field name="name">Lease Contracts</field>
         <field name="res_model">lease.contract</field>
-        <field name="view_mode">tree,form</field>
+        <field name="view_mode">list,form</field>
     </record>
 
     <menuitem id="menu_lease_contract" name="Lease Contracts" parent="menu_real_estate_root" action="action_lease_contract" sequence="20"/>

@@ -3,8 +3,15 @@
 *.key
 *.pem
 terraform/*.tfvars
+terraform/*.tfstate
+terraform/*.tfstate.backup
 terraform/.terraform/
 terraform/.terraform.lock.hcl
+
+# Downloaded tools / binaries
+tools/
+*.exe
+*.zip
 
 # Flutter / Dart
 .dart_tool/
