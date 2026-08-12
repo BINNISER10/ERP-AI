@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_menu_item_tree" model="ir.ui.view">
+        <field name="name">menu.item.tree</field>
+        <field name="model">menu.item</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="name"/>
+                <field name="product_id"/>
+                <field name="recipe_bom_id"/>
+                <field name="sale_price"/>
+                <field name="recipe_cost"/>
+                <field name="profit_margin"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="view_menu_item_form" model="ir.ui.view">
+        <field name="name">menu.item.form</field>
+        <field name="model">menu.item</field>
+        <field name="arch" type="xml">
+            <form string="Menu Item">
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="name"/>
+                            <field name="product_id"/>
+                            <field name="recipe_bom_id"/>
+                            <field name="pos_category_id"/>
+                        </group>
+                        <group>
+                            <field name="sale_price" readonly="1"/>
+                            <field name="recipe_cost" readonly="1"/>
+                            <field name="profit_margin" readonly="1"/>
+                            <field name="company_id" groups="base.group_multi_company"/>
+                        </group>
+                    </group>
+                    <notebook>
+                        <page string="Modifiers">
+                            <field name="modifier_schema"/>
+                        </page>
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_menu_item" model="ir.actions.act_window">
+        <field name="name">Menu Items</field>
+        <field name="res_model">menu.item</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+    <menuitem id="menu_menu_item" name="Menu Items" parent="menu_restaurant_root" action="action_menu_item" sequence="20"/>
+</odoo>

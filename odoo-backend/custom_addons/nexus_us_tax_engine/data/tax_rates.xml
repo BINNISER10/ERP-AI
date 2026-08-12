@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo noupdate="1">
+    <record id="tax_rate_ca_state" model="us.tax.rate">
+        <field name="name">California State</field>
+        <field name="state_code">CA</field>
+        <field name="tax_type">state</field>
+        <field name="rate">0.0725</field>
+    </record>
+    <record id="tax_rate_ny_state" model="us.tax.rate">
+        <field name="name">New York State</field>
+        <field name="state_code">NY</field>
+        <field name="tax_type">state</field>
+        <field name="rate">0.04</field>
+    </record>
+    <record id="tax_rate_tx_state" model="us.tax.rate">
+        <field name="name">Texas State</field>
+        <field name="state_code">TX</field>
+        <field name="tax_type">state</field>
+        <field name="rate">0.0625</field>
+    </record>
+    <record id="tax_rate_fl_state" model="us.tax.rate">
+        <field name="name">Florida State</field>
+        <field name="state_code">FL</field>
+        <field name="tax_type">state</field>
+        <field name="rate">0.06</field>
+    </record>
+</odoo>

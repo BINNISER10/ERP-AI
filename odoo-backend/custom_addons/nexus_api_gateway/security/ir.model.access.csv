@@ -1,0 +1,5 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_nexus_pos_order_user,Nexus POS Order User,nexus_api_gateway.model_nexus_pos_order,nexus_base_security.group_nexus_pos_user,1,1,1,0
+access_nexus_pos_order_manager,Nexus POS Order Manager,nexus_api_gateway.model_nexus_pos_order,nexus_base_security.group_nexus_manager,1,1,1,1
+access_nexus_pos_order_line_user,Nexus POS Order Line User,nexus_api_gateway.model_nexus_pos_order_line,nexus_base_security.group_nexus_pos_user,1,1,1,0
+access_nexus_pos_order_line_manager,Nexus POS Order Line Manager,nexus_api_gateway.model_nexus_pos_order_line,nexus_base_security.group_nexus_manager,1,1,1,1

@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_lease_contract_tree" model="ir.ui.view">
+        <field name="name">lease.contract.tree</field>
+        <field name="model">lease.contract</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="name"/>
+                <field name="property_id"/>
+                <field name="unit_id"/>
+                <field name="tenant_id"/>
+                <field name="start_date"/>
+                <field name="end_date"/>
+                <field name="rent_amount"/>
+                <field name="state"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="view_lease_contract_form" model="ir.ui.view">
+        <field name="name">lease.contract.form</field>
+        <field name="model">lease.contract</field>
+        <field name="arch" type="xml">
+            <form string="Lease Contract">
+                <header>
+                    <button name="action_activate" type="object" string="Activate" states="draft" class="oe_highlight"/>
+                    <button name="action_terminate" type="object" string="Terminate" states="active,draft"/>
+                    <button name="action_create_invoice" type="object" string="Create Invoice" states="active" class="btn-primary"/>
+                    <field name="state" widget="statusbar" statusbar_visible="draft,active,expired,terminated"/>
+                </header>
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="name" readonly="1"/>
+                            <field name="property_id"/>
+                            <field name="unit_id"/>
+                            <field name="tenant_id"/>
+                            <field name="company_id" groups="base.group_multi_company"/>
+                        </group>
+                        <group>
+                            <field name="start_date"/>
+                            <field name="end_date"/>
+                            <field name="payment_frequency"/>
+                            <field name="rent_amount"/>
+                            <field name="security_deposit"/>
+                            <field name="invoice_count" readonly="1"/>
+                        </group>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_lease_contract" model="ir.actions.act_window">
+        <field name="name">Lease Contracts</field>
+        <field name="res_model">lease.contract</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+    <menuitem id="menu_lease_contract" name="Lease Contracts" parent="menu_real_estate_root" action="action_lease_contract" sequence="20"/>
+</odoo>

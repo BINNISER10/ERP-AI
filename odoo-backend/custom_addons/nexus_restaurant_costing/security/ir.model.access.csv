@@ -1,0 +1,7 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_recipe_bom_user,Recipe BOM User,nexus_restaurant_costing.model_recipe_bom,nexus_base_security.group_nexus_pos_user,1,0,0,0
+access_recipe_bom_manager,Recipe BOM Manager,nexus_restaurant_costing.model_recipe_bom,nexus_base_security.group_nexus_manager,1,1,1,1
+access_recipe_bom_line_user,Recipe BOM Line User,nexus_restaurant_costing.model_recipe_bom_line,nexus_base_security.group_nexus_pos_user,1,0,0,0
+access_recipe_bom_line_manager,Recipe BOM Line Manager,nexus_restaurant_costing.model_recipe_bom_line,nexus_base_security.group_nexus_manager,1,1,1,1
+access_menu_item_user,Menu Item User,nexus_restaurant_costing.model_menu_item,nexus_base_security.group_nexus_pos_user,1,0,0,0
+access_menu_item_manager,Menu Item Manager,nexus_restaurant_costing.model_menu_item,nexus_base_security.group_nexus_manager,1,1,1,1

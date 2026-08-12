@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_us_tax_rate_tree" model="ir.ui.view">
+        <field name="name">us.tax.rate.tree</field>
+        <field name="model">us.tax.rate</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="name"/>
+                <field name="state_code"/>
+                <field name="county"/>
+                <field name="city"/>
+                <field name="zip_start"/>
+                <field name="zip_end"/>
+                <field name="rate"/>
+                <field name="tax_type"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="view_us_tax_rate_form" model="ir.ui.view">
+        <field name="name">us.tax.rate.form</field>
+        <field name="model">us.tax.rate</field>
+        <field name="arch" type="xml">
+            <form string="US Tax Rate">
+                <sheet>
+                    <group>
+                        <field name="name"/>
+                        <field name="state_code"/>
+                        <field name="county"/>
+                        <field name="city"/>
+                        <field name="zip_start"/>
+                        <field name="zip_end"/>
+                        <field name="rate"/>
+                        <field name="tax_type"/>
+                        <field name="active" widget="boolean_toggle"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_us_tax_rate" model="ir.actions.act_window">
+        <field name="name">US Tax Rates</field>
+        <field name="res_model">us.tax.rate</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+    <menuitem id="menu_us_tax_root" name="US Tax" sequence="80"/>
+    <menuitem id="menu_us_tax_rate" name="Tax Rates" parent="menu_us_tax_root" action="action_us_tax_rate" sequence="10"/>
+</odoo>

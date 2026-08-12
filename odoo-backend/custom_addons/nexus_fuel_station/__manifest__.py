@@ -1,0 +1,20 @@
+{
+    "name": "Nexus Fuel Station",
+    "version": "18.0.1.0.0",
+    "category": "Nexus/Retail",
+    "summary": "Fuel station tank, pump and shift reconciliation management.",
+    "author": "Nexus Systems",
+    "website": "https://nexus.example.com",
+    "license": "LGPL-3",
+    "depends": ["base", "stock", "nexus_base_security"],
+    "data": [
+        "security/ir.model.access.csv",
+        "data/ir_sequence.xml",
+        "views/fuel_tank_views.xml",
+        "views/fuel_pump_views.xml",
+        "views/fuel_shift_log_views.xml",
+    ],
+    "installable": True,
+    "application": True,
+    "auto_install": False,
+}

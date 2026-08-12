@@ -1,0 +1,7 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_property_unit_user,Property Unit User,nexus_real_estate.model_property_unit,nexus_base_security.group_nexus_pos_user,1,0,0,0
+access_property_unit_manager,Property Unit Manager,nexus_real_estate.model_property_unit,nexus_base_security.group_nexus_manager,1,1,1,1
+access_property_asset_user,Property Asset User,nexus_real_estate.model_property_asset,nexus_base_security.group_nexus_pos_user,1,0,0,0
+access_property_asset_manager,Property Asset Manager,nexus_real_estate.model_property_asset,nexus_base_security.group_nexus_manager,1,1,1,1
+access_lease_contract_user,Lease Contract User,nexus_real_estate.model_lease_contract,nexus_base_security.group_nexus_pos_user,1,0,0,0
+access_lease_contract_manager,Lease Contract Manager,nexus_real_estate.model_lease_contract,nexus_base_security.group_nexus_manager,1,1,1,1

@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo noupdate="1">
+    <record id="seq_recipe_bom" model="ir.sequence">
+        <field name="name">Recipe BOM</field>
+        <field name="code">recipe.bom</field>
+        <field name="prefix">R/%(year)s/</field>
+        <field name="padding">5</field>
+        <field name="company_id" eval="False"/>
+    </record>
+</odoo>

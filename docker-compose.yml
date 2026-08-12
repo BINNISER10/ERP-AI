@@ -1,0 +1,103 @@
+version: "3.9"
+
+services:
+  db:
+    image: postgres:16-alpine
+    container_name: nexus_postgres
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: nexus_erp
+      POSTGRES_USER: odoo
+      POSTGRES_PASSWORD: odoo_secret
+      PGDATA: /var/lib/postgresql/data/pgdata
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+      - ./config/postgresql.conf:/etc/postgresql/postgresql.conf:ro
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U odoo -d nexus_erp"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 10s
+    ports:
+      - "5432:5432"
+    command:
+      - postgres
+      - -c
+      - config_file=/etc/postgresql/postgresql.conf
+    networks:
+      - nexus_network
+
+  redis:
+    image: redis:7-alpine
+    container_name: nexus_redis
+    restart: unless-stopped
+    command: redis-server --appendonly yes --maxmemory 256mb --maxmemory-policy allkeys-lru
+    volumes:
+      - redis_data:/data
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    ports:
+      - "6379:6379"
+    networks:
+      - nexus_network
+
+  odoo:
+    image: odoo:18.0
+    container_name: nexus_odoo
+    restart: unless-stopped
+    depends_on:
+      db:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+    environment:
+      HOST: db
+      PORT: 5432
+      USER: odoo
+      PASSWORD: odoo_secret
+    volumes:
+      - odoo_data:/var/lib/odoo
+      - ./config/odoo.conf:/etc/odoo/odoo.conf:ro
+      - ./odoo-backend/custom_addons:/mnt/extra-addons:ro
+      - ./odoo-backend:/opt/odoo/odoo-backend:ro
+    ports:
+      - "8069:8069"
+      - "8072:8072"
+    networks:
+      - nexus_network
+
+  ai_services:
+    build:
+      context: ./ai_services
+      dockerfile: Dockerfile
+    container_name: nexus_ai
+    restart: unless-stopped
+    depends_on:
+      db:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+    environment:
+      DATABASE_URL: postgresql+psycopg2://odoo:odoo_secret@db:5432/nexus_erp
+      REDIS_URL: redis://redis:6379/0
+      OPENAI_API_KEY: ${OPENAI_API_KEY:-}
+    volumes:
+      - ai_data:/app/data
+    ports:
+      - "8000:8000"
+    networks:
+      - nexus_network
+
+volumes:
+  postgres_data:
+  redis_data:
+  odoo_data:
+  ai_data:
+
+networks:
+  nexus_network:
+    driver: bridge

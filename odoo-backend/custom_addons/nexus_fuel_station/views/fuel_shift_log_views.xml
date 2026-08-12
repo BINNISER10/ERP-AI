@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_fuel_shift_log_tree" model="ir.ui.view">
+        <field name="name">fuel.shift.log.tree</field>
+        <field name="model">fuel.shift.log</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="name"/>
+                <field name="date"/>
+                <field name="pump_id"/>
+                <field name="user_id"/>
+                <field name="opening_meter"/>
+                <field name="closing_meter"/>
+                <field name="volume_sold"/>
+                <field name="state"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="view_fuel_shift_log_form" model="ir.ui.view">
+        <field name="name">fuel.shift.log.form</field>
+        <field name="model">fuel.shift.log</field>
+        <field name="arch" type="xml">
+            <form string="Fuel Shift Log">
+                <header>
+                    <button name="action_confirm" type="object" string="Confirm" states="draft" class="oe_highlight"/>
+                    <field name="state" widget="statusbar" statusbar_visible="draft,confirmed"/>
+                </header>
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="name" readonly="1"/>
+                            <field name="date"/>
+                            <field name="pump_id"/>
+                            <field name="user_id"/>
+                            <field name="product_id" readonly="1"/>
+                        </group>
+                        <group>
+                            <field name="opening_meter"/>
+                            <field name="closing_meter"/>
+                            <field name="volume_sold" readonly="1"/>
+                            <field name="stock_move_id" readonly="1"/>
+                            <field name="company_id" groups="base.group_multi_company"/>
+                        </group>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_fuel_shift_log" model="ir.actions.act_window">
+        <field name="name">Shift Logs</field>
+        <field name="res_model">fuel.shift.log</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+    <menuitem id="menu_fuel_shift_log" name="Shift Logs" parent="menu_fuel_root" action="action_fuel_shift_log" sequence="30"/>
+</odoo>
