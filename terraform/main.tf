@@ -127,8 +127,11 @@ resource "oci_core_instance" "nexus_erp" {
     user_data           = base64encode(templatefile("${path.module}/cloud-init.yml", {}))
   }
 
-  shape_config {
-    ocpus         = var.instance_ocpus
-    memory_in_gbs = var.instance_memory_in_gbs
+  dynamic "shape_config" {
+    for_each = can(regex("Flex$", var.instance_shape)) ? [1] : []
+    content {
+      ocpus         = var.instance_ocpus
+      memory_in_gbs = var.instance_memory_in_gbs
+    }
   }
 }
