@@ -1,0 +1,11 @@
+tenancy_ocid         = "ocid1.tenancy.oc1..xxxxxxxx"
+user_ocid            = "ocid1.user.oc1..xxxxxxxx"
+compartment_ocid     = "ocid1.compartment.oc1..xxxxxxxx"
+fingerprint          = "xx:xx:xx:xx:xx:xx:xx:xx:xx:xx:xx:xx:xx:xx:xx:xx"
+private_key_path     = "~/.oci/oci_api_key.pem"
+region               = "me-jeddah-1"
+ssh_public_key       = "ssh-ed25519 AAAAC3NzaC..."
+instance_shape       = "VM.Standard.A1.Flex"
+instance_ocpus       = 4
+instance_memory_in_gbs = 12
+boot_volume_size     = 100
