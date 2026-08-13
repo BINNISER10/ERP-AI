@@ -20,7 +20,7 @@ class Settings(BaseSettings):
     ollama_model: str = "llama3"
 
     allowed_schemas: str = "public"
-    request_timeout: int = 60
+    request_timeout: int = 300
 
     model_config = SettingsConfigDict(env_file=".env")
 

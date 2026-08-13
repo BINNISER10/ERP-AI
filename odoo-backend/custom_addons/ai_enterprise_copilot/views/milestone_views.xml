@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_copilot_setup_milestone_list" model="ir.ui.view">
+        <field name="name">copilot.setup.milestone.list</field>
+        <field name="model">copilot.setup.milestone</field>
+        <field name="arch" type="xml">
+            <list>
+                <field name="sequence" widget="handle"/>
+                <field name="name"/>
+                <field name="state" decoration-success="state == 'done'" decoration-muted="state == 'skipped'"/>
+                <field name="completed_date"/>
+                <field name="company_id" optional="hide"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="view_copilot_setup_milestone_form" model="ir.ui.view">
+        <field name="name">copilot.setup.milestone.form</field>
+        <field name="model">copilot.setup.milestone</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <group>
+                        <field name="name"/>
+                        <field name="state"/>
+                        <field name="sequence"/>
+                        <field name="company_id"/>
+                        <field name="description"/>
+                        <field name="completed_date"/>
+                        <field name="triggered_by"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="view_copilot_setup_wizard_form" model="ir.ui.view">
+        <field name="name">copilot.setup.wizard.form</field>
+        <field name="model">copilot.setup.wizard</field>
+        <field name="arch" type="xml">
+            <form string="Copilot Setup">
+                <field name="step" invisible="1"/>
+                <field name="company_id" invisible="1"/>
+                <field name="hybrid_config_id" invisible="1"/>
+
+                <group invisible="step != 'connection'">
+                    <field name="erpnext_url" readonly="1"/>
+                    <field name="connection_status"/>
+                    <field name="log"/>
+                </group>
+
+                <group invisible="step != 'chart_of_accounts'">
+                    <field name="n8n_url" readonly="1"/>
+                    <field name="coa_sync_status"/>
+                    <field name="log"/>
+                </group>
+
+                <div invisible="step != 'done'">
+                    <p class="text-success">Setup is complete. You can now use the AI Copilot dashboard.</p>
+                </div>
+
+                <footer>
+                    <button
+                        name="action_validate_erpnext"
+                        string="Validate ERPNext Connection"
+                        type="object"
+                        class="btn-primary"
+                        invisible="step != 'connection'">
+                    </button>
+                    <button
+                        name="action_sync_chart_of_accounts"
+                        string="Sync Chart of Accounts"
+                        type="object"
+                        class="btn-primary"
+                        invisible="step != 'chart_of_accounts'">
+                    </button>
+                    <button string="Close" special="cancel" class="btn-secondary"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_copilot_setup_wizard" model="ir.actions.act_window">
+        <field name="name">Copilot Setup</field>
+        <field name="res_model">copilot.setup.wizard</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+    </record>
+
+    <record id="action_copilot_setup_milestone" model="ir.actions.act_window">
+        <field name="name">Setup Milestones</field>
+        <field name="res_model">copilot.setup.milestone</field>
+        <field name="view_mode">list,form</field>
+    </record>
+
+    <menuitem
+        id="menu_copilot_setup"
+        name="Setup"
+        parent="menu_copilot_root"
+        action="action_copilot_setup_wizard"
+        sequence="10"/>
+
+    <menuitem
+        id="menu_copilot_milestones"
+        name="Milestones"
+        parent="menu_copilot_root"
+        action="action_copilot_setup_milestone"
+        sequence="20"/>
+</odoo>

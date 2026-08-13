@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo noupdate="1">
+    <!-- Fetch ERPNext KPIs for persona-aware insights -->
+    <record id="copilot_fetch_erpnext_kpis_cron" model="ir.cron">
+        <field name="name">Copilot: Fetch ERPNext KPIs</field>
+        <field name="model_id" ref="model_copilot_insight"/>
+        <field name="state">code</field>
+        <field name="code">model.fetch_erpnext_kpis()</field>
+        <field name="interval_number">1</field>
+        <field name="interval_type">hours</field>
+        <field name="active" eval="False"/>
+    </record>
+
+    <!-- Hybrid health heartbeat monitor -->
+    <record id="copilot_hybrid_health_check_cron" model="ir.cron">
+        <field name="name">Copilot: Hybrid Health Check</field>
+        <field name="model_id" ref="model_copilot_support_incident"/>
+        <field name="state">code</field>
+        <field name="code">model.check_hybrid_health()</field>
+        <field name="interval_number">5</field>
+        <field name="interval_type">minutes</field>
+        <field name="active" eval="False"/>
+    </record>
+</odoo>

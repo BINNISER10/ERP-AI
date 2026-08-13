@@ -1,0 +1,20 @@
+{
+    "name": "AI Enterprise Copilot",
+    "version": "18.0.1.0.0",
+    "category": "Productivity",
+    "summary": "AI governance and proactive support engine for the Odoo 18 + ERPNext 15 hybrid architecture.",
+    "author": "Nexus Engine",
+    "website": "https://nexus-engine.app",
+    "license": "LGPL-3",
+    "depends": ["base", "account", "mail", "odoo_erpnext_hybrid_sync"],
+    "data": [
+        "security/ir.model.access.csv",
+        "data/cron.xml",
+        "views/settings_view.xml",
+        "views/dashboard_view.xml",
+        "views/milestone_views.xml",
+    ],
+    "installable": True,
+    "application": True,
+    "auto_install": False,
+}

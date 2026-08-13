@@ -1,0 +1,12 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_copilot_config_user,copilot.config.user,model_copilot_config,base.group_user,1,0,0,0
+access_copilot_config_manager,copilot.config.manager,model_copilot_config,base.group_system,1,1,1,1
+access_copilot_setup_milestone_user,copilot.setup.milestone.user,model_copilot_setup_milestone,base.group_user,1,0,0,0
+access_copilot_setup_milestone_manager,copilot.setup.milestone.manager,model_copilot_setup_milestone,base.group_system,1,1,1,1
+access_copilot_setup_wizard_user,copilot.setup.wizard.user,model_copilot_setup_wizard,base.group_user,1,1,1,0
+access_copilot_behavior_log_user,copilot.behavior.log.user,model_copilot_behavior_log,base.group_user,1,0,1,0
+access_copilot_behavior_log_manager,copilot.behavior.log.manager,model_copilot_behavior_log,base.group_system,1,1,1,1
+access_copilot_insight_user,copilot.insight.user,model_copilot_insight,base.group_user,1,0,0,0
+access_copilot_insight_manager,copilot.insight.manager,model_copilot_insight,base.group_system,1,1,1,1
+access_copilot_support_incident_user,copilot.support.incident.user,model_copilot_support_incident,base.group_user,1,0,0,0
+access_copilot_support_incident_manager,copilot.support.incident.manager,model_copilot_support_incident,base.group_system,1,1,1,1

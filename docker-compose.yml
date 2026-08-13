@@ -5,6 +5,7 @@ services:
     image: postgres:16-alpine
     container_name: nexus_postgres
     restart: unless-stopped
+    shm_size: 2gb
     environment:
       POSTGRES_DB: nexus_erp
       POSTGRES_USER: odoo
@@ -64,9 +65,22 @@ services:
       - ./config/odoo.conf:/etc/odoo/odoo.conf:ro
       - ./odoo-backend/custom_addons:/mnt/extra-addons:ro
       - ./odoo-backend:/opt/odoo/odoo-backend:ro
+    expose:
+      - "8069"
+      - "8072"
+    networks:
+      - nexus_network
+
+  nginx:
+    image: nginx:alpine
+    container_name: nexus_nginx
+    restart: unless-stopped
+    depends_on:
+      - odoo
     ports:
       - "8069:8069"
-      - "8072:8072"
+    volumes:
+      - ./config/nginx.conf:/etc/nginx/nginx.conf:ro
     networks:
       - nexus_network
 

@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_copilot_config_form" model="ir.ui.view">
+        <field name="name">copilot.config.form</field>
+        <field name="model">copilot.config</field>
+        <field name="arch" type="xml">
+            <form string="AI Enterprise Copilot Settings">
+                <sheet>
+                    <div class="oe_title">
+                        <h1>AI Enterprise Copilot</h1>
+                    </div>
+                    <group>
+                        <field name="company_id"/>
+                        <field name="hybrid_config_id" required="1"/>
+                        <field name="active"/>
+                    </group>
+                    <group string="LLM / AI" invisible="not hybrid_config_id">
+                        <field name="llm_provider"/>
+                        <field name="llm_model" placeholder="qwen2.5:1.5b"/>
+                        <field name="llm_api_key" password="True"/>
+                        <field name="llm_timeout"/>
+                    </group>
+                    <group string="ERPNext Connection" invisible="not hybrid_config_id">
+                        <field name="erpnext_url"/>
+                        <field name="erpnext_api_key" password="True"/>
+                        <field name="erpnext_api_secret" password="True"/>
+                    </group>
+                    <group string="n8n Automation" invisible="not hybrid_config_id">
+                        <field name="n8n_url"/>
+                        <field name="n8n_webhook_key" password="True"/>
+                    </group>
+                    <group string="DevOps Monitoring">
+                        <field name="dev_team_webhook" placeholder="https://hooks.slack.com/services/..."/>
+                        <field name="dev_team_webhook_timeout"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="view_copilot_config_list" model="ir.ui.view">
+        <field name="name">copilot.config.list</field>
+        <field name="model">copilot.config</field>
+        <field name="arch" type="xml">
+            <list>
+                <field name="company_id"/>
+                <field name="hybrid_config_id"/>
+                <field name="llm_provider"/>
+                <field name="erpnext_url"/>
+                <field name="active"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="action_copilot_config" model="ir.actions.act_window">
+        <field name="name">AI Copilot Settings</field>
+        <field name="res_model">copilot.config</field>
+        <field name="view_mode">list,form</field>
+    </record>
+
+    <menuitem id="menu_copilot_root" name="AI Copilot" sequence="40"/>
+
+    <menuitem
+        id="menu_copilot_settings"
+        name="Settings"
+        parent="menu_copilot_root"
+        action="action_copilot_config"
+        sequence="100"/>
+</odoo>
