@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <record id="view_module_kanban_hide_upgrade" model="ir.ui.view">
+        <field name="name">module.kanban.hide.upgrade</field>
+        <field name="model">ir.module.module</field>
+        <field name="inherit_id" ref="base.module_view_kanban"/>
+        <field name="priority">99</field>
+        <field name="arch" type="xml">
+            <!-- Remove the Upgrade option from the module card dropdown menu -->
+            <xpath expr="//a[@name='button_immediate_upgrade']" position="replace"/>
+            <!-- Remove the paid Upgrade button from the module card footer -->
+            <xpath expr="//a[contains(@href,'odoo.com/pricing')]" position="replace"/>
+        </field>
+    </record>
+</odoo>

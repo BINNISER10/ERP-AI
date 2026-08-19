@@ -1,0 +1,106 @@
+// Nexus Finance Dashboard — لوحة التحكم المالية
+
+.nexus-finance-dashboard {
+    padding: 1rem;
+    background-color: #fafafa;
+    min-height: 80vh;
+}
+
+.nexus-kpi-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 1rem;
+    margin-bottom: 1.5rem;
+}
+
+.nexus-kpi-card {
+    background: white;
+    border-radius: 8px;
+    padding: 1.25rem;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+    border-left: 4px solid #0B3D2E;
+    transition: transform 0.2s, box-shadow 0.2s;
+
+    &:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+    }
+}
+
+.nexus-kpi-label {
+    color: #666;
+    font-size: 0.875rem;
+    margin-bottom: 0.5rem;
+}
+
+.nexus-kpi-value {
+    font-size: 1.75rem;
+    font-weight: 700;
+    color: #1a1a1a;
+    margin-bottom: 0.5rem;
+}
+
+.nexus-kpi-delta {
+    font-size: 0.875rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.nexus-chart-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+    gap: 1.5rem;
+    margin-top: 1.5rem;
+}
+
+.nexus-chart-card {
+    background: white;
+    border-radius: 8px;
+    padding: 1.25rem;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+
+    h4 {
+        margin: 0 0 1rem 0;
+        color: #0B3D2E;
+        font-weight: 600;
+    }
+}
+
+.nexus-chart-container {
+    position: relative;
+    height: 320px;
+    width: 100%;
+}
+
+.nexus-dashboard-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1.5rem;
+    padding-bottom: 1rem;
+    border-bottom: 2px solid #0B3D2E;
+
+    h2 {
+        color: #0B3D2E;
+        margin: 0;
+        font-weight: 700;
+    }
+}
+
+.nexus-quick-actions {
+    display: flex;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+
+    .btn {
+        border-radius: 6px;
+        font-weight: 500;
+    }
+}
+
+@media (max-width: 768px) {
+    .nexus-chart-grid {
+        grid-template-columns: 1fr;
+    }
+}

@@ -1,0 +1,97 @@
+// ─────────────────────────────────────────────────────────────────────────
+// Nexus Pure Branding — Global de-branding stylesheet
+// Injected into the backend via web._assets_backend_helpers.
+//
+// Permanently hides:
+//   * Odoo/ERPNext enterprise upgrade labels & upsell widgets
+//   * Enterprise-only statusbar arrows
+//   * External documentation / support / branding links
+//   * The "Powered by Odoo" footer / branding text
+// ─────────────────────────────────────────────────────────────────────────
+
+// 1. Enterprise upgrade widgets (backend)
+.o_enterprise_label,
+.o_field_upgrade_boolean,
+.o_field_upgrade_radio,
+.o_field_upgrade_tag,
+.o_upgrade_boolean,
+.o_enterprise_feature,
+.o_enterprise_badge,
+.o_enterprise_pill,
+button.o_enterprise,
+a.o_enterprise,
+span.o_enterprise {
+    display: none !important;
+    visibility: hidden !important;
+    opacity: 0 !important;
+    pointer-events: none !important;
+    width: 0 !important;
+    height: 0 !important;
+    overflow: hidden !important;
+}
+
+// 2. Enterprise statusbar arrows (settings wizard progress)
+.o_form_statusbar .o_arrow_button.o_enterprise {
+    display: none !important;
+    visibility: hidden !important;
+}
+
+// 3. Hide any enterprise upgrade banner injected into the settings panel
+.o_setting_upgrade,
+.o_upgrade_modal,
+.o_upgrade_banner,
+.o_enterprise_upgrade,
+.o_web_settings_dashboard .o_enterprise_banner,
+.o_upgrade_button,
+.o_enterprise_upgrade_btn {
+    display: none !important;
+    visibility: hidden !important;
+}
+
+// 4. Remove the "Powered by Odoo" footer branding (login + portal + backend)
+.o_footer .o_powered_by,
+footer .o_powered_by,
+.o_powered_by,
+.o_odoo_footer,
+.o_brand_promotion,
+.o_powered_by a[href*="odoo.com"],
+.o_powered_by a[href*="erpnext.com"],
+.o_powered_by a[href*="frappe.io"] {
+    display: none !important;
+    visibility: hidden !important;
+}
+
+// 5. Strip external documentation / support / bug-tracker links that point
+//    to Odoo, ERPNext or Frappe properties.
+a[href*="odoo.com"],
+a[href*="erpnext.com"],
+a[href*="frappe.io"],
+a[href*="github.com/odoo"],
+a[href*="github.com/frappe"],
+a[href*="odoo.org"] {
+    display: none !important;
+    visibility: hidden !important;
+}
+
+// 6. Remove the "Odoo" wordmark inside the top menu brand area.
+.o_menu_brand .o-logo,
+.o_menu_brand .o_app_name,
+.o_menu_brand .o_logo,
+.o_main_navbar .o_menu_brand img {
+    display: none !important;
+    visibility: hidden !important;
+}
+
+// 7. Login screen: kill "Powered by Odoo" and the brand footer.
+.o_login_layout .o_footer,
+.o_login_layout .o_powered_by,
+.login_layout .o_footer,
+.login_footer {
+    display: none !important;
+}
+
+// 8. RTL (Arabic) variants — Arabic text for "بدعم من أودو" (Powered by Odoo).
+*[dir="rtl"] .o_powered_by,
+.o_powered_by:lang(ar) {
+    display: none !important;
+}

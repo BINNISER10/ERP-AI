@@ -1,0 +1,264 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="1">
+
+        <!-- ════════════════ US Chart of Accounts (GAAP-compliant) ════════════════ -->
+
+        <!-- Top-level groups -->
+        <record id="account_us_asset_root" model="account.account.template">
+            <field name="code">1000</field>
+            <field name="name">Assets / الأصول</field>
+            <field name="account_type">asset_non_current</field>
+            <field name="chart_template_id" ref="l10n_us.us_chart_template"/>
+            <field name="reconcile" eval="False"/>
+        </record>
+
+        <record id="account_us_liability_root" model="account.account.template">
+            <field name="code">2000</field>
+            <field name="name">Liabilities / الخصوم</field>
+            <field name="account_type">liability_non_current</field>
+            <field name="chart_template_id" ref="l10n_us.us_chart_template"/>
+            <field name="reconcile" eval="False"/>
+        </record>
+
+        <record id="account_us_equity_root" model="account.account.template">
+            <field name="code">3000</field>
+            <field name="name">Equity / حقوق الملكية</field>
+            <field name="account_type">equity</field>
+            <field name="chart_template_id" ref="l10n_us.us_chart_template"/>
+            <field name="reconcile" eval="False"/>
+        </record>
+
+        <record id="account_us_revenue_root" model="account.account.template">
+            <field name="code">4000</field>
+            <field name="name">Revenue / الإيرادات</field>
+            <field name="account_type">income</field>
+            <field name="chart_template_id" ref="l10n_us.us_chart_template"/>
+            <field name="reconcile" eval="False"/>
+        </record>
+
+        <record id="account_us_expense_root" model="account.account.template">
+            <field name="code">5000</field>
+            <field name="name">Expenses / المصروفات</field>
+            <field name="account_type">expense</field>
+            <field name="chart_template_id" ref="l10n_us.us_chart_template"/>
+            <field name="reconcile" eval="False"/>
+        </record>
+
+        <!-- Current Assets -->
+        <record id="account_us_cash" model="account.account.template">
+            <field name="code">1100</field>
+            <field name="name">Cash / النقدية</field>
+            <field name="account_type">asset_cash</field>
+            <field name="chart_template_id" ref="l10n_us.us_chart_template"/>
+            <field name="reconcile" eval="False"/>
+        </record>
+
+        <record id="account_us_checking" model="account.account.template">
+            <field name="code">1110</field>
+            <field name="name">Checking Account / حساب جاري</field>
+            <field name="account_type">asset_bank</field>
+            <field name="chart_template_id" ref="l10n_us.us_chart_template"/>
+            <field name="reconcile" eval="True"/>
+        </record>
+
+        <record id="account_us_savings" model="account.account.template">
+            <field name="code">1120</field>
+            <field name="name">Savings / حساب توفير</field>
+            <field name="account_type">asset_bank</field>
+            <field name="chart_template_id" ref="l10n_us.us_chart_template"/>
+            <field name="reconcile" eval="True"/>
+        </record>
+
+        <record id="account_us_ar" model="account.account.template">
+            <field name="code">1200</field>
+            <field name="name">Accounts Receivable / ذمم العملاء</field>
+            <field name="account_type">asset_receivable</field>
+            <field name="chart_template_id" ref="l10n_us.us_chart_template"/>
+            <field name="reconcile" eval="True"/>
+        </record>
+
+        <record id="account_us_inventory" model="account.account.template">
+            <field name="code">1300</field>
+            <field name="name">Inventory / المخزون</field>
+            <field name="account_type">asset_current</field>
+            <field name="chart_template_id" ref="l10n_us.us_chart_template"/>
+            <field name="reconcile" eval="False"/>
+        </record>
+
+        <record id="account_us_prepaid" model="account.account.template">
+            <field name="code">1400</field>
+            <field name="name">Prepaid Expenses / مصروفات مقدمة</field>
+            <field name="account_type">asset_current</field>
+            <field name="chart_template_id" ref="l10n_us.us_chart_template"/>
+            <field name="reconcile" eval="False"/>
+        </record>
+
+        <!-- Fixed Assets -->
+        <record id="account_us_fixed_assets" model="account.account.template">
+            <field name="code">1500</field>
+            <field name="name">Fixed Assets / أصول ثابتة</field>
+            <field name="account_type">asset_fixed</field>
+            <field name="chart_template_id" ref="l10n_us.us_chart_template"/>
+            <field name="reconcile" eval="False"/>
+        </record>
+
+        <record id="account_us_accum_dep" model="account.account.template">
+            <field name="code">1550</field>
+            <field name="name">Accumulated Depreciation / مجمع الإهلاك</field>
+            <field name="account_type">asset_fixed</field>
+            <field name="chart_template_id" ref="l10n_us.us_chart_template"/>
+            <field name="reconcile" eval="False"/>
+        </record>
+
+        <!-- Current Liabilities -->
+        <record id="account_us_ap" model="account.account.template">
+            <field name="code">2100</field>
+            <field name="name">Accounts Payable / ذمم الموردين</field>
+            <field name="account_type">liability_payable</field>
+            <field name="chart_template_id" ref="l10n_us.us_chart_template"/>
+            <field name="reconcile" eval="True"/>
+        </record>
+
+        <record id="account_us_sales_tax_payable" model="account.account.template">
+            <field name="code">2200</field>
+            <field name="name">Sales Tax Payable / ضريبة المبيعات المستحقة</field>
+            <field name="account_type">liability_current</field>
+            <field name="chart_template_id" ref="l10n_us.us_chart_template"/>
+            <field name="reconcile" eval="False"/>
+        </record>
+
+        <record id="account_us_payroll_payable" model="account.account.template">
+            <field name="code">2300</field>
+            <field name="name">Payroll Liabilities / التزامات الرواتب</field>
+            <field name="account_type">liability_current</field>
+            <field name="chart_template_id" ref="l10n_us.us_chart_template"/>
+            <field name="reconcile" eval="False"/>
+        </record>
+
+        <record id="account_us_1099_payable" model="account.account.template">
+            <field name="code">2400</field>
+            <field name="name">1099 Payable / مستحقات 1099</field>
+            <field name="account_type">liability_current</field>
+            <field name="chart_template_id" ref="l10n_us.us_chart_template"/>
+            <field name="reconcile" eval="False"/>
+        </record>
+
+        <!-- Long-term Liabilities -->
+        <record id="account_us_long_term_loan" model="account.account.template">
+            <field name="code">2500</field>
+            <field name="name">Long-term Loans / قروض طويلة الأجل</field>
+            <field name="account_type">liability_non_current</field>
+            <field name="chart_template_id" ref="l10n_us.us_chart_template"/>
+            <field name="reconcile" eval="False"/>
+        </record>
+
+        <!-- Equity -->
+        <record id="account_us_capital" model="account.account.template">
+            <field name="code">3100</field>
+            <field name="name">Owner's Equity / رأس المال</field>
+            <field name="account_type">equity</field>
+            <field name="chart_template_id" ref="l10n_us.us_chart_template"/>
+            <field name="reconcile" eval="False"/>
+        </record>
+
+        <record id="account_us_retained_earnings" model="account.account.template">
+            <field name="code">3200</field>
+            <field name="name">Retained Earnings / أرباح محتجزة</field>
+            <field name="account_type">equity</field>
+            <field name="chart_template_id" ref="l10n_us.us_chart_template"/>
+            <field name="reconcile" eval="False"/>
+        </record>
+
+        <record id="account_us_draws" model="account.account.template">
+            <field name="code">3300</field>
+            <field name="name">Owner's Draws / مسحوبات المالك</field>
+            <field name="account_type">equity</field>
+            <field name="chart_template_id" ref="l10n_us.us_chart_template"/>
+            <field name="reconcile" eval="False"/>
+        </record>
+
+        <!-- Revenue -->
+        <record id="account_us_sales" model="account.account.template">
+            <field name="code">4100</field>
+            <field name="name">Sales / المبيعات</field>
+            <field name="account_type">income</field>
+            <field name="chart_template_id" ref="l10n_us.us_chart_template"/>
+            <field name="reconcile" eval="False"/>
+        </record>
+
+        <record id="account_us_service_revenue" model="account.account.template">
+            <field name="code">4200</field>
+            <field name="name">Service Revenue / إيرادات الخدمات</field>
+            <field name="account_type">income</field>
+            <field name="chart_template_id" ref="l10n_us.us_chart_template"/>
+            <field name="reconcile" eval="False"/>
+        </record>
+
+        <record id="account_us_other_income" model="account.account.template">
+            <field name="code">4900</field>
+            <field name="name">Other Income / إيرادات أخرى</field>
+            <field name="account_type">income_other</field>
+            <field name="chart_template_id" ref="l10n_us.us_chart_template"/>
+            <field name="reconcile" eval="False"/>
+        </record>
+
+        <!-- Expenses -->
+        <record id="account_us_cogs" model="account.account.template">
+            <field name="code">5100</field>
+            <field name="name">Cost of Goods Sold / تكلفة المبيعات</field>
+            <field name="account_type">expense_direct_cost</field>
+            <field name="chart_template_id" ref="l10n_us.us_chart_template"/>
+            <field name="reconcile" eval="False"/>
+        </record>
+
+        <record id="account_us_payroll" model="account.account.template">
+            <field name="code">5200</field>
+            <field name="name">Payroll / الرواتب</field>
+            <field name="account_type">expense</field>
+            <field name="chart_template_id" ref="l10n_us.us_chart_template"/>
+            <field name="reconcile" eval="False"/>
+        </record>
+
+        <record id="account_us_rent" model="account.account.template">
+            <field name="code">5300</field>
+            <field name="name">Rent Expense / إيجار</field>
+            <field name="account_type">expense</field>
+            <field name="chart_template_id" ref="l10n_us.us_chart_template"/>
+            <field name="reconcile" eval="False"/>
+        </record>
+
+        <record id="account_us_utilities" model="account.account.template">
+            <field name="code">5400</field>
+            <field name="name">Utilities / خدمات</field>
+            <field name="account_type">expense</field>
+            <field name="chart_template_id" ref="l10n_us.us_chart_template"/>
+            <field name="reconcile" eval="False"/>
+        </record>
+
+        <record id="account_us_depreciation" model="account.account.template">
+            <field name="code">5500</field>
+            <field name="name">Depreciation Expense / مصاريف الإهلاك</field>
+            <field name="account_type">expense_depreciation</field>
+            <field name="chart_template_id" ref="l10n_us.us_chart_template"/>
+            <field name="reconcile" eval="False"/>
+        </record>
+
+        <record id="account_us_admin_expense" model="account.account.template">
+            <field name="code">5900</field>
+            <field name="name">General &amp; Administrative / مصاريف إدارية</field>
+            <field name="account_type">expense</field>
+            <field name="chart_template_id" ref="l10n_us.us_chart_template"/>
+            <field name="reconcile" eval="False"/>
+        </record>
+
+        <record id="account_us_interest_expense" model="account.account.template">
+            <field name="code">6000</field>
+            <field name="name">Interest Expense / مصاريف الفوائد</field>
+            <field name="account_type">expense</field>
+            <field name="chart_template_id" ref="l10n_us.us_chart_template"/>
+            <field name="reconcile" eval="False"/>
+        </record>
+
+    </data>
+</odoo>

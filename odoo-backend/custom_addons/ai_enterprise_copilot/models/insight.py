@@ -1,4 +1,4 @@
-"""Persona-aware insights generated from ERPNext KPIs and the Copilot brain."""
+"""Persona-aware insights generated from the hybrid ledger and the Copilot brain."""
 import logging
 import requests
 from odoo import models, fields, api, _
@@ -37,7 +37,7 @@ class CopilotInsight(models.Model):
     )
     source = fields.Char(
         string="Source",
-        help="e.g. erpnext_kpi, cron_error, manual.",
+        help="e.g. hybrid_kpi, cron_error, manual.",
     )
     active = fields.Boolean(default=True)
 
@@ -57,16 +57,16 @@ class CopilotInsight(models.Model):
             return self.browse()
 
     @api.model
-    def fetch_erpnext_kpis(self):
-        """Cron-called method that fetches Cash Flow and MRP data from ERPNext
-        and stores warm CEO insights.
+    def fetch_hybrid_kpis(self):
+        """Cron-called method that fetches Cash Flow and MRP data from the
+        hybrid ledger and stores warm CEO insights.
         """
         config = self.env["copilot.config"].sudo().get_active_config()
         if not config or not config.hybrid_config_id or not config.erpnext_url:
             self._create_insight(
                 "ceo",
-                _("ERPNext is not configured yet"),
-                _("I cannot fetch your KPIs because the ERPNext URL is missing."),
+                _("Hybrid ledger is not configured yet"),
+                _("I cannot fetch your KPIs because the hybrid ledger URL is missing."),
                 _("Please open Copilot Settings and link a Hybrid Sync configuration."),
                 "cron_error",
             )
@@ -115,22 +115,22 @@ class CopilotInsight(models.Model):
                     "Your financial and manufacturing data is flowing. "
                     "I will keep watching for trends and alert you when something needs attention."
                 ),
-                "erpnext_kpi",
+                "hybrid_kpi",
             )
         except Exception as exc:
-            _logger.exception("Failed to fetch ERPNext KPIs.")
+            _logger.exception("Failed to fetch hybrid ledger KPIs.")
             self._create_insight(
                 "ceo",
-                _("ERPNext KPI fetch failed"),
-                f"I could not reach ERPNext to read the latest KPIs: {exc}.",
+                _("Hybrid ledger KPI fetch failed"),
+                f"I could not reach the hybrid ledger to read the latest KPIs: {exc}.",
                 _(
-                    "ERPNext is temporarily unavailable. I will retry soon; "
-                    "your Odoo invoices are still safe here."
+                    "The hybrid ledger is temporarily unavailable. I will retry soon; "
+                    "your Nexus invoices are still safe here."
                 ),
                 "cron_error",
             )
             self.env["copilot.support.incident"].sudo().create({
-                "name": _("ERPNext KPI Fetch Failed"),
+                "name": _("Hybrid Ledger KPI Fetch Failed"),
                 "source": "erpnext",
                 "severity": "medium",
                 "description": str(exc),

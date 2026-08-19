@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <data>
+        <!-- Backend default title -->
+        <record id="nexus_rebrand_web_layout" model="ir.ui.view">
+            <field name="name">web.layout.nexus</field>
+            <field name="type">qweb</field>
+            <field name="inherit_id" ref="web.layout"/>
+            <field name="priority">99</field>
+            <field name="arch" type="xml">
+                <xpath expr="//title" position="replace">
+                    <title t-esc="title or 'Nexus Hybrid'"/>
+                </xpath>
+            </field>
+        </record>
+
+        <!-- Login footer -->
+        <record id="nexus_rebrand_login_layout" model="ir.ui.view">
+            <field name="name">web.login_layout.nexus</field>
+            <field name="type">qweb</field>
+            <field name="inherit_id" ref="web.login_layout"/>
+            <field name="priority">15</field>
+            <field name="arch" type="xml">
+                <xpath expr="//a[contains(@href,'odoo.com')]" position="replace">
+                    <a href="#" target="_blank">Nexus Hybrid</a>
+                </xpath>
+            </field>
+        </record>
+
+        <!-- Portal / frontend brand promotion footer -->
+        <record id="nexus_rebrand_brand_promotion" model="ir.ui.view">
+            <field name="name">web.brand_promotion.nexus</field>
+            <field name="type">qweb</field>
+            <field name="inherit_id" ref="web.brand_promotion"/>
+            <field name="priority">99</field>
+            <field name="arch" type="xml">
+                <xpath expr="//div[hasclass('o_brand_promotion')]" position="replace"/>
+            </field>
+        </record>
+
+        <!-- Website info page (removes Open Source ERP and Odoo Version wording) -->
+        <record id="nexus_rebrand_show_website_info" model="ir.ui.view">
+            <field name="name">website.show_website_info.nexus</field>
+            <field name="type">qweb</field>
+            <field name="inherit_id" ref="website.show_website_info"/>
+            <field name="priority">99</field>
+            <field name="arch" type="xml">
+                <xpath expr="//small" position="replace">
+                    <small groups="base.group_no_one">Hybrid Version <t t-out="version.get('server_version')"/></small>
+                </xpath>
+                <xpath expr="//p" position="replace">
+                    <p>Information about the <t t-esc="res_company.name"/> instance of Nexus Hybrid, the private hybrid ERP.</p>
+                </xpath>
+                <xpath expr="//a[contains(@t-att-href,'odoo.com')]" position="replace">
+                    <span t-out="app.shortdesc"/>
+                </xpath>
+            </field>
+        </record>
+
+        <!-- Website info page: override the whole page content to remove the installed apps list/odoo.com links -->
+        <record id="nexus_rebrand_website_info" model="ir.ui.view">
+            <field name="name">website.website_info.nexus</field>
+            <field name="type">qweb</field>
+            <field name="inherit_id" ref="website.website_info"/>
+            <field name="priority">99</field>
+            <field name="arch" type="xml">
+                <xpath expr="//div[@id='wrap']" position="replace">
+                    <div id="wrap" class="o_website_info">
+                        <section class="container">
+                            <h1><t t-esc="res_company.name"/></h1>
+                            <p>Nexus Hybrid — private hybrid ERP.</p>
+                        </section>
+                    </div>
+                </xpath>
+            </field>
+        </record>
+
+        <!-- Website layout: meta generator and backend apps tooltip -->
+        <record id="nexus_rebrand_website_layout" model="ir.ui.view">
+            <field name="name">website.layout.nexus</field>
+            <field name="type">qweb</field>
+            <field name="inherit_id" ref="website.layout"/>
+            <field name="priority">99</field>
+            <field name="arch" type="xml">
+                <xpath expr="//meta[@name='generator']" position="replace">
+                    <meta name="generator" content="Nexus Hybrid"/>
+                </xpath>
+                <xpath expr="//a[hasclass('o_frontend_to_backend_apps_btn')]" position="attributes">
+                    <attribute name="title">Go to your Apps</attribute>
+                </xpath>
+            </field>
+        </record>
+
+        <!-- Mail notification footer -->
+        <record id="nexus_rebrand_mail_notification_layout" model="ir.ui.view">
+            <field name="name">mail.mail_notification_layout.nexus</field>
+            <field name="type">qweb</field>
+            <field name="inherit_id" ref="mail.mail_notification_layout"/>
+            <field name="priority">99</field>
+            <field name="arch" type="xml">
+                <xpath expr="//div[span[@id='mail_unfollow']]" position="replace">
+                    <div t-if="show_footer" style="color: #555555; font-size:11px;">
+                        Nexus Hybrid
+                        <span id="mail_unfollow">
+                            | <a href="/mail/unfollow" style="text-decoration:none; color:#555555;">Unfollow</a>
+                        </span>
+                    </div>
+                </xpath>
+            </field>
+        </record>
+
+        <!-- Settings > Email tooltip text (removes Community and Enterprise wording) -->
+        <record id="nexus_rebrand_mail_res_config" model="ir.ui.view">
+            <field name="name">mail.res_config_settings_view_form.nexus</field>
+            <field name="type">form</field>
+            <field name="model">res.config.settings</field>
+            <field name="inherit_id" ref="mail.res_config_settings_view_form"/>
+            <field name="priority">99</field>
+            <field name="arch" type="xml">
+                <xpath expr="//setting[@id='email_servers_setting']" position="attributes">
+                    <attribute name="title">Using your own email server is required to send/receive emails. Online users already benefit from a ready-to-use email server (@mycompany.odoo.com).</attribute>
+                </xpath>
+            </field>
+        </record>
+    </data>
+</odoo>

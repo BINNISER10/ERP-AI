@@ -38,7 +38,7 @@ class CopilotSupportIncident(models.Model):
     traceback = fields.Text()
     source = fields.Selection(
         [
-            ("erpnext", "ERPNext"),
+            ("erpnext", "Hybrid Ledger"),
             ("n8n", "n8n"),
             ("general", "General"),
         ],
@@ -63,7 +63,7 @@ class CopilotSupportIncident(models.Model):
     def create_incident(self, source, description, severity="medium", traceback_text="", notify=True):
         """Create an incident and trigger warm + silent notifications.
 
-        :param source: erpnext, n8n or general.
+        :param source: erpnext (hybrid ledger), n8n or general.
         :param description: Human-readable incident description.
         :param severity: low, medium, high or critical.
         :param traceback_text: Optional technical traceback.
@@ -142,7 +142,7 @@ class CopilotSupportIncident(models.Model):
 
     @api.model
     def check_hybrid_health(self):
-        """Heartbeat monitor: ping ERPNext and n8n, and raise incidents on failure."""
+        """Heartbeat monitor: ping the hybrid ledger and n8n, and raise incidents on failure."""
         config = self.env["copilot.config"].sudo().get_active_config()
         if not config or not config.hybrid_config_id:
             self.create_incident(
@@ -173,8 +173,8 @@ class CopilotSupportIncident(models.Model):
                 )
                 response.raise_for_status()
             except Exception as exc:
-                _logger.exception("ERPNext health check failed.")
-                failures.append(("erpnext", f"ERPNext unreachable: {exc}"))
+                _logger.exception("Hybrid ledger health check failed.")
+                failures.append(("erpnext", f"Hybrid ledger unreachable: {exc}"))
 
         if n8n_url:
             try:

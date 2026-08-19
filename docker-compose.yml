@@ -1,15 +1,13 @@
-version: "3.9"
-
 services:
   db:
     image: postgres:16-alpine
     container_name: nexus_postgres
     restart: unless-stopped
-    shm_size: 2gb
+    shm_size: 4gb
     environment:
       POSTGRES_DB: nexus_erp
       POSTGRES_USER: odoo
-      POSTGRES_PASSWORD: odoo_secret
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:?set POSTGRES_PASSWORD in .env}
       PGDATA: /var/lib/postgresql/data/pgdata
     volumes:
       - postgres_data:/var/lib/postgresql/data
@@ -21,7 +19,7 @@ services:
       retries: 5
       start_period: 10s
     ports:
-      - "5432:5432"
+      - "127.0.0.1:5432:5432"
     command:
       - postgres
       - -c
@@ -42,12 +40,15 @@ services:
       timeout: 5s
       retries: 5
     ports:
-      - "6379:6379"
+      - "127.0.0.1:6379:6379"
     networks:
       - nexus_network
 
   odoo:
-    image: odoo:18.0
+    build:
+      context: ./odoo-backend
+      dockerfile: Dockerfile
+    image: nexus-odoo:18.0
     container_name: nexus_odoo
     restart: unless-stopped
     depends_on:
@@ -59,7 +60,18 @@ services:
       HOST: db
       PORT: 5432
       USER: odoo
-      PASSWORD: odoo_secret
+      PASSWORD: ${POSTGRES_PASSWORD:?set POSTGRES_PASSWORD in .env}
+      # SaaS platform configuration
+      SAAS_BASE_DOMAIN: ${SAAS_BASE_DOMAIN:-}
+      SAAS_SELF_SERVICE_SIGNUP: ${SAAS_SELF_SERVICE_SIGNUP:-false}
+      # Cloudflare DNS
+      CLOUDFLARE_API_TOKEN: ${CLOUDFLARE_API_TOKEN:-}
+      CLOUDFLARE_ZONE_ID: ${CLOUDFLARE_ZONE_ID:-}
+      CLOUDFLARE_CNAME_TARGET: ${CLOUDFLARE_CNAME_TARGET:-}
+      # Stripe billing
+      STRIPE_SECRET_KEY: ${STRIPE_SECRET_KEY:-}
+      STRIPE_PUBLISHABLE_KEY: ${STRIPE_PUBLISHABLE_KEY:-}
+      STRIPE_WEBHOOK_SECRET: ${STRIPE_WEBHOOK_SECRET:-}
     volumes:
       - odoo_data:/var/lib/odoo
       - ./config/odoo.conf:/etc/odoo/odoo.conf:ro
@@ -71,16 +83,50 @@ services:
     networks:
       - nexus_network
 
+  # One-off: generates a self-signed cert on first run (dev/test mode,
+  # no domain required). Safe to leave in the stack — it skips generation
+  # if the cert already exists in the nginx_ssl volume.
+  nginx-cert-init:
+    image: alpine/openssl
+    container_name: nexus_nginx_cert_init
+    restart: "no"
+    environment:
+      - SERVER_IP=${SERVER_IP:-127.0.0.1}
+    entrypoint:
+      - /bin/sh
+    command:
+      - -c
+      - |
+        set -e
+        mkdir -p /etc/nginx/ssl
+        if [ -f /etc/nginx/ssl/selfsigned.crt ]; then
+          echo "Self-signed certificate already exists, skipping."
+          exit 0
+        fi
+        echo "Generating self-signed certificate for IP ${SERVER_IP}..."
+        openssl req -x509 -nodes -days 825 -newkey rsa:2048 \
+          -keyout /etc/nginx/ssl/selfsigned.key \
+          -out /etc/nginx/ssl/selfsigned.crt \
+          -subj "/CN=nexus-erp" \
+          -addext "subjectAltName=IP:${SERVER_IP},DNS:nexus-erp"
+    volumes:
+      - nginx_ssl:/etc/nginx/ssl
+
   nginx:
     image: nginx:alpine
     container_name: nexus_nginx
     restart: unless-stopped
     depends_on:
-      - odoo
+      nginx-cert-init:
+        condition: service_completed_successfully
+      odoo:
+        condition: service_started
     ports:
-      - "8069:8069"
+      - "80:80"
+      - "443:443"
     volumes:
-      - ./config/nginx.conf:/etc/nginx/nginx.conf:ro
+      - ./config/nginx.dev.conf:/etc/nginx/nginx.conf:ro
+      - nginx_ssl:/etc/nginx/ssl:ro
     networks:
       - nexus_network
 
@@ -95,13 +141,13 @@ services:
         condition: service_healthy
       redis:
         condition: service_healthy
-      ollama:
-        condition: service_started
     env_file:
       - .env
     environment:
-      DATABASE_URL: postgresql+psycopg2://odoo:odoo_secret@db:5432/nexus_erp
+      DATABASE_URL: postgresql+psycopg2://odoo:${POSTGRES_PASSWORD:?set POSTGRES_PASSWORD in .env}@db:5432/nexus_erp
       REDIS_URL: redis://redis:6379/0
+      AI_SERVICES_API_KEY: ${AI_SERVICES_API_KEY:?set AI_SERVICES_API_KEY in .env}
+      AI_CORS_ORIGINS: ${AI_CORS_ORIGINS:-}
       AI_PROVIDER: ${AI_PROVIDER:-gemini}
       GEMINI_API_KEY: ${GEMINI_API_KEY:-}
       GEMINI_MODEL: ${GEMINI_MODEL:-gemini-1.5-flash}
@@ -109,29 +155,282 @@ services:
       OPENAI_MODEL: ${OPENAI_MODEL:-gpt-4o}
       DEEPSEEK_API_KEY: ${DEEPSEEK_API_KEY:-}
       DEEPSEEK_MODEL: ${DEEPSEEK_MODEL:-deepseek-chat}
-      OLLAMA_BASE_URL: ${OLLAMA_BASE_URL:-http://localhost:11434}
-      OLLAMA_MODEL: ${OLLAMA_MODEL:-llama3}
     volumes:
       - ai_data:/app/data
+    # Exposed only on localhost for health/debug; external API access should
+    # go through the nginx reverse proxy at /api/v1/.
     ports:
-      - "8000:8000"
+      - "127.0.0.1:8000:8000"
     networks:
       - nexus_network
 
-  ollama:
-    image: ollama/ollama:latest
-    container_name: nexus_ollama
+  # --- ERPNext 15 -----------------------------------------------------------
+  erpnext-db:
+    image: mariadb:11.8
+    container_name: nexus_erpnext_db
+    restart: unless-stopped
+    command:
+      - --character-set-server=utf8mb4
+      - --collation-server=utf8mb4_unicode_ci
+      - --skip-character-set-client-handshake
+    environment:
+      MYSQL_ROOT_PASSWORD: ${MARIADB_ROOT_PASSWORD:-erpnext_secret}
+      MARIADB_ROOT_PASSWORD: ${MARIADB_ROOT_PASSWORD:-erpnext_secret}
+    volumes:
+      - erpnext_mariadb_data:/var/lib/mysql
+    healthcheck:
+      test: ["CMD", "healthcheck.sh", "--connect", "--innodb_initialized"]
+      start_period: 5s
+      interval: 5s
+      timeout: 5s
+      retries: 5
+    networks:
+      - nexus_network
+
+  erpnext-redis-cache:
+    image: redis:7-alpine
+    container_name: nexus_erpnext_redis_cache
     restart: unless-stopped
     volumes:
-      - ollama_data:/root/.ollama
+      - erpnext_redis_cache_data:/data
+    networks:
+      - nexus_network
+
+  erpnext-redis-queue:
+    image: redis:7-alpine
+    container_name: nexus_erpnext_redis_queue
+    restart: unless-stopped
+    volumes:
+      - erpnext_redis_queue_data:/data
+    networks:
+      - nexus_network
+
+  erpnext-configurator:
+    image: frappe/erpnext:v15.116.0
+    container_name: nexus_erpnext_configurator
+    restart: "no"
+    entrypoint:
+      - bash
+      - -c
+    command:
+      - >
+        ls -1 apps > sites/apps.txt;
+        bench set-config -g db_host $$DB_HOST;
+        bench set-config -gp db_port $$DB_PORT;
+        bench set-config -g redis_cache "redis://$$REDIS_CACHE";
+        bench set-config -g redis_queue "redis://$$REDIS_QUEUE";
+        bench set-config -g redis_socketio "redis://$$REDIS_QUEUE";
+        bench set-config -gp socketio_port $$SOCKETIO_PORT;
+    environment:
+      DB_HOST: erpnext-db
+      DB_PORT: "3306"
+      REDIS_CACHE: erpnext-redis-cache:6379
+      REDIS_QUEUE: erpnext-redis-queue:6379
+      SOCKETIO_PORT: "9000"
+    volumes:
+      - erpnext_sites:/home/frappe/frappe-bench/sites
+      - erpnext_logs:/home/frappe/frappe-bench/logs
+    depends_on:
+      erpnext-db:
+        condition: service_healthy
+    networks:
+      - nexus_network
+
+  erpnext-create-site:
+    image: frappe/erpnext:v15.116.0
+    container_name: nexus_erpnext_create_site
+    restart: "no"
+    entrypoint:
+      - bash
+      - -c
+    command:
+      - >
+        wait-for-it -t 120 erpnext-db:3306;
+        wait-for-it -t 120 erpnext-redis-cache:6379;
+        wait-for-it -t 120 erpnext-redis-queue:6379;
+        export start=`date +%s`;
+        until [[ -n `grep -hs ^ sites/common_site_config.json | jq -r ".db_host // empty"` ]] && [[ -n `grep -hs ^ sites/common_site_config.json | jq -r ".redis_cache // empty"` ]] && [[ -n `grep -hs ^ sites/common_site_config.json | jq -r ".redis_queue // empty"` ]];
+        do
+          echo "Waiting for sites/common_site_config.json";
+          sleep 5;
+          if (( `date +%s`-start > 120 )); then
+            echo "Timeout waiting for common_site_config.json";
+            exit 1;
+          fi
+        done;
+        if [ -d "sites/frontend" ]; then
+          echo "Site frontend already exists, skipping";
+        else
+          bench new-site --mariadb-user-host-login-scope='%' --admin-password=$$ERPNEXT_ADMIN_PASSWORD --db-root-username=root --db-root-password=$$MARIADB_ROOT_PASSWORD --install-app erpnext --set-default frontend;
+        fi
+    environment:
+      ERPNEXT_ADMIN_PASSWORD: ${ERPNEXT_ADMIN_PASSWORD:-admin}
+      MARIADB_ROOT_PASSWORD: ${MARIADB_ROOT_PASSWORD:-erpnext_secret}
+      DB_HOST: erpnext-db
+      DB_PORT: "3306"
+    volumes:
+      - erpnext_sites:/home/frappe/frappe-bench/sites
+      - erpnext_logs:/home/frappe/frappe-bench/logs
+    depends_on:
+      erpnext-configurator:
+        condition: service_completed_successfully
+      erpnext-db:
+        condition: service_healthy
+      erpnext-redis-cache:
+        condition: service_started
+      erpnext-redis-queue:
+        condition: service_started
+    networks:
+      - nexus_network
+
+  erpnext-backend:
+    image: frappe/erpnext:v15.116.0
+    container_name: nexus_erpnext_backend
+    restart: unless-stopped
+    volumes:
+      - erpnext_sites:/home/frappe/frappe-bench/sites
+      - erpnext_logs:/home/frappe/frappe-bench/logs
+    environment:
+      DB_HOST: erpnext-db
+      DB_PORT: "3306"
+      MYSQL_ROOT_PASSWORD: ${MARIADB_ROOT_PASSWORD:-erpnext_secret}
+      MARIADB_ROOT_PASSWORD: ${MARIADB_ROOT_PASSWORD:-erpnext_secret}
+    depends_on:
+      erpnext-create-site:
+        condition: service_completed_successfully
+    networks:
+      - nexus_network
+
+  erpnext-websocket:
+    image: frappe/erpnext:v15.116.0
+    container_name: nexus_erpnext_websocket
+    restart: unless-stopped
+    command:
+      - node
+      - /home/frappe/frappe-bench/apps/frappe/socketio.js
+    environment:
+      FRAPPE_REDIS_CACHE: redis://erpnext-redis-cache:6379
+      FRAPPE_REDIS_QUEUE: redis://erpnext-redis-queue:6379
+    volumes:
+      - erpnext_sites:/home/frappe/frappe-bench/sites
+      - erpnext_logs:/home/frappe/frappe-bench/logs
+    depends_on:
+      erpnext-create-site:
+        condition: service_completed_successfully
+    networks:
+      - nexus_network
+
+  erpnext-frontend:
+    image: frappe/erpnext:v15.116.0
+    container_name: nexus_erpnext_frontend
+    restart: unless-stopped
+    command:
+      - nginx-entrypoint.sh
+    environment:
+      BACKEND: erpnext-backend:8000
+      FRAPPE_SITE_NAME_HEADER: frontend
+      SOCKETIO: erpnext-websocket:9000
+      UPSTREAM_REAL_IP_ADDRESS: 127.0.0.1
+      UPSTREAM_REAL_IP_HEADER: X-Forwarded-For
+      UPSTREAM_REAL_IP_RECURSIVE: "off"
+      PROXY_READ_TIMEOUT: "120"
+      CLIENT_MAX_BODY_SIZE: 50m
+    # Internal only — ERPNext UI is never exposed publicly. Odoo reaches it
+    # through the Docker network, and nginx proxies only /erpnext/api/*.
+    expose:
+      - "8080"
+    volumes:
+      - erpnext_sites:/home/frappe/frappe-bench/sites
+      - erpnext_logs:/home/frappe/frappe-bench/logs
+    depends_on:
+      erpnext-create-site:
+        condition: service_completed_successfully
+      erpnext-backend:
+        condition: service_started
+      erpnext-websocket:
+        condition: service_started
+    networks:
+      - nexus_network
+
+  erpnext-scheduler:
+    image: frappe/erpnext:v15.116.0
+    container_name: nexus_erpnext_scheduler
+    restart: unless-stopped
+    command:
+      - bench
+      - schedule
+    volumes:
+      - erpnext_sites:/home/frappe/frappe-bench/sites
+      - erpnext_logs:/home/frappe/frappe-bench/logs
+    depends_on:
+      erpnext-create-site:
+        condition: service_completed_successfully
+    networks:
+      - nexus_network
+
+  erpnext-queue-short:
+    image: frappe/erpnext:v15.116.0
+    container_name: nexus_erpnext_queue_short
+    restart: unless-stopped
+    command:
+      - bench
+      - worker
+      - --queue
+      - short,default
+    environment:
+      FRAPPE_REDIS_CACHE: redis://erpnext-redis-cache:6379
+      FRAPPE_REDIS_QUEUE: redis://erpnext-redis-queue:6379
+    volumes:
+      - erpnext_sites:/home/frappe/frappe-bench/sites
+      - erpnext_logs:/home/frappe/frappe-bench/logs
+    depends_on:
+      erpnext-create-site:
+        condition: service_completed_successfully
+    networks:
+      - nexus_network
+
+  erpnext-queue-long:
+    image: frappe/erpnext:v15.116.0
+    container_name: nexus_erpnext_queue_long
+    restart: unless-stopped
+    command:
+      - bench
+      - worker
+      - --queue
+      - long,default,short
+    environment:
+      FRAPPE_REDIS_CACHE: redis://erpnext-redis-cache:6379
+      FRAPPE_REDIS_QUEUE: redis://erpnext-redis-queue:6379
+    volumes:
+      - erpnext_sites:/home/frappe/frappe-bench/sites
+      - erpnext_logs:/home/frappe/frappe-bench/logs
+    depends_on:
+      erpnext-create-site:
+        condition: service_completed_successfully
+    networks:
+      - nexus_network
+
+  # --- n8n automation -------------------------------------------------------
+  n8n:
+    image: n8nio/n8n:latest
+    container_name: nexus_n8n
+    restart: unless-stopped
+    # Localhost only — n8n admin UI and webhooks should be exposed through
+    # the reverse proxy with authentication in production.
     ports:
-      - "11434:11434"
-    healthcheck:
-      test: ["CMD-SHELL", "curl -s http://localhost:11434/api/tags >/dev/null 2>&1 || exit 1"]
-      interval: 10s
-      timeout: 5s
-      retries: 15
-      start_period: 30s
+      - "127.0.0.1:5678:5678"
+    environment:
+      N8N_HOST: 127.0.0.1
+      N8N_PORT: 5678
+      N8N_PROTOCOL: https
+      N8N_SECURE_COOKIE: "true"
+      WEBHOOK_URL: ${N8N_WEBHOOK_URL:?set N8N_WEBHOOK_URL in .env}
+      N8N_ENCRYPTION_KEY: ${N8N_ENCRYPTION_KEY:?set N8N_ENCRYPTION_KEY in .env}
+      N8N_BASIC_AUTH_ACTIVE: "true"
+      N8N_BASIC_AUTH_USER: ${N8N_BASIC_AUTH_USER:-admin}
+      N8N_BASIC_AUTH_PASSWORD: ${N8N_BASIC_AUTH_PASSWORD:?set N8N_BASIC_AUTH_PASSWORD in .env}
+    volumes:
+      - n8n_data:/home/node/.n8n
     networks:
       - nexus_network
 
@@ -139,8 +438,14 @@ volumes:
   postgres_data:
   redis_data:
   odoo_data:
+  nginx_ssl:
   ai_data:
-  ollama_data:
+  erpnext_mariadb_data:
+  erpnext_sites:
+  erpnext_logs:
+  erpnext_redis_cache_data:
+  erpnext_redis_queue_data:
+  n8n_data:
 
 networks:
   nexus_network:

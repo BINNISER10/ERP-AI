@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <menuitem id="menu_nexus_universal_mail_root"
+              name="Universal Mail Setup / إعداد البريد الشامل"
+              parent="base.menu_custom"
+              action="action_nexus_universal_mail_wizard"
+              sequence="30"/>
+</odoo>

@@ -1,6 +1,6 @@
 import 'package:equatable/equatable.dart';
 
-import '../../../core/database/app_database.dart';
+import '../../../core/database/app_database.dart' hide SyncState;
 
 class SyncState extends Equatable {
   final List<OrderRow> pendingOrders;

@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <menuitem
+        id="menu_nexus_saas_root"
+        name="SaaS Platform"
+        sequence="5"
+        web_icon="fa fa-cloud,none"/>
+
+    <menuitem
+        id="menu_nexus_saas_tenants"
+        name="Tenants"
+        parent="menu_nexus_saas_root"
+        action="action_nexus_saas_tenant"
+        sequence="10"/>
+
+    <menuitem
+        id="menu_nexus_saas_subscriptions"
+        name="Subscriptions"
+        parent="menu_nexus_saas_root"
+        action="action_nexus_saas_subscription"
+        sequence="20"/>
+
+    <menuitem
+        id="menu_nexus_saas_plans"
+        name="Plans"
+        parent="menu_nexus_saas_root"
+        action="action_nexus_saas_plan"
+        sequence="30"/>
+
+    <menuitem
+        id="menu_nexus_saas_usage"
+        name="Usage"
+        parent="menu_nexus_saas_root"
+        sequence="40">
+        <menuitem
+            id="menu_nexus_saas_usage_metrics"
+            name="Metrics"
+            action="action_nexus_saas_usage_metric"/>
+        <menuitem
+            id="menu_nexus_saas_usage_records"
+            name="Records"
+            action="action_nexus_saas_usage_record"/>
+    </menuitem>
+</odoo>

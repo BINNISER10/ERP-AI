@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- ════════════════ Nexus Universal Enterprise Migrator Form ════════════════ -->
+    <record id="view_nexus_universal_migrator_form" model="ir.ui.view">
+        <field name="name">nexus.universal.migrator.form</field>
+        <field name="model">nexus.universal.migrator</field>
+        <field name="arch" type="xml">
+            <form string="Universal Enterprise Migrator / المستورد والمهجر الذكي الشامل">
+                <header>
+                    <field name="state" widget="statusbar" statusbar_visible="upload,preview,imported"/>
+                </header>
+                <sheet>
+                    <!-- ════════════════ STAGE 1: UPLOAD & SELECT ════════════════ -->
+                    <div invisible="state != 'upload'">
+                        <div class="text-center mb-4">
+                            <span class="fa fa-database fa-3x text-primary mb-2"/>
+                            <h2 style="color: #0B3D2E; font-weight: bold;">📦 المستورد والمهجر الذكي الشامل (SAP / Oracle / Microsoft / SQL / Excel)</h2>
+                            <p class="text-muted lead mb-2">
+                                استيراد وترحيل المنتجات مع الصور، العملاء والموردين، دليل الحسابات، والمخزون من أي نظام سلفي بذكاء فائق.
+                            </p>
+                        </div>
+
+                        <!-- Supported Systems Badges -->
+                        <div class="d-flex flex-wrap justify-content-center gap-2 mb-4">
+                            <span class="badge bg-light text-dark p-2 border shadow-sm font-weight-bold">🔷 SAP (S/4HANA / ECC / B1)</span>
+                            <span class="badge bg-light text-dark p-2 border shadow-sm font-weight-bold">🔴 Oracle (Fusion / EBS / NetSuite)</span>
+                            <span class="badge bg-light text-dark p-2 border shadow-sm font-weight-bold">🟦 Microsoft Dynamics 365 / BC</span>
+                            <span class="badge bg-light text-dark p-2 border shadow-sm font-weight-bold">💾 SQL Dumps (Postgres / MySQL / MSSQL)</span>
+                            <span class="badge bg-light text-dark p-2 border shadow-sm font-weight-bold">🖼️ حزم ZIP مع صور المنتجات</span>
+                        </div>
+
+                        <div class="card border-primary p-3 mb-3 bg-light shadow-sm" style="border-radius: 10px;">
+                            <group>
+                                <group string="1. نظام المصدر والهدف">
+                                    <field name="legacy_source"/>
+                                    <field name="import_target"/>
+                                </group>
+                                <group string="2. الملف أو حزمة البيانات">
+                                    <field name="data_file" widget="binary" filename="data_filename" required="1"/>
+                                    <field name="data_filename" invisible="1"/>
+                                </group>
+                            </group>
+                            <small class="text-muted d-block mt-1">
+                                💡 <em>يدعم ملفات Excel (.xlsx), CSV, SQL dumps (.sql), JSON, وحزم مضغوطة (.zip) تحتوي ملف الإكسل ومجلد الصور.</em>
+                            </small>
+                        </div>
+
+                        <div class="text-center pt-3">
+                            <button name="action_analyze_and_preview" 
+                                    string="⚡ فحص ومعاينة البيانات والربط الدلالي الآلي (Analyze &amp; Preview)" 
+                                    type="object" 
+                                    class="btn btn-primary btn-lg px-5 py-3 shadow font-weight-bold"
+                                    style="font-size: 17px; border-radius: 8px;"/>
+                        </div>
+                    </div>
+
+                    <!-- ════════════════ STAGE 2: PREVIEW & CONFIRM ════════════════ -->
+                    <div invisible="state != 'preview'">
+                        <div class="d-flex justify-content-between align-items-center border-bottom pb-2 mb-3">
+                            <h4 class="text-primary font-weight-bold mb-0">🔍 معاينة البيانات المكتشفة والربط الدلالي للحقول</h4>
+                            <span class="badge bg-success p-2" style="font-size: 14px;"><field name="total_records_count"/> سجل جاهز للترحيل</span>
+                        </div>
+
+                        <field name="preview_data_html" widget="html" readonly="1" nolabel="1"/>
+
+                        <div class="alert alert-info py-2 px-3 my-3 small d-flex align-items-center">
+                            <span class="fa fa-info-circle fa-lg me-2"/>
+                            <span>💡 سيقوم النظام بإنشاء وتحديث السجلات تلقائياً مع تحميل صور المنتجات وربط الباركود والأسعار.</span>
+                        </div>
+
+                        <div class="d-flex justify-content-between align-items-center mt-3 pt-3 border-top">
+                            <button name="action_back_to_upload" string="➡️ العودة وتغيير الملف" type="object" class="btn btn-secondary"/>
+                            <button name="action_execute_import" 
+                                    string="🚀 تأكيد وترحيل واستيراد كافة البيانات الآن" 
+                                    type="object" 
+                                    class="btn btn-success btn-lg px-5 py-3 shadow font-weight-bold"
+                                    style="font-size: 16px; border-radius: 8px;"/>
+                        </div>
+                    </div>
+
+                    <!-- ════════════════ STAGE 3: IMPORTED SUMMARY ════════════════ -->
+                    <div invisible="state != 'imported'">
+                        <field name="import_summary_html" widget="html" readonly="1" nolabel="1"/>
+                        <div class="text-center mt-4">
+                            <button name="action_back_to_upload" string="استيراد دفعة جديدة ⬅️" type="object" class="btn btn-primary btn-lg px-4"/>
+                        </div>
+                    </div>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <!-- Action -->
+    <record id="action_nexus_universal_migrator" model="ir.actions.act_window">
+        <field name="name">Universal Enterprise Migrator / المستورد والمهجر الذكي</field>
+        <field name="res_model">nexus.universal.migrator</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+    </record>
+
+    <!-- Menu Item under AI Copilot -->
+    <menuitem id="menu_nexus_universal_migrator"
+              name="📦 المستورد والمهجر الذكي (SAP / Oracle / SQL / Excel)"
+              parent="ai_enterprise_copilot.menu_copilot_root"
+              action="action_nexus_universal_migrator"
+              sequence="8"/>
+
+</odoo>

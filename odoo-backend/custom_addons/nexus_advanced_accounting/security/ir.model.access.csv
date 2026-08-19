@@ -1,0 +1,5 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_nexus_cost_center_mapping_user,nexus.cost.center.mapping.user,model_nexus_cost_center_mapping,nexus_base_security.group_nexus_manager,1,0,0,0
+access_nexus_cost_center_mapping_manager,nexus.cost.center.mapping.manager,model_nexus_cost_center_mapping,base.group_system,1,1,1,1
+access_nexus_tax_mapping_user,nexus.tax.mapping.user,model_nexus_tax_mapping,nexus_base_security.group_nexus_manager,1,0,0,0
+access_nexus_tax_mapping_manager,nexus.tax.mapping.manager,model_nexus_tax_mapping,base.group_system,1,1,1,1

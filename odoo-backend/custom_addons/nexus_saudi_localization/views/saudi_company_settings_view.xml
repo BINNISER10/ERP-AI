@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- ════════════════ Company Settings Form ════════════════ -->
+    <record id="view_nexus_saudi_company_settings_form" model="ir.ui.view">
+        <field name="name">nexus.saudi.company.settings.form</field>
+        <field name="model">nexus.saudi.company.settings</field>
+        <field name="arch" type="xml">
+            <form string="إعدادات الشركة السعودية / Saudi Company Settings">
+                <sheet>
+                    <group>
+                        <group string="الشركة / Company">
+                            <field name="company_id"/>
+                            <field name="vat_number"/>
+                            <field name="cr_number"/>
+                            <field name="national_address_code"/>
+                            <field name="additional_id_number"/>
+                        </group>
+                        <group string="الفوترة الإلكترونية / ZATCA">
+                            <field name="zatca_enabled"/>
+                            <field name="zatca_phase"
+                                   invisible="not zatca_enabled"/>
+                            <field name="zatca_otp_code"
+                                   invisible="not zatca_enabled"/>
+                            <field name="zatca_csid"
+                                   invisible="not zatca_enabled"/>
+                            <field name="zatca_production_csid"
+                                   invisible="not zatca_enabled"/>
+                            <field name="zatca_invoice_counter"
+                                   invisible="not zatca_enabled"/>
+                        </group>
+                    </group>
+                    <group>
+                        <group string="ضريبة القيمة المضافة / VAT">
+                            <field name="vat_registered"/>
+                            <field name="vat_rate"/>
+                            <field name="vat_period_length_months"/>
+                            <field name="vat_period_start_day"/>
+                        </group>
+                        <group string="نطاقات / Saudization">
+                            <field name="saudization_required"/>
+                            <field name="target_saudization_pct"
+                                   invisible="not saudization_required"/>
+                            <field name="current_saudization_pct"
+                                   invisible="not saudization_required"/>
+                            <field name="band" widget="badge"
+                                   invisible="not saudization_required"/>
+                        </group>
+                    </group>
+                    <group>
+                        <group string="نظام حماية الأجور / WPS">
+                            <field name="wps_required"/>
+                            <field name="wps_bank_id"
+                                   invisible="not wps_required"/>
+                            <field name="wps_mol_username"
+                                   invisible="not wps_required"/>
+                            <field name="wps_mol_establishment_id"
+                                   invisible="not wps_required"/>
+                        </group>
+                    </group>
+                    <field name="notes" placeholder="ملاحظات إضافية..."/>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_nexus_saudi_company_settings" model="ir.actions.act_window">
+        <field name="name">إعدادات الشركة السعودية</field>
+        <field name="res_model">nexus.saudi.company.settings</field>
+        <field name="view_mode">form</field>
+    </record>
+
+    <!-- ════════════════ ZATCA Settings Form ════════════════ -->
+    <record id="view_nexus_saudi_zatca_settings_form" model="ir.ui.view">
+        <field name="name">nexus.saudi.zatca.settings.form</field>
+        <field name="model">nexus.saudi.company.settings</field>
+        <field name="arch" type="xml">
+            <form string="إعدادات ZATCA">
+                <sheet>
+                    <group string="إعدادات ZATCA">
+                        <field name="company_id"/>
+                        <field name="zatca_enabled"/>
+                        <field name="zatca_phase"/>
+                        <field name="zatca_otp_code"/>
+                        <field name="zatca_csid"/>
+                        <field name="zatca_production_csid"/>
+                        <field name="zatca_private_key" filename="zatca_private_key_filename"/>
+                        <field name="zatca_private_key_filename" invisible="1"/>
+                        <field name="zatca_certificate" filename="zatca_certificate_filename"/>
+                        <field name="zatca_certificate_filename" invisible="1"/>
+                        <field name="zatca_invoice_counter"/>
+                        <field name="zatca_last_invoice_hash" readonly="1"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_nexus_saudi_zatca_settings" model="ir.actions.act_window">
+        <field name="name">إعدادات ZATCA</field>
+        <field name="res_model">nexus.saudi.company.settings</field>
+        <field name="view_mode">form</field>
+        <field name="view_id" ref="view_nexus_saudi_zatca_settings_form"/>
+    </record>
+
+</odoo>

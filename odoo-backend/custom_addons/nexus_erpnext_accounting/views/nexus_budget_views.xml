@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- ── Budgets (nexus.budget) ── -->
+    <record id="view_nexus_budget_form" model="ir.ui.view">
+        <field name="name">nexus.budget.form</field>
+        <field name="model">nexus.budget</field>
+        <field name="arch" type="xml">
+            <form string="Budget">
+                <header>
+                    <button name="action_activate" type="object" string="Activate"
+                        class="btn-primary" invisible="state != 'draft'"/>
+                    <button name="action_set_draft" type="object" string="Reset to Draft"
+                        invisible="state != 'cancelled'"/>
+                    <button name="action_cancel" type="object" string="Cancel"
+                        invisible="state == 'cancelled'"/>
+                    <field name="state" widget="statusbar"
+                        statusbar_visible="draft,active,cancelled"/>
+                </header>
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="name"/>
+                            <field name="budget_against" string="Budget Against"/>
+                            <field name="cost_center_id"
+                                invisible="budget_against != 'cost_center'"/>
+                            <field name="project_id"
+                                invisible="budget_against != 'project'"/>
+                        </group>
+                        <group>
+                            <field name="fiscal_year_id"/>
+                            <field name="company_id" groups="base.group_multi_company"/>
+                            <field name="action_if_budget_exceeded"
+                                string="Action if Annual Budget Exceeded"/>
+                            <field name="action_if_accumulated_exceeded"
+                                string="Action if Accumulated Monthly Exceeded"/>
+                        </group>
+                    </group>
+                    <group string="Summary">
+                        <field name="total_budget" string="Total Budget"/>
+                        <field name="total_actual" string="Actual"/>
+                        <field name="total_variance" string="Variance"/>
+                    </group>
+                    <field name="account_ids" mode="tree,form">
+                        <list string="Budget Accounts" editable="bottom">
+                            <field name="account_id"/>
+                            <field name="budget_amount"/>
+                        </list>
+                    </field>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="view_nexus_budget_list" model="ir.ui.view">
+        <field name="name">nexus.budget.list</field>
+        <field name="model">nexus.budget</field>
+        <field name="arch" type="xml">
+            <list string="Budgets">
+                <field name="name"/>
+                <field name="budget_against"/>
+                <field name="cost_center_id"/>
+                <field name="project_id"/>
+                <field name="fiscal_year_id"/>
+                <field name="total_budget" sum="Total Budget"/>
+                <field name="total_actual" sum="Actual"/>
+                <field name="total_variance" sum="Variance"/>
+                <field name="state"/>
+                <field name="company_id" groups="base.group_multi_company"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="action_nexus_budget" model="ir.actions.act_window">
+        <field name="name">Budgets</field>
+        <field name="res_model">nexus.budget</field>
+        <field name="view_mode">list,form</field>
+    </record>
+</odoo>

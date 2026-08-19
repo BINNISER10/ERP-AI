@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- ZATCA QR Generator Form -->
+    <record id="view_nexus_saudi_zatca_qr_form" model="ir.ui.view">
+        <field name="name">nexus.saudi.zatca.qr.form</field>
+        <field name="model">nexus.saudi.zatca.qr</field>
+        <field name="arch" type="xml">
+            <form string="رمز ZATCA للفاتورة">
+                <header>
+                    <button name="action_compute" string="⚡ توليد رمز QR"
+                            type="object" class="btn-primary"/>
+                </header>
+                <sheet>
+                    <group>
+                        <field name="invoice_id"/>
+                    </group>
+                    <group string="TLV Payload">
+                        <field name="tlv_payload" readonly="1" widget="text"/>
+                    </group>
+                    <group string="ملخص / Summary">
+                        <field name="qr_summary" readonly="1" widget="text"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_nexus_saudi_zatca_qr" model="ir.actions.act_window">
+        <field name="name">رمز ZATCA QR</field>
+        <field name="res_model">nexus.saudi.zatca.qr</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+    </record>
+
+    <!-- E-Invoice Generator Form -->
+    <record id="view_nexus_saudi_einvoice_form" model="ir.ui.view">
+        <field name="name">nexus.saudi.einvoice.form</field>
+        <field name="model">nexus.saudi.einvoice</field>
+        <field name="arch" type="xml">
+            <form string="الفاتورة الإلكترونية">
+                <header>
+                    <button name="action_generate" string="⚡ توليد XML"
+                            type="object" class="btn-primary"/>
+                    <field name="state" widget="statusbar"/>
+                </header>
+                <sheet>
+                    <group>
+                        <field name="invoice_id"/>
+                    </group>
+                    <group string="XML (UBL 2.1)">
+                        <field name="xml_payload" readonly="1" widget="text"/>
+                    </group>
+                    <group string="Hash &amp; QR">
+                        <field name="invoice_hash" readonly="1"/>
+                        <field name="qr_tlv" readonly="1"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_nexus_saudi_einvoice" model="ir.actions.act_window">
+        <field name="name">الفاتورة الإلكترونية XML</field>
+        <field name="res_model">nexus.saudi.einvoice</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+    </record>
+
+</odoo>

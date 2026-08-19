@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- ── GL Entries (nexus.gl.entry) — the General Ledger ── -->
+    <record id="view_nexus_gl_entry_form" model="ir.ui.view">
+        <field name="name">nexus.gl.entry.form</field>
+        <field name="model">nexus.gl.entry</field>
+        <field name="arch" type="xml">
+            <form string="GL Entry">
+                <sheet>
+                    <div class="oe_title">
+                        <h1><field name="name"/></h1>
+                    </div>
+                    <group>
+                        <group>
+                            <field name="posting_date"/>
+                            <field name="transaction_date"/>
+                            <field name="voucher_type"/>
+                            <field name="voucher_no"/>
+                            <field name="voucher_detail_no"/>
+                        </group>
+                        <group>
+                            <field name="account_id"/>
+                            <field name="party_type"/>
+                            <field name="party_id"/>
+                            <field name="cost_center_id"/>
+                            <field name="fiscal_year_id"/>
+                        </group>
+                    </group>
+                    <group string="Amounts">
+                        <field name="debit"/>
+                        <field name="credit"/>
+                        <field name="account_currency_id" string="Account Currency"/>
+                        <field name="debit_in_account_currency"/>
+                        <field name="credit_in_account_currency"/>
+                        <field name="exchange_rate"/>
+                    </group>
+                    <group string="Against">
+                        <field name="against_account"/>
+                        <field name="against_voucher_type"/>
+                        <field name="against_voucher_no"/>
+                        <field name="remarks"/>
+                    </group>
+                    <group string="Flags">
+                        <field name="is_opening"/>
+                        <field name="is_advance"/>
+                        <field name="is_reverse"/>
+                        <field name="is_cancelled"/>
+                        <field name="company_id" groups="base.group_multi_company"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="view_nexus_gl_entry_list" model="ir.ui.view">
+        <field name="name">nexus.gl.entry.list</field>
+        <field name="model">nexus.gl.entry</field>
+        <field name="arch" type="xml">
+            <list string="General Ledger">
+                <field name="posting_date"/>
+                <field name="name" string="GL No"/>
+                <field name="voucher_type"/>
+                <field name="voucher_no"/>
+                <field name="account_id" string="Account"/>
+                <field name="party_id" string="Party"/>
+                <field name="cost_center_id" string="Cost Center"/>
+                <field name="debit" sum="Total Debit"/>
+                <field name="credit" sum="Total Credit"/>
+                <field name="against_account" string="Against"/>
+                <field name="fiscal_year_id" optional="hide"/>
+                <field name="company_id" groups="base.group_multi_company" optional="hide"/>
+                <field name="is_cancelled" optional="hide"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="view_nexus_gl_entry_search" model="ir.ui.view">
+        <field name="name">nexus.gl.entry.search</field>
+        <field name="model">nexus.gl.entry</field>
+        <field name="arch" type="xml">
+            <search string="GL Entries">
+                <field name="account_id"/>
+                <field name="party_id"/>
+                <field name="voucher_no"/>
+                <field name="cost_center_id"/>
+                <filter name="not_cancelled" string="Not Cancelled"
+                    domain="[('is_cancelled', '=', False)]"/>
+                <filter name="opening" string="Opening"
+                    domain="[('is_opening', '=', True)]"/>
+                <filter name="group_by_account" string="Group by Account"
+                    context="{'group_by': 'account_id'}"/>
+                <filter name="group_by_fiscal_year" string="Group by Fiscal Year"
+                    context="{'group_by': 'fiscal_year_id'}"/>
+            </search>
+        </field>
+    </record>
+
+    <record id="action_nexus_gl_entry" model="ir.actions.act_window">
+        <field name="name">General Ledger</field>
+        <field name="res_model">nexus.gl.entry</field>
+        <field name="view_mode">list,form</field>
+        <field name="search_view_id" ref="view_nexus_gl_entry_search"/>
+        <field name="context">{'search_default_not_cancelled': 1}</field>
+    </record>
+</odoo>

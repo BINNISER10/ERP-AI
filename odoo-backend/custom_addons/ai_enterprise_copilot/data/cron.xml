@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo noupdate="1">
-    <!-- Fetch ERPNext KPIs for persona-aware insights -->
-    <record id="copilot_fetch_erpnext_kpis_cron" model="ir.cron">
-        <field name="name">Copilot: Fetch ERPNext KPIs</field>
+    <!-- Fetch hybrid ledger KPIs for persona-aware insights -->
+    <record id="copilot_fetch_hybrid_kpis_cron" model="ir.cron">
+        <field name="name">Copilot: Fetch Hybrid Ledger KPIs</field>
         <field name="model_id" ref="model_copilot_insight"/>
         <field name="state">code</field>
-        <field name="code">model.fetch_erpnext_kpis()</field>
+        <field name="code">model.fetch_hybrid_kpis()</field>
         <field name="interval_number">1</field>
         <field name="interval_type">hours</field>
         <field name="active" eval="False"/>
@@ -20,5 +20,42 @@
         <field name="interval_number">5</field>
         <field name="interval_type">minutes</field>
         <field name="active" eval="False"/>
+    </record>
+
+    <!-- Nexus Finance: nightly reconciliation between Odoo and ERPNext -->
+    <record id="nexus_erpnext_reconciliation_cron" model="ir.cron">
+        <field name="name">Nexus Finance: ERPNext Reconciliation</field>
+        <field name="model_id" ref="model_nexus_erpnext_reconciliation"/>
+        <field name="state">code</field>
+        <field name="code">model._cron_reconcile()</field>
+        <field name="interval_number">1</field>
+        <field name="interval_type">days</field>
+        <field name="numbercall">-1</field>
+        <field name="active" eval="True"/>
+        <field name="priority">5</field>
+    </record>
+
+    <!-- Nexus Finance: hourly heartbeat to confirm Nexus Core is reachable -->
+    <record id="nexus_erpnext_heartbeat_cron" model="ir.cron">
+        <field name="name">Nexus Finance: ERPNext Heartbeat</field>
+        <field name="model_id" ref="model_nexus_erpnext_bridge"/>
+        <field name="state">code</field>
+        <field name="code">model._heartbeat()</field>
+        <field name="interval_number">1</field>
+        <field name="interval_type">hours</field>
+        <field name="active" eval="True"/>
+        <field name="priority">10</field>
+    </record>
+
+    <!-- Nexus Finance: periodic retry of failed sync-queue items -->
+    <record id="nexus_sync_queue_drain_cron" model="ir.cron">
+        <field name="name">Nexus Finance: Drain Sync Queue</field>
+        <field name="model_id" ref="model_nexus_sync_queue"/>
+        <field name="state">code</field>
+        <field name="code">model._cron_drain()</field>
+        <field name="interval_number">2</field>
+        <field name="interval_type">minutes</field>
+        <field name="active" eval="True"/>
+        <field name="priority">3</field>
     </record>
 </odoo>

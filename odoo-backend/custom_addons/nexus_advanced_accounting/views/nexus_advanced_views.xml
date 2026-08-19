@@ -1,0 +1,221 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- ══════════════════════════ NEXUS CORE SYNC — MAIN MENU ══════════════════════════ -->
+
+    <!-- Submenu: Nexus Core Bridge (under Nexus Accounting root) -->
+    <menuitem
+        id="menu_nexus_core_bridge"
+        name="المزامنة والتكامل المالي (Core Ledger Bridge)"
+        parent="ai_enterprise_copilot.menu_nexus_accounting_root"
+        sequence="40"
+        groups="nexus_base_security.group_nexus_manager"/>
+
+    <!-- ── Tax Templates ── -->
+    <record id="view_nexus_tax_mapping_form" model="ir.ui.view">
+        <field name="name">nexus.tax.mapping.form</field>
+        <field name="model">nexus.tax.mapping</field>
+        <field name="arch" type="xml">
+            <form string="Nexus Core Tax Template">
+                <header>
+                    <button name="action_sync_tax_template" string="Sync to Nexus Core"
+                        type="object" class="btn-primary"/>
+                </header>
+                <sheet>
+                    <div class="oe_title">
+                        <h1><field name="display_name"/></h1>
+                    </div>
+                    <group>
+                        <group>
+                            <field name="odoo_tax_id" string="Command Center Tax"/>
+                            <field name="nexus_tax_template"
+                                string="Nexus Core Item Tax Template"
+                                placeholder="e.g. VAT 15%"/>
+                        </group>
+                        <group>
+                            <field name="nexus_tax_code" string="Nexus Core Tax Code"
+                                placeholder="e.g. VAT-15"/>
+                            <field name="nexus_tax_rate" string="Tax Rate (%)"/>
+                            <field name="company_id"/>
+                            <field name="active"/>
+                        </group>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="view_nexus_tax_mapping_list" model="ir.ui.view">
+        <field name="name">nexus.tax.mapping.list</field>
+        <field name="model">nexus.tax.mapping</field>
+        <field name="arch" type="xml">
+            <list string="Nexus Core Tax Templates" multi_edit="1">
+                <field name="odoo_tax_id"/>
+                <field name="nexus_tax_template"/>
+                <field name="nexus_tax_code"/>
+                <field name="nexus_tax_rate"/>
+                <field name="company_id" groups="base.group_multi_company"/>
+                <field name="active"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="action_nexus_tax_mapping" model="ir.actions.act_window">
+        <field name="name">Tax Templates</field>
+        <field name="res_model">nexus.tax.mapping</field>
+        <field name="view_mode">list,form</field>
+    </record>
+
+    <menuitem
+        id="menu_nexus_tax_mapping"
+        name="Tax Templates"
+        parent="menu_nexus_core_bridge"
+        action="action_nexus_tax_mapping"
+        sequence="10"/>
+
+    <!-- ── Cost Centers ── -->
+    <record id="view_nexus_cost_center_mapping_list" model="ir.ui.view">
+        <field name="name">nexus.cost.center.mapping.list</field>
+        <field name="model">nexus.cost.center.mapping</field>
+        <field name="arch" type="xml">
+            <list string="Nexus Core Cost Centers">
+                <field name="model_name"/>
+                <field name="res_id"/>
+                <field name="nexus_cost_center_name"/>
+                <field name="nexus_cost_center_id"/>
+                <field name="synced"/>
+                <field name="transaction_id"/>
+                <field name="company_id" groups="base.group_multi_company"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="action_nexus_cost_center_mapping" model="ir.actions.act_window">
+        <field name="name">Cost Centers</field>
+        <field name="res_model">nexus.cost.center.mapping</field>
+        <field name="view_mode">list,form</field>
+    </record>
+
+    <menuitem
+        id="menu_nexus_cost_center_mapping"
+        name="Cost Centers"
+        parent="menu_nexus_core_bridge"
+        action="action_nexus_cost_center_mapping"
+        sequence="20"/>
+
+    <!-- ── Sync Queue (links foundation action) ── -->
+    <menuitem
+        id="menu_nexus_sync_queue"
+        name="Sync Queue"
+        parent="menu_nexus_core_bridge"
+        action="odoo_erpnext_hybrid_sync.action_nexus_sync_queue"
+        sequence="30"/>
+
+    <!-- ── Fixed Assets filter view ── -->
+    <record id="action_nexus_sync_queue_assets" model="ir.actions.act_window">
+        <field name="name">Fixed Assets</field>
+        <field name="res_model">nexus.sync.queue</field>
+        <field name="view_mode">list,form</field>
+        <field name="domain">[('operation', '=', 'asset.create')]</field>
+        <field name="context">{'search_default_pending': 1}</field>
+    </record>
+
+    <menuitem
+        id="menu_nexus_sync_queue_assets"
+        name="Fixed Assets"
+        parent="menu_nexus_core_bridge"
+        action="action_nexus_sync_queue_assets"
+        sequence="40"/>
+
+    <!-- ══════════════════════════ INHERITED VIEWS ══════════════════════════ -->
+
+    <!-- ── Product form: is_fixed_asset field ── -->
+    <record id="view_product_template_form_inherit" model="ir.ui.view">
+        <field name="name">product.template.form.nexus.asset</field>
+        <field name="model">product.template</field>
+        <field name="inherit_id" ref="product.product_template_form_view"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='categ_id']" position="after">
+                <field name="is_fixed_asset"
+                    string="Fixed Asset"
+                    help="When checked, vendor bills for this product auto‑create a depreciable Asset in the Nexus Core."
+                    invisible="type != 'consu'"/>
+            </xpath>
+        </field>
+    </record>
+
+    <!-- ── Invoice form: Nexus Core section ── -->
+    <record id="view_account_move_form_inherit" model="ir.ui.view">
+        <field name="name">account.move.form.nexus</field>
+        <field name="model">account.move</field>
+        <field name="inherit_id" ref="account.view_move_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='partner_id']" position="after">
+                <field name="nexus_cost_center"
+                    string="Nexus Core Cost Center"
+                    placeholder="e.g. Branch - الرياض"
+                    invisible="move_type not in ('out_invoice','out_refund','in_invoice','in_refund')"/>
+            </xpath>
+        </field>
+    </record>
+
+    <!-- ── Payment form: Nexus Core status ── -->
+    <record id="view_account_payment_form_inherit" model="ir.ui.view">
+        <field name="name">account.payment.form.nexus</field>
+        <field name="model">account.payment</field>
+        <field name="inherit_id" ref="account.view_account_payment_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='amount']" position="after">
+                <field name="nexus_core_synced"
+                    string="Synced to Nexus Core"
+                    widget="boolean_toggle"/>
+                <field name="nexus_core_docname"
+                    string="Nexus Core Doc"
+                    invisible="not nexus_core_synced"/>
+            </xpath>
+        </field>
+    </record>
+
+    <!-- ── Warehouse form: Sync status ── -->
+    <record id="view_warehouse_form_inherit" model="ir.ui.view">
+        <field name="name">stock.warehouse.form.nexus</field>
+        <field name="model">stock.warehouse</field>
+        <field name="inherit_id" ref="stock.view_warehouse"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='code']" position="after">
+                <field name="nexus_cost_center_synced"
+                    string="Cost Center Synced"
+                    widget="boolean_toggle"/>
+            </xpath>
+        </field>
+    </record>
+
+    <!-- ── Department form: Sync status ── -->
+    <record id="view_department_form_inherit" model="ir.ui.view">
+        <field name="name">hr.department.form.nexus</field>
+        <field name="model">hr.department</field>
+        <field name="inherit_id" ref="hr.view_department_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='parent_id']" position="after">
+                <field name="nexus_cost_center_synced"
+                    string="Cost Center Synced"
+                    widget="boolean_toggle"/>
+            </xpath>
+        </field>
+    </record>
+
+    <!-- ── Project form: Sync status ── -->
+    <record id="view_project_form_inherit" model="ir.ui.view">
+        <field name="name">project.project.form.nexus</field>
+        <field name="model">project.project</field>
+        <field name="inherit_id" ref="project.edit_project"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='partner_id']" position="after">
+                <field name="nexus_cost_center_synced"
+                    string="Cost Center Synced"
+                    widget="boolean_toggle"/>
+            </xpath>
+        </field>
+    </record>
+
+</odoo>

@@ -3,7 +3,9 @@ import 'package:flutter/material.dart';
 import '../../../core/models/order_payload.dart';
 
 class SplitBillScreen extends StatefulWidget {
-  const SplitBillScreen({super.key});
+  final double total;
+
+  const SplitBillScreen({super.key, required this.total});
 
   @override
   State<SplitBillScreen> createState() => _SplitBillScreenState();
@@ -11,31 +13,40 @@ class SplitBillScreen extends StatefulWidget {
 
 class _SplitBillScreenState extends State<SplitBillScreen> {
   int _splits = 2;
-  double _total = 0.0;
+  late double _total;
   final _customAmounts = <TextEditingController>[];
 
   @override
-  void didChangeDependencies() {
-    super.didChangeDependencies();
-    // In a real app, the total would come from an inherited order model.
-    _total = 100.0;
-    _updateControllers();
+  void initState() {
+    super.initState();
+    _total = widget.total;
+    _syncControllers();
   }
 
-  void _updateControllers() {
-    final equal = _total / _splits;
-    _customAmounts
-      ..forEach((c) => c.dispose())
-      ..clear();
-    for (var i = 0; i < _splits; i++) {
+  void _syncControllers() {
+    if (_customAmounts.length == _splits) return;
+    final equal = _splits == 0 ? 0.0 : _total / _splits;
+    // Grow the list first; never dispose controllers still bound to the tree.
+    while (_customAmounts.length < _splits) {
       _customAmounts.add(TextEditingController(text: equal.toStringAsFixed(2)));
+    }
+    // Shrink: drop surplus controllers after the current frame so any widget
+    // still referencing them has unmounted first.
+    if (_customAmounts.length > _splits) {
+      final removed = _customAmounts.sublist(_splits);
+      _customAmounts.removeRange(_splits, _customAmounts.length);
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        for (final c in removed) {
+          if (!c.isDisposed) c.dispose();
+        }
+      });
     }
   }
 
   @override
   void dispose() {
     for (final c in _customAmounts) {
-      c.dispose();
+      if (!c.isDisposed) c.dispose();
     }
     super.dispose();
   }
@@ -57,7 +68,7 @@ class _SplitBillScreenState extends State<SplitBillScreen> {
                   onPressed: _splits > 2
                       ? () => setState(() {
                             _splits--;
-                            _updateControllers();
+                            _syncControllers();
                           })
                       : null,
                 ),
@@ -66,7 +77,7 @@ class _SplitBillScreenState extends State<SplitBillScreen> {
                   icon: const Icon(Icons.add),
                   onPressed: () => setState(() {
                     _splits++;
-                    _updateControllers();
+                    _syncControllers();
                   }),
                 ),
               ],

@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo noupdate="1">
+
+    <!-- Daily: refresh Saudization percentages -->
+    <record id="saudi_saudization_refresh_cron" model="ir.cron">
+        <field name="name">Nexus Saudi: Refresh Saudization</field>
+        <field name="model_id" ref="model_nexus_saudi_company_settings"/>
+        <field name="state">code</field>
+        <field name="code">model._cron_refresh_saudization()</field>
+        <field name="interval_number">1</field>
+        <field name="interval_type">days</field>
+        <field name="active" eval="True"/>
+        <field name="priority">15</field>
+    </record>
+
+    <!-- Weekly: VAT return reminder -->
+    <record id="saudi_vat_reminder_cron" model="ir.cron">
+        <field name="name">Nexus Saudi: VAT Return Reminder</field>
+        <field name="model_id" ref="model_nexus_saudi_company_settings"/>
+        <field name="state">code</field>
+        <field name="code">model._cron_vat_reminder()</field>
+        <field name="interval_number">1</field>
+        <field name="interval_type">weeks</field>
+        <field name="active" eval="True"/>
+        <field name="priority">20</field>
+    </record>
+
+</odoo>

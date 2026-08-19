@@ -1,7 +1,6 @@
 """Multi-provider LLM factory for the Nexus AI assistant."""
 import json
 import logging
-import os
 import re
 from abc import ABC, abstractmethod
 
@@ -36,7 +35,10 @@ class GeminiLLM(BaseLLM):
     def generate(self, prompt: str) -> str:
         try:
             model = genai.GenerativeModel(model_name=self.model)
-            response = model.generate_content(prompt)
+            response = model.generate_content(
+                prompt,
+                request_options={"timeout": settings.request_timeout},
+            )
             return response.text or ""
         except Exception as exc:
             msg = str(exc)
@@ -52,14 +54,17 @@ class OpenAILLM(BaseLLM):
         self.api_key = api_key
         self.model = model or settings.openai_model
         self.base_url = base_url
+        self._client = openai.OpenAI(
+            api_key=self.api_key,
+            base_url=base_url,
+            timeout=settings.request_timeout,
+        )
 
     def generate(self, prompt: str) -> str:
         try:
-            client = openai.OpenAI(api_key=self.api_key, base_url=self.base_url)
-            response = client.chat.completions.create(
+            response = self._client.chat.completions.create(
                 model=self.model,
                 messages=[{"role": "user", "content": prompt}],
-                timeout=settings.request_timeout,
             )
             return response.choices[0].message.content or ""
         except openai.AuthenticationError as exc:
@@ -74,14 +79,15 @@ class DeepSeekLLM(BaseLLM):
     def __init__(self, api_key: str, model: str | None = None):
         self.api_key = api_key
         self.model = model or settings.deepseek_model
-
-    def generate(self, prompt: str) -> str:
         # DeepSeek uses the OpenAI-compatible API.
-        return OpenAILLM(
+        self._client = OpenAILLM(
             api_key=self.api_key,
             model=self.model,
             base_url="https://api.deepseek.com/v1",
-        ).generate(prompt)
+        )
+
+    def generate(self, prompt: str) -> str:
+        return self._client.generate(prompt)
 
 
 class OllamaLLM(BaseLLM):
@@ -127,7 +133,7 @@ def get_llm(provider: str | None = None) -> BaseLLM:
     name = (provider or settings.ai_provider or "auto").lower()
 
     if name == "auto":
-        # Priority: gemini -> openai -> deepseek -> ollama
+        # Priority: gemini -> openai -> deepseek -> local ollama fallback.
         if settings.gemini_api_key:
             return GeminiLLM(settings.gemini_api_key, settings.gemini_model)
         if settings.openai_api_key:

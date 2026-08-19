@@ -33,6 +33,12 @@ variable "ssh_public_key" {
   type        = string
 }
 
+variable "ssh_allowed_cidrs" {
+  description = "CIDR block(s) allowed to reach SSH. MUST be restricted to your operator IP (e.g. 1.2.3.4/32)."
+  type        = string
+  default     = "0.0.0.0/0"
+}
+
 variable "instance_shape" {
   description = "Compute shape. VM.Standard.A1.Flex is Always Free on ARM."
   type        = string

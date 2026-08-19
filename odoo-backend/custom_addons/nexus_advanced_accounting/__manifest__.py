@@ -1,0 +1,28 @@
+{
+    "name": "Nexus Advanced Accounting",
+    "version": "18.0.1.0.0",
+    "category": "Nexus/Accounting",
+    "summary": "Advanced accounting bridge to the Nexus Core — dimensions, O2C, P2P, fixed assets, and ZATCA/VAT compliance.",
+    "author": "Nexus Engine",
+    "website": "https://nexus-engine.app",
+    "license": "LGPL-3",
+    "depends": [
+        "base",
+        "account",
+        "sale",
+        "stock",
+        "purchase",
+        "hr",
+        "project",
+        "odoo_erpnext_hybrid_sync",
+        "nexus_base_security",
+        "ai_enterprise_copilot",
+    ],
+    "data": [
+        "security/ir.model.access.csv",
+        "views/nexus_advanced_views.xml",
+    ],
+    "installable": True,
+    "application": True,
+    "auto_install": False,
+}

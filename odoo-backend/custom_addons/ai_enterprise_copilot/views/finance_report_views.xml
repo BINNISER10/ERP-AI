@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- ════════════════ Wizard Form View ════════════════ -->
+    <record id="view_nexus_finance_report_form" model="ir.ui.view">
+        <field name="name">nexus.finance.report.form</field>
+        <field name="model">nexus.finance.report</field>
+        <field name="arch" type="xml">
+            <form string="Nexus Financial Report / تقرير مالي">
+                <header>
+                    <button name="action_generate_report"
+                            string="⚡ توليد التقرير / Generate Report"
+                            type="object"
+                            class="btn-primary"
+                            invisible="state == 'generated'"/>
+                    <button name="action_reset"
+                            string="🔄 إعادة تعيين / Reset"
+                            type="object"
+                            class="btn-secondary"
+                            invisible="state == 'draft'"/>
+                    <button name="action_export_pdf"
+                            string="📄 تصدير PDF"
+                            type="object"
+                            class="btn-secondary"
+                            invisible="state != 'generated'"/>
+                    <button name="action_export_excel"
+                            string="📊 تصدير Excel"
+                            type="object"
+                            class="btn-secondary"
+                            invisible="state != 'generated'"/>
+                    <field name="state" widget="statusbar"
+                           statusbar_visible="draft,generated,error"/>
+                </header>
+
+                <sheet>
+                    <!-- Parameters (visible in draft state) -->
+                    <group invisible="state != 'draft'">
+                        <group string="نوع التقرير / Report Type">
+                            <field name="report_type" readonly="state != 'draft'"/>
+                        </group>
+                        <group string="المعايير / Parameters">
+                            <field name="company_id" readonly="state != 'draft'"/>
+                            <field name="date_from" readonly="state != 'draft'"/>
+                            <field name="date_to" readonly="state != 'draft'"/>
+                            <field name="fiscal_year_id" readonly="state != 'draft'"/>
+                            <field name="cost_center_id" readonly="state != 'draft'"
+                                   invisible="report_type not in ['cost_center', 'profit_loss', 'budget_variance']"/>
+                            <field name="account_id" readonly="state != 'draft'"
+                                   invisible="report_type != 'general_ledger'"/>
+                            <field name="partner_id" readonly="state != 'draft'"
+                                   invisible="report_type not in ['aging_receivable', 'aging_payable', 'general_ledger']"/>
+                        </group>
+                    </group>
+
+                    <!-- Error message -->
+                    <div class="alert alert-danger" role="alert"
+                         invisible="state != 'error'">
+                        <h4><i class="fa fa-exclamation-triangle"/> تعذر توليد التقرير</h4>
+                        <field name="error_message" readonly="1" nolabel="1"/>
+                    </div>
+
+                    <!-- Generated report -->
+                    <div invisible="state != 'generated'">
+                        <div class="alert alert-success d-flex align-items-center justify-content-between" role="alert">
+                            <div>
+                                <i class="fa fa-check-circle"/> تم توليد التقرير بنجاح
+                                في <field name="generation_time_ms" readonly="1" nolabel="1"/> مللي ثانية.
+                            </div>
+                            <div class="small text-muted">Nexus Engine</div>
+                        </div>
+                        <field name="report_html" widget="html" readonly="1" nolabel="1"/>
+                    </div>
+                </sheet>
+
+                <footer>
+                    <button string="إغلاق / Close"
+                            class="btn-outline-secondary"
+                            special="cancel"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+
+    <!-- ════════════════ PDF Report Action ════════════════ -->
+    <record id="action_report_nexus_finance" model="ir.actions.report">
+        <field name="name">Nexus Financial Report (PDF)</field>
+        <field name="model">nexus.finance.report</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="report_name">ai_enterprise_copilot.report_nexus_finance_template</field>
+        <field name="report_file">ai_enterprise_copilot.report_nexus_finance_template</field>
+        <field name="binding_model_id" ref="model_nexus_finance_report"/>
+        <field name="binding_type">report</field>
+    </record>
+
+    <!-- ════════════════ PDF QWeb Template ════════════════ -->
+    <template id="report_nexus_finance_template">
+        <t t-call="web.html_container">
+            <t t-foreach="docs" t-as="wiz">
+                <div class="article" style="font-family: 'Cairo', 'Segoe UI', sans-serif; direction: rtl;">
+                    <t t-set="title" t-value="dict(wiz._fields['report_type'].selection).get(wiz.report_type, wiz.report_type)"/>
+                    <div class="page">
+                        <div class="text-center mb-4">
+                            <h2 t-esc="wiz.company_id.name"/>
+                            <h3 class="text-muted" t-esc="title"/>
+                            <div class="text-muted small">
+                                من <t t-esc="wiz.date_from"/> إلى <t t-esc="wiz.date_to"/>
+                            </div>
+                        </div>
+                        <hr/>
+                        <t t-out="wiz.report_html"/>
+                        <hr class="mt-5"/>
+                        <div class="text-muted small text-end">
+                            تم التوليد بواسطة Nexus Engine — <t t-esc="wiz.generation_time_ms"/> ms
+                        </div>
+                    </div>
+                </div>
+            </t>
+        </t>
+    </template>
+
+    <!-- Access rules for these models are defined in
+         security/ir.model.access.csv (access_nexus_finance_report_user/manager,
+         access_nexus_finance_report_renderer_user/manager,
+         access_nexus_erpnext_bridge_manager). Duplicating them here with a
+         conflicting XML ID (access_nexus_finance_report_user) breaks module
+         installation, so they are intentionally not repeated in this view file. -->
+
+</odoo>

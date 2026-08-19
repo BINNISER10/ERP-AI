@@ -1,7 +1,22 @@
-.PHONY: build up down logs test validate clean build-flutter
+.PHONY: build up down logs test validate clean build-flutter validate-local deploy-local deploy-prod backup help
 
 # Default target: verify and build the whole stack.
 all: validate build
+
+## Show available targets
+help:
+	@echo "Nexus ERP — common tasks"
+	@echo "  make build              Build all Docker images"
+	@echo "  make up                 Start all services"
+	@echo "  make down               Stop all services"
+	@echo "  make logs               View logs"
+	@echo "  make test               Run all tests (Python + Flutter)"
+	@echo "  make validate           Run internal validate.py"
+	@echo "  make validate-local     Run pre-deployment local checks"
+	@echo "  make deploy-local       Start the local docker compose stack"
+	@echo "  make deploy-prod        Deploy to production server"
+	@echo "  make backup             Backup production databases"
+	@echo "  make clean              Remove generated artifacts"
 
 # Build all Docker images.
 build:
@@ -38,6 +53,21 @@ test-flutter:
 # Run the internal validation loop.
 validate:
 	python validate.py
+
+# Run pre-deployment local checks.
+validate-local:
+	bash scripts/validate-local.sh
+
+# Start local stack.
+deploy-local: up
+
+# Deploy to production server.
+deploy-prod:
+	bash scripts/deploy.sh
+
+# Backup production databases.
+backup:
+	bash -c 'SERVER_IP=$$(powershell -ExecutionPolicy Bypass -File scripts/get-server-ip.ps1 2>/dev/null | tail -1); ssh -i terraform/oci_ssh_key.pem ubuntu@$$SERVER_IP "cd /opt/nexus-engine && ./scripts/backup.sh"'
 
 # Clean generated artifacts.
 clean:

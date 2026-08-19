@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- ── Chart of Accounts (nexus.account) ── -->
+    <record id="view_nexus_account_form" model="ir.ui.view">
+        <field name="name">nexus.account.form</field>
+        <field name="model">nexus.account</field>
+        <field name="arch" type="xml">
+            <form string="Account">
+                <header>
+                    <button name="action_open_ledger" type="object" string="Ledger"
+                        class="btn-secondary"/>
+                </header>
+                <sheet>
+                    <div class="oe_title">
+                        <h1><field name="full_name"/></h1>
+                    </div>
+                    <group>
+                        <group>
+                            <field name="name" string="Account Name"/>
+                            <field name="account_number" string="Account Number"
+                                placeholder="e.g. 1100"/>
+                            <field name="is_group"/>
+                        </group>
+                        <group>
+                            <field name="parent_id" string="Parent Account"/>
+                            <field name="account_type" string="Account Type"/>
+                            <field name="root_type" string="Root Type" readonly="1"/>
+                        </group>
+                    </group>
+                    <notebook>
+                        <page string="Settings" name="settings">
+                            <group>
+                                <group>
+                                    <field name="company_id" groups="base.group_multi_company"/>
+                                    <field name="currency_id" string="Currency"/>
+                                    <field name="is_debit_or_credit" string="Normal Balance"/>
+                                </group>
+                                <group>
+                                    <field name="tax_rate" string="Tax Rate (%)"/>
+                                    <field name="credit_limit" string="Credit Limit"/>
+                                    <field name="is_opening" string="Is Opening"/>
+                                    <field name="disabled" string="Disabled"/>
+                                    <field name="freeze_account" string="Freeze Account"/>
+                                </group>
+                            </group>
+                        </page>
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="view_nexus_account_list" model="ir.ui.view">
+        <field name="name">nexus.account.list</field>
+        <field name="model">nexus.account</field>
+        <field name="arch" type="xml">
+            <list string="Chart of Accounts" multi_edit="1">
+                <field name="code" string="Code" optional="show"/>
+                <field name="name" string="Account Name"/>
+                <field name="account_type"/>
+                <field name="root_type" string="Root Type" optional="show"/>
+                <field name="is_group"/>
+                <field name="company_id" groups="base.group_multi_company"/>
+                <field name="currency_id" string="Currency" optional="hide"/>
+                <field name="disabled" optional="hide"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="view_nexus_account_kanban" model="ir.ui.view">
+        <field name="name">nexus.account.kanban</field>
+        <field name="model">nexus.account</field>
+        <field name="arch" type="xml">
+            <kanban class="o_kanban_mobile" group_create="false">
+                <field name="name"/>
+                <field name="account_type"/>
+                <field name="root_type"/>
+                <templates>
+                    <t t-name="kanban-box">
+                        <div class="oe_kanban_global_click">
+                            <div class="o_kanban_record_title">
+                                <field name="name"/>
+                            </div>
+                            <div class="o_kanban_record_subtitle">
+                                <field name="account_type"/>
+                            </div>
+                        </div>
+                    </t>
+                </templates>
+            </kanban>
+        </field>
+    </record>
+
+    <record id="action_nexus_account" model="ir.actions.act_window">
+        <field name="name">Chart of Accounts</field>
+        <field name="res_model">nexus.account</field>
+        <field name="view_mode">list,form,kanban</field>
+        <field name="view_id" ref="view_nexus_account_list"/>
+        <field name="context">{'search_default_group_by_parent': 1}</field>
+    </record>
+</odoo>

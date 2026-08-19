@@ -34,8 +34,15 @@ class NexusPosOrder(models.Model):
     note = fields.Text(string="Notes")
     raw_payload = fields.Text(string="Raw Payload")
     sale_order_id = fields.Many2one("sale.order", string="Sale Order", readonly=True, copy=False)
-
     line_ids = fields.One2many("nexus.pos.order.line", "order_id", string="Lines")
+
+    _sql_constraints = [
+        (
+            "client_order_ref_company_uniq",
+            "unique(client_order_ref, company_id)",
+            "Duplicate client order reference is not allowed per company.",
+        ),
+    ]
 
     @api.model_create_multi
     def create(self, vals_list):
@@ -46,9 +53,35 @@ class NexusPosOrder(models.Model):
 
     @api.model
     def create_pos_order(self, payload):
-        """Create a Nexus POS order and its underlying sale order from a JSON payload."""
+        """Create a Nexus POS order and its underlying sale order from a JSON payload (Idempotent)."""
         if not isinstance(payload, dict):
             raise ValidationError("Order payload must be a dictionary.")
+
+        # 1. Company Security Scoping
+        requested_company_id = payload.get("company_id")
+        user = self.env.user
+        if requested_company_id:
+            if requested_company_id not in user.company_ids.ids:
+                raise AccessError(_("You are not authorized to create orders for this company."))
+            company = self.env["res.company"].browse(requested_company_id)
+        else:
+            company = user.company_id
+
+        # 2. Idempotency Check (H-1)
+        client_ref = payload.get("client_order_ref")
+        if client_ref:
+            existing = self.search([
+                ("client_order_ref", "=", client_ref),
+                ("company_id", "=", company.id),
+            ], limit=1)
+            if existing:
+                _logger.info("POS Idempotency: returning existing order %s for ref %s", existing.name, client_ref)
+                return {
+                    "order_id": existing.id,
+                    "name": existing.name,
+                    "sale_order_id": existing.sale_order_id.id if existing.sale_order_id else False,
+                    "idempotent": True,
+                }
 
         partner = self._resolve_partner(payload)
         lines = payload.get("lines", [])
@@ -56,16 +89,16 @@ class NexusPosOrder(models.Model):
             raise ValidationError("Order payload must contain at least one line.")
 
         order_vals = {
-            "client_order_ref": payload.get("client_order_ref") or str(uuid.uuid4()),
+            "client_order_ref": client_ref or str(uuid.uuid4()),
             "order_date": payload.get("order_date") or fields.Datetime.now(),
             "partner_id": partner.id,
-            "company_id": payload.get("company_id") or self.env.company.id,
-            "user_id": self.env.user.id,
+            "company_id": company.id,
+            "user_id": user.id,
             "note": payload.get("note", ""),
             "raw_payload": json.dumps(payload),
         }
 
-        order = self.sudo().create(order_vals)
+        order = self.create(order_vals)
         line_records = self.env["nexus.pos.order.line"]
 
         amount_untaxed = 0.0
@@ -80,15 +113,14 @@ class NexusPosOrder(models.Model):
             tax_ids = line.get("tax_ids", [])
             modifiers = line.get("modifiers", {})
 
-            product = self.env["product.product"].browse(product_id)
+            product = self.env["product.product"].with_company(company).browse(product_id)
             if not product.exists():
                 raise UserError(f"Product {product_id} not found.")
 
             price_unit = (price or product.lst_price) * (1 - discount / 100.0)
             subtotal = price_unit * qty
 
-            # Tax calculation (simplified; uses fiscal position when available)
-            taxes = self.env["account.tax"].browse(tax_ids)
+            taxes = self.env["account.tax"].with_company(company).browse(tax_ids)
             tax_values = taxes.compute_all(
                 price_unit,
                 currency=order.currency_id,
@@ -124,7 +156,7 @@ class NexusPosOrder(models.Model):
                     {
                         "product_id": product.id,
                         "product_uom_qty": qty,
-                        "price_unit": price_unit,
+                        "price_unit": price or product.lst_price,
                         "discount": discount,
                         "tax_id": [(6, 0, tax_ids)],
                     },
@@ -139,11 +171,11 @@ class NexusPosOrder(models.Model):
         )
 
         # Create underlying sale order for stock/MRP consumption and accounting
-        sale_order = self.env["sale.order"].with_company(order.company_id).create(
+        sale_order = self.env["sale.order"].with_company(company).create(
             {
                 "partner_id": partner.id,
                 "client_order_ref": order.client_order_ref,
-                "company_id": order.company_id.id,
+                "company_id": company.id,
                 "user_id": order.user_id.id,
                 "note": order.note,
                 "order_line": sale_lines,
@@ -153,9 +185,11 @@ class NexusPosOrder(models.Model):
 
         order.write({"sale_order_id": sale_order.id, "state": "posted"})
 
-        # Trigger recipe costing inventory consumption if available
-        if sale_order and "recipe.bom" in self.env:
-            self.env["recipe.bom"].sudo().consume_for_sale_order(sale_order)
+        return {"order_id": order.id, "name": order.name, "sale_order_id": sale_order.id}
+
+        # Recipe costing consumption is triggered inside action_confirm() via the
+        # nexus_restaurant_costing sale.order override. Do NOT call
+        # consume_for_sale_order() again here (would double-consume stock).
 
         return {"order_id": order.id, "name": order.name, "sale_order_id": sale_order.id}
 

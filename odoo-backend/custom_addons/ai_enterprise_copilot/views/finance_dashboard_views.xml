@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- ════════════════ Dashboard Action ════════════════ -->
+    <record id="action_nexus_finance_dashboard" model="ir.actions.act_window">
+        <field name="name">لوحة التحكم المالية</field>
+        <field name="res_model">nexus.finance.report</field>
+        <field name="view_mode">form</field>
+        <field name="target">main</field>
+        <field name="context">{'default_report_type': 'kpi_summary'}</field>
+    </record>
+
+    <!-- ════════════════ Dashboard JS Asset ════════════════ -->
+    <record id="nexus_finance_dashboard_assets" model="ir.asset">
+        <field name="name">Nexus Finance Dashboard</field>
+        <field name="bundle">web.assets_backend</field>
+        <field name="path">ai_enterprise_copilot/static/src/js/finance_dashboard.js</field>
+    </record>
+
+    <record id="nexus_finance_dashboard_css" model="ir.asset">
+        <field name="name">Nexus Finance Dashboard CSS</field>
+        <field name="bundle">web.assets_backend</field>
+        <field name="path">ai_enterprise_copilot/static/src/scss/finance_dashboard.scss</field>
+    </record>
+
+    <!-- ════════════════ Chart.js Library (CDN) ════════════════ -->
+    <template id="nexus_finance_chartjs_assets" inherit_id="web.assets_backend">
+        <xpath expr="." position="inside">
+            <script type="text/javascript"
+                    src="/ai_enterprise_copilot/static/lib/chart.umd.js"/>
+        </xpath>
+    </template>
+
+</odoo>

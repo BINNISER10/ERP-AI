@@ -15,8 +15,12 @@ class OdooJsonRpcClient {
   int? _uid;
   String? _password;
 
-  OdooJsonRpcClient({required this.baseUrl, required this.database})
-      : _dio = Dio(
+  OdooJsonRpcClient({
+    required this.baseUrl,
+    required this.database,
+    bool trustAllCertificates = false,
+  })  : trustAllCertificates = trustAllCertificates,
+        _dio = Dio(
           BaseOptions(
             baseUrl: baseUrl,
             connectTimeout: const Duration(seconds: 30),
@@ -24,21 +28,28 @@ class OdooJsonRpcClient {
             headers: {'Content-Type': 'application/json'},
           ),
         ) {
-    (_dio.httpClientAdapter as IOHttpClientAdapter).onHttpClientCreate =
-        (HttpClient client) {
-      client.badCertificateCallback = (X509Certificate cert, String host, int port) => true;
-      return client;
-    };
+    // TLS is verified by default. Only enable the insecure callback for
+    // local development against self-signed certificates; never in production.
+    if (trustAllCertificates) {
+      (_dio.httpClientAdapter as IOHttpClientAdapter).onHttpClientCreate =
+          (HttpClient client) {
+        client.badCertificateCallback =
+            (X509Certificate cert, String host, int port) => true;
+        return client;
+      };
+    }
   }
+
+  final bool trustAllCertificates;
 
   int? get uid => _uid;
 
   Future<bool> get isOnline async {
     final result = await Connectivity().checkConnectivity();
-    return result != ConnectivityResult.none;
+    return result.any((r) => r != ConnectivityResult.none);
   }
 
-  Future<Map<String, dynamic>> _call(
+  Future<dynamic> _call(
     String method,
     Map<String, dynamic> params, {
     int retries = 3,
@@ -71,9 +82,9 @@ class OdooJsonRpcClient {
 
         final data = response.data!;
         if (data.containsKey('error')) {
-          throw Exception('Odoo error: ${data['error']}');
+          throw Exception('Server error: ${data['error']}');
         }
-        return data['result'] as Map<String, dynamic>;
+        return data['result'];
       } on DioException catch (e) {
         _logger.e('JSON-RPC attempt $attempt failed', error: e);
         if (attempt == retries - 1) {
@@ -101,12 +112,12 @@ class OdooJsonRpcClient {
         'args': [database, login, password],
       },
     );
-    if (result['result'] == false) {
+    if (result == false || result == null) {
       throw Exception('Authentication failed');
     }
-    _uid = (result['result'] as int);
+    _uid = result as int;
     _password = password;
-    return result;
+    return {'uid': _uid};
   }
 
   Future<Map<String, dynamic>> callKw({

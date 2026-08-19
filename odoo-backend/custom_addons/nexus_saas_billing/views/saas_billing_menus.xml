@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <menuitem
+        id="menu_nexus_saas_billing_invoices"
+        name="Billing Invoices"
+        parent="nexus_saas_tenant.menu_nexus_saas_root"
+        action="action_nexus_saas_billing_invoice"
+        sequence="25"/>
+</odoo>

@@ -1,0 +1,411 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- ════════════════ Nexus Setup Journey List ════════════════ -->
+    <record id="view_nexus_setup_journey_list" model="ir.ui.view">
+        <field name="name">nexus.setup.journey.list</field>
+        <field name="model">nexus.setup.journey</field>
+        <field name="arch" type="xml">
+            <list string="Nexus Setup Journeys">
+                <field name="display_name"/>
+                <field name="stage" widget="badge" decoration-info="stage == 'identity_legal'" decoration-success="stage == 'done'" decoration-muted="state == 'cancelled'"/>
+                <field name="progress" widget="progressbar"/>
+                <field name="total_documents_count" string="الوثائق"/>
+                <field name="state" widget="badge" decoration-success="state == 'done'" decoration-warning="state == 'in_progress'"/>
+                <field name="company_id"/>
+            </list>
+        </field>
+    </record>
+
+    <!-- ════════════════ Nexus Setup Journey Form (Multi-Document Batch Hunter) ════════════════ -->
+    <record id="view_nexus_setup_journey_form" model="ir.ui.view">
+        <field name="name">nexus.setup.journey.form</field>
+        <field name="model">nexus.setup.journey</field>
+        <field name="arch" type="xml">
+            <form string="Nexus Command Center / مركز القيادة وصياد الوثائق">
+                <header>
+                    <button name="action_open_document_hunter_wizard" 
+                            string="🎯 صياد الوثائق الشامل (Wizard)" 
+                            type="object" 
+                            class="btn-primary font-weight-bold"/>
+                    
+                    <button name="action_jumpstart_onboarding" 
+                            string="🚀 رحلة التأسيس خطوة بخطوة" 
+                            type="object" 
+                            class="btn-outline-primary"/>
+                    
+                    <button name="action_open_ai_developer" 
+                            string="👨‍💻 استشارة المطور الذكي" 
+                            type="object" 
+                            class="btn-outline-secondary"/>
+                    
+                    <button name="action_go_to_prev_stage" 
+                            string="➡️ المرحلة السابقة" 
+                            type="object" 
+                            class="btn-secondary" 
+                            invisible="stage == 'identity_legal'"/>
+                    
+                    <button name="action_go_to_next_stage" 
+                            string="المرحلة التالية ⬅️" 
+                            type="object" 
+                            class="btn-primary" 
+                            invisible="stage == 'go_live' or stage == 'done'"/>
+                    
+                    <button name="action_validate_go_live" 
+                            string="🎉 التحقق والإطلاق الفوري (Go-Live)" 
+                            type="object" 
+                            class="btn-success font-weight-bold" 
+                            invisible="stage != 'go_live' and stage != 'done'"/>
+                    
+                    <button name="action_sync_all" 
+                            string="مزامنة شاملة (Re-sync)" 
+                            type="object" 
+                            class="btn-link" 
+                            invisible="state == 'draft'"/>
+                    
+                    <field name="state" widget="statusbar" statusbar_visible="draft,in_progress,done"/>
+                </header>
+                <sheet>
+                    <!-- Header Title and Live Progress -->
+                    <div class="oe_title mb-3">
+                        <div class="d-flex justify-content-between align-items-center">
+                            <div>
+                                <h1 class="mb-1" style="color: #0B3D2E; font-weight: bold;">
+                                    <field name="display_name" class="oe_inline"/>
+                                </h1>
+                                <p class="text-muted mb-0">مركز القيادة وصياد الوثائق السعودية الرسمية (دعم رفع حتى 100+ وثيقة دفعة واحدة).</p>
+                            </div>
+                            <div class="text-center">
+                                <field name="progress" widget="percentpie" nolabel="1" class="oe_inline"/>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- ══════════ BATCH MULTI-DOCUMENT AI DROPZONE ══════════ -->
+                    <div class="card border-primary p-3 mb-3 shadow-sm bg-light" style="border-radius: 10px; border-left: 6px solid #0B3D2E !important;">
+                        <div class="d-flex justify-content-between align-items-center mb-2">
+                            <div>
+                                <h5 class="text-primary font-weight-bold mb-1">
+                                    <span class="fa fa-cloud-upload fa-lg me-2"/>
+                                    <span>صياد ومصنف الدفعات المتعددة (Multi-Document Batch Hunter — حتى 100+ وثيقة):</span>
+                                </h5>
+                                <small class="text-muted">
+                                    اسحب وأفلت جميع مستنداتك دفعة واحدة (سجلات، شهادات ضريبية، عناوين وطنية، تأمينات، رخص بلدي، فواتير) وسيتعرف عليها النظام ويصنفها بالكامل!
+                                </small>
+                            </div>
+                        </div>
+
+                        <div class="mb-3">
+                            <field name="document_attachment_ids" widget="many2many_binary" string="اسحب أو اختر جميع الوثائق هنا (حتى 100+ ملف)"/>
+                        </div>
+
+                        <div class="d-flex justify-content-between align-items-center">
+                            <button name="action_clear_document_inputs" 
+                                    string="🧹 مسح المدخلات والبدء من جديد" 
+                                    type="object" 
+                                    class="btn btn-outline-danger btn-sm font-weight-bold"
+                                    title="مسح جميع الملفات المرفوعة وسجل الفحص للبدء من جديد"/>
+                            
+                            <button name="action_trigger_document_hunter" 
+                                    string="🚀 رفع وفحص وصيد بيانات الوثائق (Upload &amp; Scan)" 
+                                    type="object" 
+                                    class="btn btn-success btn-lg px-4 font-weight-bold shadow-sm"
+                                    style="border-radius: 8px; font-size: 16px;"/>
+                        </div>
+                    </div>
+
+                    <!-- AI Document Scan Summary & Badges -->
+                    <field name="document_scan_summary_html" widget="html" readonly="1" nolabel="1"/>
+
+                    <!-- Scanned Documents Table if any -->
+                    <div class="mb-3" invisible="not scanned_document_ids">
+                        <h6 class="text-dark font-weight-bold border-bottom pb-2 mb-2">
+                            <span class="fa fa-folder-open text-primary me-2"/>
+                            <span>سجل الوثائق المفحوصة والمصنفة آلياً:</span>
+                        </h6>
+                        <field name="scanned_document_ids" nolabel="1" mode="list">
+                            <list decoration-success="state == 'extracted'" decoration-danger="state == 'failed'">
+                                <field name="name"/>
+                                <field name="document_type" widget="badge"/>
+                                <field name="extracted_summary"/>
+                                <field name="state" widget="badge" decoration-success="state == 'extracted'"/>
+                            </list>
+                        </field>
+                    </div>
+
+                    <!-- Main Tabbed Journey Stages -->
+                    <notebook>
+                        <!-- ══════════ PAGE 1: IDENTITY & OFFICIAL DOCUMENTS ══════════ -->
+                        <page string="1. 🏢 هوية المنشأة والتراخيص الرسمية" name="page_identity">
+                            <group>
+                                <group string="السجلات والتراخيص المصطادة">
+                                    <field name="company_name"/>
+                                    <field name="cr_number" placeholder="1010XXXXXX"/>
+                                    <field name="tax_id" placeholder="3000XXXXXXXX003"/>
+                                    <field name="gosi_number" placeholder="700XXXXXXX"/>
+                                    <field name="balady_license_no" placeholder="رقم رخصة بلدي"/>
+                                    <field name="saudization_rate"/>
+                                    <field name="industry_domain"/>
+                                </group>
+                                <group string="العنوان الوطني والمقر الرئيسي">
+                                    <field name="company_logo" widget="image" class="oe_avatar"/>
+                                    <field name="city" placeholder="الرياض / جدة / الدمام"/>
+                                    <field name="district" placeholder="الحي"/>
+                                    <field name="street" placeholder="الشارع"/>
+                                    <field name="building_no" placeholder="رقم المبنى"/>
+                                    <field name="postal_code" placeholder="الرمز البريدي"/>
+                                    <field name="national_short_address" placeholder="العنوان المختصر (e.g. RRRD2934)"/>
+                                    <field name="currency_id"/>
+                                    <field name="company_id" readonly="1" groups="base.group_multi_company"/>
+                                </group>
+                            </group>
+
+                            <div class="d-flex justify-content-between align-items-center mt-3 pt-3 border-top">
+                                <button name="action_open_document_hunter_wizard" string="🎯 فتح معالج الصيد الشامل" type="object" class="btn btn-outline-primary"/>
+                                <button name="action_go_to_next_stage" string="التالي: الهيكل وفريق العمل ⬅️" type="object" class="btn btn-primary px-4 font-weight-bold"/>
+                            </div>
+                        </page>
+
+                        <!-- ══════════ PAGE 2: STRUCTURE & HR ══════════ -->
+                        <page string="2. 👥 الهيكل الإداري وفريق العمل" name="page_structure">
+                            <div class="row mb-3">
+                                <!-- Card A: Excel / CSV Roster Importer -->
+                                <div class="col-md-6 mb-3">
+                                    <div class="card border-success p-3 h-100 shadow-sm bg-light" style="border-radius: 10px; border-left: 5px solid #28a745 !important;">
+                                        <h6 class="text-success font-weight-bold mb-2">
+                                            <span class="fa fa-file-excel-o me-2"/>
+                                            <span>1. استيراد كشف الموظفين الذكي (Excel / CSV / PDF):</span>
+                                        </h6>
+                                        <p class="text-muted small mb-2">
+                                            ارفع كشف الموظفين من نظام الرواتب أو منصة مدد / التأمينات، وسيقوم النظام بتأسيس الموظفين والأقسام وعقود الرواتب (WPS) آلياً!
+                                        </p>
+                                        <div class="mb-3">
+                                            <field name="hr_roster_file" widget="binary" filename="hr_roster_filename"/>
+                                            <field name="hr_roster_filename" invisible="1"/>
+                                        </div>
+                                        <div class="text-end">
+                                            <button name="action_import_employee_roster" 
+                                                    string="📊 استيراد وتأسيس الموظفين والرواتب" 
+                                                    type="object" 
+                                                    class="btn btn-success btn-sm font-weight-bold px-3"/>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Card B: Iqamas & Passports Multi-Dropzone -->
+                                <div class="col-md-6 mb-3">
+                                    <div class="card border-primary p-3 h-100 shadow-sm bg-light" style="border-radius: 10px; border-left: 5px solid #0B3D2E !important;">
+                                        <h6 class="text-primary font-weight-bold mb-2">
+                                            <span class="fa fa-id-badge me-2"/>
+                                            <span>2. صياد الإقامات وجوازات السفر المتعددة (AI Dropzone):</span>
+                                        </h6>
+                                        <p class="text-muted small mb-2">
+                                            اسحب وأفلت صور أو ملفات PDF لإقامات وجوازات الموظفين دفعة واحدة، وسيقوم الذكاء الاصطناعي بقراءتها وتأسيس ملفاتهم فوراً.
+                                        </p>
+                                        <div class="mb-3">
+                                            <field name="employee_document_attachment_ids" widget="many2many_binary" string="اسحب هويات وجوازات الموظفين هنا"/>
+                                        </div>
+                                        <div class="d-flex justify-content-between align-items-center">
+                                            <button name="action_clear_hr_inputs" 
+                                                    string="🧹 مسح مدخلات الموظفين" 
+                                                    type="object" 
+                                                    class="btn btn-outline-danger btn-sm font-weight-bold"/>
+                                            
+                                            <button name="action_scan_employee_documents" 
+                                                    string="⚡ صيد وقراءة بيانات الهويات والجوازات" 
+                                                    type="object" 
+                                                    class="btn btn-primary btn-sm font-weight-bold px-3"/>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- HR Scan & Import Summary -->
+                            <field name="hr_scan_summary_html" widget="html" readonly="1" nolabel="1"/>
+
+                            <group>
+                                <group string="الفروع والمستودعات (Locations &amp; Branches)">
+                                    <field name="warehouse_ids" widget="many2many_tags" domain="[('company_id', '=', company_id)]"/>
+                                    <field name="employee_count" string="إجمالي موظفي المنشأة"/>
+                                </group>
+                                <group string="الأقسام والموظفين المعتمدين (Departments &amp; Team)">
+                                    <field name="department_ids" widget="many2many_tags" context="{'default_company_id': company_id}"/>
+                                    <field name="employee_ids" widget="many2many_tags" context="{'default_company_id': company_id}"/>
+                                </group>
+                            </group>
+
+                            <div class="d-flex justify-content-between align-items-center mt-3 pt-3 border-top">
+                                <button name="action_go_to_prev_stage" string="➡️ السابق (هوية المنشأة)" type="object" class="btn btn-secondary"/>
+                                <button name="action_go_to_next_stage" string="التالي: المالية والضرائب ⬅️" type="object" class="btn btn-primary px-4 font-weight-bold"/>
+                            </div>
+                        </page>
+
+                        <!-- ══════════ PAGE 3: FINANCIAL CORE ══════════ -->
+                        <page string="3. 💰 المالية والضرائب والفوترة" name="page_finance">
+                            <div class="alert alert-secondary py-2 px-3 mb-3 small d-flex align-items-center">
+                                <span class="fa fa-lightbulb-o fa-lg text-warning me-2"/>
+                                <span>💡 <strong>الفوترة الإلكترونية ZATCA:</strong> يتم تهيئة الضرائب وحساب التجزئة المشفرة SHA-256 ورمز QR المعتمد من هيئة الزكاة تلقائياً.</span>
+                            </div>
+
+                            <group>
+                                <group string="الحسابات البنكية والخزائن (Banking &amp; Cash)">
+                                    <field name="bank_journal_ids" widget="many2many_tags"/>
+                                    <field name="cash_journal_ids" widget="many2many_tags"/>
+                                </group>
+                                <group string="الضرائب وطرق الدفع (Taxes &amp; Payment Methods)">
+                                    <field name="tax_ids" widget="many2many_tags"/>
+                                    <field name="payment_method_ids" widget="many2many_tags"/>
+                                </group>
+                            </group>
+
+                            <div class="d-flex justify-content-between align-items-center mt-3 pt-3 border-top">
+                                <button name="action_go_to_prev_stage" string="➡️ السابق (الهيكل والموظفين)" type="object" class="btn btn-secondary"/>
+                                <button name="action_go_to_next_stage" string="التالي: العمليات ونقاط البيع ⬅️" type="object" class="btn btn-primary px-4 font-weight-bold"/>
+                            </div>
+                        </page>
+
+                        <!-- ══════════ PAGE 4: OPERATIONS & POS ══════════ -->
+                        <page string="4. 🛒 العمليات والمنتجات ونقاط البيع" name="page_operations">
+                            <!-- Universal Enterprise Migrator Launcher Card -->
+                            <div class="card border-primary p-3 mb-3 bg-light shadow-sm" style="border-radius: 10px; border-left: 5px solid #0B3D2E !important;">
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <div>
+                                        <h6 class="text-primary font-weight-bold mb-1">
+                                            <span class="fa fa-database me-2"/>
+                                            <span>استيراد وترحيل المنتجات والصور من الأنظمة السابقة (SAP / Oracle / Microsoft / SQL / Excel):</span>
+                                        </h6>
+                                        <small class="text-muted">
+                                            يمكنك استيراد آلاف الأصناف مع صورها، أسعارها، الباركود، والمخزون الافتتاحي بضغطة زر واحدة.
+                                        </small>
+                                    </div>
+                                    <button name="action_open_universal_migrator" 
+                                            string="📦 فتح المستورد والمهجر الذكي" 
+                                            type="object" 
+                                            class="btn btn-primary btn-sm font-weight-bold px-3 shadow-sm"/>
+                                </div>
+                            </div>
+
+                            <div class="alert alert-secondary py-2 px-3 mb-3 small d-flex align-items-center">
+                                <span class="fa fa-lightbulb-o fa-lg text-warning me-2"/>
+                                <span>💡 <strong>نقاط البيع وFlutter POS:</strong> تدعم نقاط البيع العمل دون إنترنت (Offline-first) والربط مع أجهزة مدى وشاشات المطبخ KDS.</span>
+                            </div>
+
+                            <group>
+                                <group string="أصناف وتصنيفات المنتجات (Catalog)">
+                                    <field name="product_category_ids" widget="many2many_tags"/>
+                                    <field name="product_ids" widget="many2many_tags"/>
+                                </group>
+                                <group string="نقاط البيع والكاشير (POS Terminals)">
+                                    <field name="pos_config_ids" widget="many2many_tags"/>
+                                </group>
+                            </group>
+
+                            <div class="d-flex justify-content-between align-items-center mt-3 pt-3 border-top">
+                                <button name="action_go_to_prev_stage" string="➡️ السابق (المالية والضرائب)" type="object" class="btn btn-secondary"/>
+                                <button name="action_go_to_next_stage" string="التالي: الإطلاق النهائي ⬅️" type="object" class="btn btn-primary px-4 font-weight-bold"/>
+                            </div>
+                        </page>
+
+                        <!-- ══════════ PAGE 5: GO-LIVE & VALIDATION ══════════ -->
+                        <page string="5. 🚀 الإطلاق والتشغيل النهائي" name="page_go_live">
+                            <div class="card border-success p-4 my-3 text-center bg-light shadow-sm" style="border-radius: 12px; border-width: 2px;">
+                                <div class="mb-3">
+                                    <span class="fa fa-check-circle fa-4x text-success"/>
+                                </div>
+                                <h3 class="text-success font-weight-bold mb-2">النظام جاهز للإطلاق والعمل الفوري! 🚀</h3>
+                                <p class="text-muted lead mb-4">
+                                    تم استكمال مراحل التأسيس، مطابقة دليل الحسابات، الضرائب، الفوترة الإلكترونية، ونقاط البيع.
+                                </p>
+                                <div class="d-flex justify-content-center gap-3">
+                                    <button name="action_validate_go_live" 
+                                            string="🎉 تأكيد وإطلاق النظام الآن (Go Live)" 
+                                            type="object" 
+                                            class="btn btn-success btn-lg px-5 py-3 shadow font-weight-bold"
+                                            style="font-size: 18px; border-radius: 8px;"/>
+                                </div>
+                            </div>
+
+                            <div class="mt-4">
+                                <h6>ملاحظات التأسيس والمزامنة:</h6>
+                                <field name="notes" placeholder="أي ملاحظات خاصة بالمشروع أو التأسيس..."/>
+                            </div>
+                        </page>
+
+                        <!-- ══════════ PAGE 6: DETAILED SETUP STEPS ══════════ -->
+                        <page string="📋 قائمة خطوات التأسيس التفصيلية" name="page_steps">
+                            <field name="step_ids" nolabel="1" mode="list">
+                                <list editable="bottom" decoration-muted="state == 'skipped'" decoration-success="state == 'done'" decoration-warning="state == 'in_progress'">
+                                    <field name="sequence" widget="handle"/>
+                                    <field name="name"/>
+                                    <field name="stage"/>
+                                    <field name="state" widget="badge" decoration-success="state == 'done'"/>
+                                    <field name="last_sync_status" optional="show"/>
+                                    <field name="last_sync_date" optional="hide"/>
+                                </list>
+                            </field>
+                        </page>
+                    </notebook>
+                </sheet>
+
+                <div class="oe_chatter">
+                    <field name="message_follower_ids" widget="mail_followers"/>
+                    <field name="message_ids" widget="mail_thread"/>
+                </div>
+            </form>
+        </field>
+    </record>
+
+    <!-- ════════════════ Kanban View ════════════════ -->
+    <record id="view_nexus_setup_journey_kanban" model="ir.ui.view">
+        <field name="name">nexus.setup.journey.kanban</field>
+        <field name="model">nexus.setup.journey</field>
+        <field name="arch" type="xml">
+            <kanban default_group_by="stage" class="o_kanban_small_column o_kanban_grouped o_kanban_setup_journey">
+                <field name="display_name"/>
+                <field name="stage"/>
+                <field name="progress"/>
+                <field name="state"/>
+                <field name="company_id"/>
+                <templates>
+                    <t t-name="kanban-box">
+                        <div t-attf-class="oe_kanban_global_click {{ record.state.raw_value == 'done' ? 'oe_kanban_color_10' : '' }} card shadow-sm p-3 mb-3">
+                            <div class="d-flex justify-content-between align-items-center mb-2">
+                                <strong class="text-primary"><field name="company_id"/></strong>
+                                <span class="badge bg-light text-dark"><field name="stage"/></span>
+                            </div>
+                            <div class="mb-2">
+                                <field name="progress" widget="percentpie" nolabel="1"/>
+                            </div>
+                            <div class="text-muted small mb-2" t-if="record.notes.raw_value">
+                                <field name="notes" class="text-truncate"/>
+                            </div>
+                            <div class="d-flex gap-2 flex-wrap">
+                                <button name="action_open_setup" type="object" class="btn btn-sm btn-primary" string="فتح مركز القيادة" title="Open Journey"/>
+                            </div>
+                        </div>
+                    </t>
+                </templates>
+            </kanban>
+        </field>
+    </record>
+
+    <!-- ════════════════ Actions & Menus ════════════════ -->
+    <record id="action_nexus_setup_journey" model="ir.actions.act_window">
+        <field name="name">مركز القيادة ورحلة التأسيس (Setup Journey)</field>
+        <field name="res_model">nexus.setup.journey</field>
+        <field name="view_mode">kanban,list,form</field>
+    </record>
+
+    <menuitem
+        id="menu_nexus_command_center_root"
+        name="Nexus Command Center"
+        sequence="1"/>
+
+    <menuitem
+        id="menu_nexus_setup_journey"
+        name="مركز القيادة والتأسيس (Setup Journey)"
+        parent="menu_nexus_command_center_root"
+        action="action_nexus_setup_journey"
+        sequence="10"/>
+
+</odoo>

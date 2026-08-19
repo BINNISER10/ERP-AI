@@ -53,8 +53,8 @@ class CopilotSetupMilestone(models.Model):
 
 
 class CopilotSetupWizard(models.TransientModel):
-    """Interactive wizard that validates ERPNext and triggers n8n chart of
-    accounts sync without requiring the user to leave Odoo.
+    """Interactive wizard that validates the hybrid ledger and triggers n8n chart of
+    accounts sync without requiring the user to leave the core.
     """
 
     _name = "copilot.setup.wizard"
@@ -74,7 +74,7 @@ class CopilotSetupWizard(models.TransientModel):
     erpnext_url = fields.Char(
         related="hybrid_config_id.erpnext_url",
         readonly=False,
-        string="ERPNext URL",
+        string="Hybrid Ledger URL",
     )
     n8n_url = fields.Char(
         related="hybrid_config_id.n8n_url",
@@ -84,7 +84,7 @@ class CopilotSetupWizard(models.TransientModel):
 
     step = fields.Selection(
         [
-            ("connection", "Validate ERPNext Connection"),
+            ("connection", "Validate Hybrid Connection"),
             ("chart_of_accounts", "Sync Chart of Accounts"),
             ("done", "Done"),
         ],
@@ -106,7 +106,7 @@ class CopilotSetupWizard(models.TransientModel):
         """Pre-select the active hybrid configuration for the chosen company."""
         for wizard in self:
             if wizard.company_id:
-                wizard.hybrid_config_id = self.env["hybrid.config"].search([
+                wizard.hybrid_config_id = self.env["hybrid.config"].sudo().search([
                     ("company_id", "=", wizard.company_id.id),
                     ("active", "=", True),
                 ], limit=1)
@@ -114,7 +114,7 @@ class CopilotSetupWizard(models.TransientModel):
     def _get_hybrid_config(self):
         """Return the active hybrid config or raise a clear UserError."""
         self.ensure_one()
-        config = self.hybrid_config_id or self.env["hybrid.config"].get_active_config(self.company_id)
+        config = self.hybrid_config_id or self.env["hybrid.config"].sudo().get_active_config(self.company_id)
         if not config:
             raise UserError(_(
                 "Please configure a Hybrid Sync record first (Settings -> Hybrid ERP Sync)."
@@ -122,12 +122,12 @@ class CopilotSetupWizard(models.TransientModel):
         return config
 
     def action_validate_erpnext(self):
-        """Ping the ERPNext instance and record the milestone."""
+        """Ping the hybrid ledger instance and record the milestone."""
         self.ensure_one()
         config = self._get_hybrid_config()
         if not config.erpnext_url:
-            self.connection_status = "No ERPNext URL configured."
-            self.log = "Please set the ERPNext base URL in Hybrid Sync settings."
+            self.connection_status = "No hybrid ledger URL configured."
+            self.log = "Please set the hybrid ledger base URL in Hybrid Sync settings."
             return self._reopen_wizard()
 
         try:
@@ -146,19 +146,19 @@ class CopilotSetupWizard(models.TransientModel):
             self.step = "chart_of_accounts"
 
             self.env["copilot.setup.milestone"].sudo().mark_done(
-                _("ERPNext Connection Validated"),
+                _("Hybrid Ledger Connection Validated"),
                 company=self.company_id,
                 description=self.connection_status,
             )
         except Exception as exc:
-            _logger.exception("ERPNext connection validation failed.")
+            _logger.exception("Hybrid ledger connection validation failed.")
             self.connection_status = "Connection failed."
             self.log = str(exc)
 
         return self._reopen_wizard()
 
     def action_sync_chart_of_accounts(self):
-        """Trigger the n8n webhook that configures the Chart of Accounts in ERPNext."""
+        """Trigger the n8n webhook that configures the Chart of Accounts in the hybrid ledger."""
         self.ensure_one()
         config = self._get_hybrid_config()
 

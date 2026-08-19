@@ -85,12 +85,27 @@ class ProjectContract(models.Model):
         if self.completion_percentage <= 0:
             raise ValidationError(_("Completion percentage must be greater than 0 to invoice."))
 
+        journal = self.env["account.journal"].search([("type", "=", "sale")], limit=1)
+        if not journal:
+            raise ValidationError(_("No sales journal found."))
+        income_account = (
+            self.partner_id.property_account_income_id
+            or journal.default_account_id
+        )
+        if not income_account:
+            raise ValidationError(_(
+                "Set an income account on the customer or on the sales journal "
+                "before creating an invoice."
+            ))
+
         invoice_amount = self.contract_value * (self.completion_percentage / 100.0)
         move = self.env["account.move"].create(
             {
                 "partner_id": self.partner_id.id,
                 "move_type": "out_invoice",
                 "invoice_date": fields.Date.context_today(self),
+                "journal_id": journal.id,
+                "ref": self.name,
                 "company_id": self.company_id.id,
                 "invoice_line_ids": [
                     (
@@ -100,6 +115,7 @@ class ProjectContract(models.Model):
                             "name": _("Progress Invoice: %s") % self.name,
                             "quantity": 1.0,
                             "price_unit": invoice_amount,
+                            "account_id": income_account.id,
                         },
                     )
                 ],

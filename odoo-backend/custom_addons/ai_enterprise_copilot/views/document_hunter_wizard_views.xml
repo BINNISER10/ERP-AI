@@ -1,0 +1,158 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_nexus_document_hunter_wizard_form" model="ir.ui.view">
+        <field name="name">nexus.document.hunter.wizard.form</field>
+        <field name="model">nexus.document.hunter.wizard</field>
+        <field name="arch" type="xml">
+            <form string="AI Document Hunter / معالج صيد الوثائق الذكي الموحد">
+                <header>
+                    <field name="state" widget="statusbar" statusbar_visible="upload,extracted,completed"/>
+                </header>
+                <sheet>
+                    <!-- ════════════════ STAGE 1: UNIFIED SINGLE DROPZONE ════════════════ -->
+                    <div invisible="state != 'upload'">
+                        <div class="text-center mb-4">
+                            <span class="fa fa-magic fa-4x text-primary mb-2"/>
+                            <h2 style="color: #0B3D2E; font-weight: bold;">🎯 صياد ومصنف الوثائق السعودية الذكي الموحد</h2>
+                            <p class="text-muted lead mb-3">
+                                ارفع أي وثيقة رسمية في مكان واحد، وسيتعرف عليها الذكاء الاصطناعي ويصطاد بياناتها تلقائياً!
+                            </p>
+                            
+                            <!-- Visual pills of supported documents -->
+                            <div class="d-flex flex-wrap justify-content-center gap-2 mb-3">
+                                <span class="badge bg-light text-dark p-2 border shadow-sm">📑 السجل التجاري</span>
+                                <span class="badge bg-light text-dark p-2 border shadow-sm">🧾 الشهادة الضريبية (ZATCA)</span>
+                                <span class="badge bg-light text-dark p-2 border shadow-sm">📍 شهادة العنوان الوطني (سبل)</span>
+                                <span class="badge bg-light text-dark p-2 border shadow-sm">🛡️ شهادة التأمينات (GOSI)</span>
+                                <span class="badge bg-light text-dark p-2 border shadow-sm">🏢 رخصة النشاط التجاري (بلدي)</span>
+                                <span class="badge bg-light text-dark p-2 border shadow-sm">👥 شهادة السعودة ونطاقات</span>
+                                <span class="badge bg-light text-dark p-2 border shadow-sm">🏛️ اشتراك الغرفة التجارية</span>
+                            </div>
+                        </div>
+
+                        <!-- Single Large Dropzone Card -->
+                        <div class="card border-primary p-4 mb-4 bg-light shadow-sm text-center" style="border: 3px dashed #0B3D2E; border-radius: 12px;">
+                            <div class="mb-3">
+                                <span class="fa fa-cloud-upload fa-3x text-primary"/>
+                            </div>
+                            <h5 class="text-dark font-weight-bold mb-2">اسحب وأفلت أو اختر ملف الوثيقة هنا (PDF أو صورة):</h5>
+                            <div class="d-flex justify-content-center mb-3">
+                                <field name="upload_document_file" widget="binary" filename="upload_document_filename"/>
+                                <field name="upload_document_filename" invisible="1"/>
+                            </div>
+                            <small class="text-muted">
+                                يدعم جميع التنسيقات (PDF, PNG, JPG). سيقوم الذكاء الاصطناعي بفحص الأختام والباركود واستخراج الأرقام بدقة متناهية.
+                            </small>
+                        </div>
+
+                        <div class="d-flex justify-content-between align-items-center pt-2">
+                            <button name="action_clear_inputs" 
+                                    string="🧹 مسح المدخلات" 
+                                    type="object" 
+                                    class="btn btn-outline-danger font-weight-bold"/>
+                            
+                            <button name="action_hunt_and_extract" 
+                                    string="🚀 رفع وفحص وصيد البيانات (Upload &amp; Scan)" 
+                                    type="object" 
+                                    class="btn btn-primary btn-lg px-5 py-3 shadow font-weight-bold"
+                                    style="font-size: 18px; border-radius: 8px;"/>
+                        </div>
+                    </div>
+
+                    <!-- ════════════════ STAGE 2: EXTRACTED & AI CONVERSATION ════════════════ -->
+                    <div invisible="state != 'extracted'">
+                        <!-- Visual Badges of Detected Info -->
+                        <field name="ai_analysis_html" widget="html" readonly="1" nolabel="1"/>
+
+                        <!-- Conversational AI Dialogue -->
+                        <field name="ai_conversation_html" widget="html" readonly="1" nolabel="1"/>
+
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="card border-0 bg-light p-3 mb-3 shadow-sm" style="border-radius: 8px;">
+                                    <h6 class="font-weight-bold text-dark border-bottom pb-2 mb-3">
+                                        <span class="fa fa-building text-primary me-2"/>
+                                        <span>البيانات والتراخيص المصطادة (يمكنك التعديل):</span>
+                                    </h6>
+                                    <group>
+                                        <field name="company_name" required="1"/>
+                                        <field name="cr_number"/>
+                                        <field name="vat_number"/>
+                                        <field name="gosi_number"/>
+                                        <field name="balady_license_no"/>
+                                        <field name="saudization_rate"/>
+                                        <field name="industry_sector" required="1"/>
+                                        <field name="employee_count"/>
+                                    </group>
+                                    <group string="العنوان الوطني">
+                                        <field name="city"/>
+                                        <field name="district"/>
+                                        <field name="street"/>
+                                        <field name="building_no"/>
+                                        <field name="postal_code"/>
+                                        <field name="national_short_address"/>
+                                    </group>
+                                </div>
+                            </div>
+
+                            <div class="col-md-6">
+                                <div class="card border-primary p-3 mb-3 shadow-sm h-100" style="border-radius: 8px; border-width: 2px;">
+                                    <h6 class="font-weight-bold text-primary border-bottom pb-2 mb-3">
+                                        <span class="fa fa-cogs me-2"/>
+                                        <span>خيارات التأسيس الذكي المقترحة (Smart Provisioning):</span>
+                                    </h6>
+                                    <div class="mb-3">
+                                        <field name="opt_accounting_chart"/>
+                                    </div>
+                                    <div class="mb-3">
+                                        <field name="opt_zatca"/>
+                                    </div>
+                                    <div class="mb-3">
+                                        <field name="opt_pos_kds"/>
+                                    </div>
+                                    <div class="mb-3">
+                                        <field name="opt_payroll_wps"/>
+                                    </div>
+                                    <div class="mb-3">
+                                        <field name="opt_warehouses"/>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="d-flex justify-content-between align-items-center mt-3 pt-3 border-top">
+                            <button name="action_back_to_upload" string="➡️ العودة لرفع وثائق أخرى" type="object" class="btn btn-secondary"/>
+                            <button name="action_apply_and_provision" 
+                                    string="🚀 تأكيد وتأسيس المنشأة وتشغيل النظام فوراً" 
+                                    type="object" 
+                                    class="btn btn-success btn-lg px-5 py-3 shadow"
+                                    style="font-size: 16px; font-weight: bold;"/>
+                        </div>
+                    </div>
+
+                    <!-- ════════════════ STAGE 3: COMPLETED ════════════════ -->
+                    <div invisible="state != 'completed'" class="text-center py-5">
+                        <span class="fa fa-check-circle fa-4x text-success mb-3"/>
+                        <h2 class="text-success font-weight-bold mb-3">تم تأسيس المنشأة وإطلاق النظام بنجاح!</h2>
+                        <p class="lead text-muted mb-4">تم تحديث بيانات الشركة، دليل الحسابات، الضرائب، ونقاط البيع بناءً على الوثائق الرسمية.</p>
+                    </div>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <!-- Action for Document Hunter Wizard -->
+    <record id="action_nexus_document_hunter_wizard" model="ir.actions.act_window">
+        <field name="name">AI Document Hunter / صياد الوثائق الذكي الموحد</field>
+        <field name="res_model">nexus.document.hunter.wizard</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+    </record>
+
+    <!-- Menu Item under AI Copilot -->
+    <menuitem id="menu_nexus_document_hunter_wizard"
+              name="🎯 صياد الوثائق والتأسيس الذكي"
+              parent="ai_enterprise_copilot.menu_copilot_root"
+              action="action_nexus_document_hunter_wizard"
+              sequence="5"/>
+</odoo>

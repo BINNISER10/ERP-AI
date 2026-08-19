@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- ── Payment Entries (nexus.payment.entry) ── -->
+    <record id="view_nexus_payment_entry_form" model="ir.ui.view">
+        <field name="name">nexus.payment.entry.form</field>
+        <field name="model">nexus.payment.entry</field>
+        <field name="arch" type="xml">
+            <form string="Payment Entry">
+                <header>
+                    <button name="action_submit" type="object" string="Submit"
+                        class="btn-primary" invisible="state != 'draft'"/>
+                    <button name="action_cancel" type="object" string="Cancel"
+                        invisible="state != 'submitted'"/>
+                    <button name="action_view_journal_entry" type="object"
+                        string="Journal Entry" class="btn-secondary"
+                        invisible="not journal_entry_id"/>
+                    <field name="state" widget="statusbar"
+                        statusbar_visible="draft,submitted,cancelled"/>
+                </header>
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="name" readonly="1"/>
+                            <field name="posting_date"/>
+                            <field name="payment_type"/>
+                            <field name="party_type"/>
+                            <field name="party_id"/>
+                        </group>
+                        <group>
+                            <field name="company_id" groups="base.group_multi_company"/>
+                            <field name="mode_of_payment"/>
+                            <field name="reference_no"/>
+                            <field name="reference_date"/>
+                        </group>
+                    </group>
+                    <group string="Accounts">
+                        <group>
+                            <field name="paid_from_account_id" string="Paid From Account"/>
+                            <field name="paid_amount" string="Paid Amount"/>
+                        </group>
+                        <group>
+                            <field name="paid_to_account_id" string="Paid To Account"/>
+                            <field name="received_amount" string="Received Amount"/>
+                            <field name="difference_amount" string="Difference"/>
+                        </group>
+                    </group>
+                    <group string="Allocation">
+                        <field name="total_allocated_amount" string="Allocated"/>
+                        <field name="unallocated_amount" string="Unallocated"/>
+                    </group>
+                    <field name="reference_ids" mode="tree,form">
+                        <list string="Payment References" editable="bottom">
+                            <field name="nexus_document_type" string="Type"/>
+                            <field name="nexus_document_name" string="Document"/>
+                            <field name="total_amount" string="Total"/>
+                            <field name="outstanding_amount" string="Outstanding"/>
+                            <field name="allocated_amount" string="Allocated"/>
+                        </list>
+                    </field>
+                </sheet>
+                <div class="oe_chatter">
+                    <field name="message_follower_ids"/>
+                    <field name="activity_ids"/>
+                    <field name="message_ids"/>
+                </div>
+            </form>
+        </field>
+    </record>
+
+    <record id="view_nexus_payment_entry_list" model="ir.ui.view">
+        <field name="name">nexus.payment.entry.list</field>
+        <field name="model">nexus.payment.entry</field>
+        <field name="arch" type="xml">
+            <list string="Payment Entries">
+                <field name="name"/>
+                <field name="posting_date"/>
+                <field name="payment_type"/>
+                <field name="party_id"/>
+                <field name="received_amount" string="Received"/>
+                <field name="paid_amount" string="Paid"/>
+                <field name="unallocated_amount" string="Unallocated"/>
+                <field name="state"/>
+                <field name="company_id" groups="base.group_multi_company"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="view_nexus_payment_entry_search" model="ir.ui.view">
+        <field name="name">nexus.payment.entry.search</field>
+        <field name="model">nexus.payment.entry</field>
+        <field name="arch" type="xml">
+            <search string="Payment Entries">
+                <field name="name"/>
+                <field name="party_id"/>
+                <field name="reference_no"/>
+                <field name="payment_type"/>
+                <filter name="not_cancelled" string="Not Cancelled"
+                    domain="[('state', '!=', 'cancelled')]"/>
+                <filter name="group_by_payment_type" string="Group by Payment Type"
+                    context="{'group_by': 'payment_type'}"/>
+            </search>
+        </field>
+    </record>
+
+    <record id="action_nexus_payment_entry" model="ir.actions.act_window">
+        <field name="name">Payment Entries</field>
+        <field name="res_model">nexus.payment.entry</field>
+        <field name="view_mode">list,form</field>
+        <field name="search_view_id" ref="view_nexus_payment_entry_search"/>
+        <field name="context">{'search_default_not_cancelled': 1}</field>
+    </record>
+</odoo>

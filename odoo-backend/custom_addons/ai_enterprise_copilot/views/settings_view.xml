@@ -20,14 +20,22 @@
                         <field name="llm_api_key" password="True"/>
                         <field name="llm_timeout"/>
                     </group>
-                    <group string="ERPNext Connection" invisible="not hybrid_config_id">
-                        <field name="erpnext_url"/>
-                        <field name="erpnext_api_key" password="True"/>
-                        <field name="erpnext_api_secret" password="True"/>
+                    <group string="Nexus AI Microservice (BOM Advisor / CoA Mapping / Developer Consult)">
+                        <field name="nexus_ai_api_key" password="True"
+                               placeholder="يجب أن يطابق AI_SERVICES_API_KEY في حاوية nexus_ai"/>
+                    </group>
+                    <group string="الربط المحاسبي بالسجل المركزي (Core Ledger Connection)" invisible="not hybrid_config_id">
+                        <field name="erpnext_url" string="رابط السجل المركزي (Core Ledger URL)"/>
+                        <field name="erpnext_api_key" string="مفتاح الربط (API Key)" password="True"/>
+                        <field name="erpnext_api_secret" string="الرمز السري (API Secret)" password="True"/>
                     </group>
                     <group string="n8n Automation" invisible="not hybrid_config_id">
                         <field name="n8n_url"/>
                         <field name="n8n_webhook_key" password="True"/>
+                    </group>
+                    <group string="Nexus Core (Setup Sync)" invisible="not hybrid_config_id">
+                        <field name="nexus_core_url" placeholder="https://core.nexus-engine.app"/>
+                        <field name="nexus_core_api_key" password="True"/>
                     </group>
                     <group string="DevOps Monitoring">
                         <field name="dev_team_webhook" placeholder="https://hooks.slack.com/services/..."/>

@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Placeholder view for the multi-state tax dashboard.
+         Full implementation can extend with a kanban view per state. -->
+    <record id="view_nexus_us_multi_state_tax_form" model="ir.ui.view">
+        <field name="name">nexus.us.multi.state.tax.form</field>
+        <field name="model">nexus.us.state.tax.rate</field>
+        <field name="arch" type="xml">
+            <form string="Multi-State Tax Rate">
+                <sheet>
+                    <group>
+                        <field name="state_id"/>
+                        <field name="name"/>
+                        <field name="rate"/>
+                        <field name="effective_from"/>
+                        <field name="effective_to"/>
+                        <field name="active"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+</odoo>

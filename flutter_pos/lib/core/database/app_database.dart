@@ -93,6 +93,12 @@ class AppDatabase extends _$AppDatabase {
     });
   }
 
+  Future<List<TaxRow>> getTaxesByServerIds(List<String> ids) async {
+    if (ids.isEmpty) return [];
+    final q = select(taxes)..where((t) => t.serverId.isIn(ids));
+    return q.get();
+  }
+
   Future<int> insertCartItem(CartItemsCompanion item) => into(cartItems).insert(item);
 
   Future<List<CartItemRow>> getCartItems() => select(cartItems).get();
@@ -108,6 +114,9 @@ class AppDatabase extends _$AppDatabase {
 
   Future<int> markOrderSynced(int id) =>
       (update(orders)..where((o) => o.id.equals(id))).write(const OrdersCompanion(synced: Value(true)));
+
+  Future<int> markOrderSyncedByRef(String ref) =>
+      (update(orders)..where((o) => o.clientOrderRef.equals(ref))).write(const OrdersCompanion(synced: Value(true)));
 }
 
 LazyDatabase _openConnection() {

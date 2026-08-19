@@ -6,6 +6,7 @@ Implements a lightweight HTTP JSON-RPC surface:
 - get_catalog
 - post_offline_orders
 """
+import base64
 import json
 import logging
 import uuid
@@ -13,9 +14,11 @@ from datetime import datetime
 
 from odoo import http, fields, _
 from odoo.http import request, Response
-from odoo.exceptions import UserError, AccessDenied
+from odoo.exceptions import UserError, AccessDenied, AccessError
 
 _logger = logging.getLogger(__name__)
+
+_POS_GROUPS = ("nexus_base_security.group_nexus_pos_user", "nexus_base_security.group_nexus_manager")
 
 
 class NexusPosGateway(http.Controller):
@@ -64,6 +67,15 @@ class NexusPosGateway(http.Controller):
             id=req_id,
         )
 
+    def _check_pos_user(self):
+        """Ensure the authenticated user belongs to a Nexus POS group."""
+        if not request.uid:
+            raise AccessDenied("Not authenticated")
+        user = request.env["res.users"].browse(request.uid)
+        has_group = any(user.has_group(group_id) for group_id in _POS_GROUPS)
+        if not has_group:
+            raise AccessDenied("User is not allowed to use the POS gateway")
+
     def _authenticate(self, params, req_id):
         login = params.get("login")
         password = params.get("password")
@@ -82,7 +94,15 @@ class NexusPosGateway(http.Controller):
                 id=req_id,
             )
 
-        user = request.env["res.users"].sudo().browse(uid)
+        user = request.env["res.users"].browse(uid)
+        has_group = any(user.has_group(group_id) for group_id in _POS_GROUPS)
+        if not has_group:
+            _logger.warning("POS auth denied for %s: missing Nexus POS group", login)
+            return self._json_response(
+                error={"code": 403, "message": "User is not allowed to use the POS"},
+                id=req_id,
+            )
+
         company = user.company_id
         return self._json_response(
             result={
@@ -99,9 +119,11 @@ class NexusPosGateway(http.Controller):
         )
 
     def _get_catalog(self, params, req_id):
-        if not request.uid:
+        try:
+            self._check_pos_user()
+        except AccessDenied as exc:
             return self._json_response(
-                error={"code": 401, "message": "Not authenticated"},
+                error={"code": 401, "message": str(exc)},
                 id=req_id,
             )
 
@@ -129,7 +151,7 @@ class NexusPosGateway(http.Controller):
                     "categ_id": product.categ_id.id,
                     "taxes_id": [t.id for t in product.taxes_id],
                     "qty_available": product.qty_available,
-                    "image_128": product.image_128.decode("utf-8") if product.image_128 else None,
+                    "image_128": base64.b64encode(product.image_128).decode("ascii") if product.image_128 else None,
                 }
             )
 
@@ -163,9 +185,11 @@ class NexusPosGateway(http.Controller):
         )
 
     def _post_offline_orders(self, params, req_id):
-        if not request.uid:
+        try:
+            self._check_pos_user()
+        except AccessDenied as exc:
             return self._json_response(
-                error={"code": 401, "message": "Not authenticated"},
+                error={"code": 401, "message": str(exc)},
                 id=req_id,
             )
 
@@ -182,13 +206,14 @@ class NexusPosGateway(http.Controller):
         for index, order in enumerate(orders):
             try:
                 with env.cr.savepoint():
-                    created = env["nexus.pos.order"].sudo().create_pos_order(order)
+                    created = env["nexus.pos.order"].create_pos_order(order)
                     result["created"].append(
                         {
                             "index": index,
                             "odoo_order_id": created.get("order_id"),
                             "name": created.get("name"),
                             "client_order_ref": order.get("client_order_ref"),
+                            "idempotent": created.get("idempotent", False),
                         }
                     )
             except Exception as exc:

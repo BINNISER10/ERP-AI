@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- ── Nexus Advanced Financial Engine menu tree under the Nexus Accounting root ── -->
+
+    <menuitem
+        id="menu_nexus_erpnext_accounting"
+        name="السجلات والدفاتر المالية المتقدمة (Advanced Ledger &amp; Budgets)"
+        parent="ai_enterprise_copilot.menu_nexus_accounting_root"
+        sequence="35"
+        groups="nexus_base_security.group_nexus_manager"/>
+
+    <!-- Masters -->
+    <menuitem
+        id="menu_nexus_erpnext_chart"
+        name="شجرة ودليل الحسابات (Chart of Accounts)"
+        parent="menu_nexus_erpnext_accounting"
+        action="action_nexus_account"
+        sequence="10"/>
+
+    <menuitem
+        id="menu_nexus_erpnext_cost_centers"
+        name="مراكز التكلفة والأبعاد (Cost Centers)"
+        parent="menu_nexus_erpnext_accounting"
+        action="action_nexus_cost_center"
+        sequence="20"/>
+
+    <menuitem
+        id="menu_nexus_erpnext_fiscal_years"
+        name="السنوات والفترات المالية (Fiscal Years)"
+        parent="menu_nexus_erpnext_accounting"
+        action="action_nexus_fiscal_year"
+        sequence="30"/>
+
+    <menuitem
+        id="menu_nexus_erpnext_party_accounts"
+        name="كشوف حسابات الشركاء والعملاء (Party Accounts)"
+        parent="menu_nexus_erpnext_accounting"
+        action="action_nexus_party_account"
+        sequence="40"/>
+
+    <menuitem
+        id="menu_nexus_erpnext_budgets"
+        name="الموازنات التقديرية والإنحرافات (Budgets)"
+        parent="menu_nexus_erpnext_accounting"
+        action="action_nexus_budget"
+        sequence="50"/>
+
+    <!-- Transactions -->
+    <menuitem
+        id="menu_nexus_erpnext_journal_entries"
+        name="قيود وسندات اليومية (Journal Vouchers)"
+        parent="menu_nexus_erpnext_accounting"
+        action="action_nexus_journal_entry"
+        sequence="60"/>
+
+    <menuitem
+        id="menu_nexus_erpnext_payments"
+        name="سندات القبض والصرف (Payment Entries)"
+        parent="menu_nexus_erpnext_accounting"
+        action="action_nexus_payment_entry"
+        sequence="70"/>
+
+    <!-- Reports -->
+    <menuitem
+        id="menu_nexus_erpnext_gl_entries"
+        name="دفتر الأستاذ العام (General Ledger)"
+        parent="menu_nexus_erpnext_accounting"
+        action="action_nexus_gl_entry"
+        sequence="80"/>
+
+</odoo>

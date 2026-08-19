@@ -6,7 +6,7 @@ _logger = logging.getLogger(__name__)
 
 
 class HybridConfig(models.Model):
-    """Stores ERPNext and n8n connection settings shared across hybrid modules."""
+    """Stores hybrid ledger and n8n connection settings shared across hybrid modules."""
 
     _name = "hybrid.config"
     _description = "Hybrid ERP Sync Configuration"
@@ -29,16 +29,18 @@ class HybridConfig(models.Model):
     active = fields.Boolean(default=True, help="Enable or disable this configuration.")
 
     erpnext_url = fields.Char(
-        string="ERPNext Base URL",
-        help="Base URL of the ERPNext instance.",
+        string="Hybrid Ledger Base URL",
+        help="Base URL of the hybrid ledger instance.",
     )
     erpnext_api_key = fields.Char(
-        string="ERPNext API Key",
-        help="ERPNext API key for token-based authentication.",
+        string="Hybrid Ledger API Key",
+        help="Hybrid ledger API key for token-based authentication.",
+        password=True,
     )
     erpnext_api_secret = fields.Char(
-        string="ERPNext API Secret",
-        help="ERPNext API secret for token-based authentication.",
+        string="Hybrid Ledger API Secret",
+        help="Hybrid ledger API secret for token-based authentication.",
+        password=True,
     )
 
     n8n_url = fields.Char(
@@ -48,6 +50,7 @@ class HybridConfig(models.Model):
     n8n_webhook_key = fields.Char(
         string="n8n Webhook Key / Token",
         help="Optional bearer token used by n8n webhooks.",
+        password=True,
     )
 
     _sql_constraints = [

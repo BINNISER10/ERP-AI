@@ -20,7 +20,7 @@ class ZatcaHasher(models.TransientModel):
     digest = fields.Char(string="SHA-256 Digest (Base64)", readonly=True)
 
     @api.model
-    def canonicalize_and_hash(self, xml_payload):
+    def canonicalize_and_hash(self, xml_payload, exclusive=False):
         """Canonicalize an XML string using C14N 1.1 and return base64 SHA-256."""
         if not xml_payload:
             raise UserError("XML payload is empty.")
@@ -30,11 +30,11 @@ class ZatcaHasher(models.TransientModel):
         except etree.XMLSyntaxError as exc:
             raise UserError(f"Invalid XML payload: {exc}") from exc
 
-        # C14N 1.1 canonicalization (exclusive) with comments omitted.
+        # C14N 1.1 canonicalization with comments omitted per ZATCA specifications.
         canonical_bytes = etree.tostring(
             root,
             method="c14n",
-            exclusive=True,
+            exclusive=exclusive,
             with_comments=False,
         )
 

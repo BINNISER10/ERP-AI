@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- ── Cost Centers (nexus.cost.center) ── -->
+    <record id="view_nexus_cost_center_form" model="ir.ui.view">
+        <field name="name">nexus.cost.center.form</field>
+        <field name="model">nexus.cost.center</field>
+        <field name="arch" type="xml">
+            <form string="Cost Center">
+                <sheet>
+                    <div class="oe_title">
+                        <h1><field name="full_name"/></h1>
+                    </div>
+                    <group>
+                        <group>
+                            <field name="cost_center_name" string="Cost Center Name"/>
+                            <field name="parent_id" string="Parent Cost Center"/>
+                            <field name="is_group"/>
+                        </group>
+                        <group>
+                            <field name="company_id" groups="base.group_multi_company"/>
+                            <field name="disabled"/>
+                        </group>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="view_nexus_cost_center_list" model="ir.ui.view">
+        <field name="name">nexus.cost.center.list</field>
+        <field name="model">nexus.cost.center</field>
+        <field name="arch" type="xml">
+            <list string="Cost Centers" multi_edit="1">
+                <field name="cost_center_name"/>
+                <field name="parent_id" string="Parent"/>
+                <field name="is_group"/>
+                <field name="company_id" groups="base.group_multi_company"/>
+                <field name="disabled" optional="hide"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="action_nexus_cost_center" model="ir.actions.act_window">
+        <field name="name">Cost Centers</field>
+        <field name="res_model">nexus.cost.center</field>
+        <field name="view_mode">list,form</field>
+        <field name="context">{'search_default_group_by_parent': 1}</field>
+    </record>
+</odoo>

@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_nexus_saas_subscription_list" model="ir.ui.view">
+        <field name="name">nexus.saas.subscription.list</field>
+        <field name="model">nexus.saas.subscription</field>
+        <field name="arch" type="xml">
+            <list decoration-danger="state == 'past_due'" decoration-muted="state == 'cancelled'" decoration-success="state == 'active'">
+                <field name="tenant_id"/>
+                <field name="plan_id"/>
+                <field name="state"/>
+                <field name="billing_interval"/>
+                <field name="current_period_end"/>
+                <field name="is_paid"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="view_nexus_saas_subscription_form" model="ir.ui.view">
+        <field name="name">nexus.saas.subscription.form</field>
+        <field name="model">nexus.saas.subscription</field>
+        <field name="arch" type="xml">
+            <form>
+                <header>
+                    <button name="action_cancel" string="Cancel" type="object" invisible="state == 'cancelled'"/>
+                    <field name="state" widget="statusbar" statusbar_visible="trialing,active,past_due,cancelled"/>
+                </header>
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="tenant_id"/>
+                            <field name="plan_id"/>
+                            <field name="billing_interval"/>
+                        </group>
+                        <group>
+                            <field name="trial_end"/>
+                            <field name="current_period_start"/>
+                            <field name="current_period_end"/>
+                            <field name="is_paid" readonly="1"/>
+                        </group>
+                    </group>
+                    <group string="Stripe" groups="base.group_system">
+                        <field name="stripe_customer_id"/>
+                        <field name="stripe_subscription_id"/>
+                        <field name="stripe_price_id"/>
+                    </group>
+                </sheet>
+                <div class="oe_chatter">
+                    <field name="message_follower_ids" widget="mail_followers"/>
+                    <field name="activity_ids" widget="mail_activity"/>
+                    <field name="message_ids" widget="mail_thread"/>
+                </div>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_nexus_saas_subscription" model="ir.actions.act_window">
+        <field name="name">Subscriptions</field>
+        <field name="res_model">nexus.saas.subscription</field>
+        <field name="view_mode">list,form</field>
+    </record>
+</odoo>

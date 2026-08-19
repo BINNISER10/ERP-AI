@@ -1,0 +1,251 @@
+# =============================================================================
+# Nexus Production Deployment — docker-compose for Odoo + ERPNext + AI
+#
+# This compose file uses Docker secrets for all credentials (no plaintext).
+# Bring up the stack:
+#   docker compose -f docker-compose.prod.yml up -d
+# =============================================================================
+
+version: "3.9"
+
+x-logging: &default-logging
+  driver: json-file
+  options:
+    max-size: "20m"
+    max-file: "5"
+
+services:
+
+  # ─────────────────────────────────────────────────────────────────────────────
+  # PostgreSQL (Odoo database)
+  # ─────────────────────────────────────────────────────────────────────────────
+  db:
+    image: postgres:16-alpine
+    restart: unless-stopped
+    logging: *default-logging
+    environment:
+      - POSTGRES_DB_FILE=/run/secrets/postgres_db
+      - POSTGRES_USER_FILE=/run/secrets/postgres_user
+      - POSTGRES_PASSWORD_FILE=/run/secrets/postgres_password
+    volumes:
+      - odoo-db-data:/var/lib/postgresql/data
+    secrets:
+      - postgres_db
+      - postgres_user
+      - postgres_password
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U $(cat /run/secrets/postgres_user) -d $(cat /run/secrets/postgres_db)"]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+    networks:
+      - nexus_backend
+
+  # ─────────────────────────────────────────────────────────────────────────────
+  # Redis (for Odoo longpolling + general caching)
+  # ─────────────────────────────────────────────────────────────────────────────
+  redis:
+    image: redis:7-alpine
+    restart: unless-stopped
+    logging: *default-logging
+    command: ["redis-server", "--appendonly", "yes", "--maxmemory", "512mb", "--maxmemory-policy", "allkeys-lru"]
+    volumes:
+      - nexus-redis-data:/data
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 30s
+      timeout: 5s
+      retries: 5
+    networks:
+      - nexus_backend
+
+  # ─────────────────────────────────────────────────────────────────────────────
+  # Odoo 18 (the user-facing app)
+  # ─────────────────────────────────────────────────────────────────────────────
+  odoo:
+    build:
+      context: ./odoo-backend
+      dockerfile: Dockerfile
+    image: nexus-odoo:18.0
+    restart: unless-stopped
+    logging: *default-logging
+    depends_on:
+      db:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+    environment:
+      - HOST=db
+      - PORT=5432
+      - USER_FILE=/run/secrets/postgres_user
+      - PASSWORD_FILE=/run/secrets/postgres_password
+      - ADMIN_PASSWD_FILE=/run/secrets/odoo_admin_password
+      - ODOO_DOMAIN=${ODOO_DOMAIN}
+      - ODOO_WEBSITE_NAME=${ODOO_DOMAIN}
+      - REDIS_HOST=redis
+      - REDIS_PORT=6379
+      # SaaS platform configuration
+      - SAAS_BASE_DOMAIN=${SAAS_BASE_DOMAIN:-}
+      - SAAS_SELF_SERVICE_SIGNUP=${SAAS_SELF_SERVICE_SIGNUP:-false}
+      # Cloudflare DNS
+      - CLOUDFLARE_API_TOKEN=${CLOUDFLARE_API_TOKEN:-}
+      - CLOUDFLARE_ZONE_ID=${CLOUDFLARE_ZONE_ID:-}
+      - CLOUDFLARE_CNAME_TARGET=${CLOUDFLARE_CNAME_TARGET:-}
+      # Stripe billing
+      - STRIPE_SECRET_KEY=${STRIPE_SECRET_KEY:-}
+      - STRIPE_PUBLISHABLE_KEY=${STRIPE_PUBLISHABLE_KEY:-}
+      - STRIPE_WEBHOOK_SECRET=${STRIPE_WEBHOOK_SECRET:-}
+    volumes:
+      - odoo-addons:/mnt/extra-addons
+      - odoo-data:/var/lib/odoo
+      - odoo-logs:/var/log/odoo
+      - ./config/odoo.conf:/etc/odoo/odoo.conf:ro
+      - ./odoo-backend/custom_addons:/mnt/extra-addons/nexus:ro
+    secrets:
+      - postgres_user
+      - postgres_password
+      - odoo_admin_password
+    healthcheck:
+      test: ["CMD", "curl", "-fs", "http://localhost:8069/web/health"]
+      interval: 60s
+      timeout: 10s
+      retries: 5
+    networks:
+      - nexus_backend
+
+  # ─────────────────────────────────────────────────────────────────────────────
+  # AI Microservices (FastAPI)
+  # ─────────────────────────────────────────────────────────────────────────────
+  ai_services:
+    build: ./ai_services
+    restart: unless-stopped
+    logging: *default-logging
+    depends_on:
+      odoo:
+        condition: service_healthy
+    environment:
+      - AI_SERVICES_API_KEY_FILE=/run/secrets/ai_services_api_key
+      - AI_CORS_ORIGINS=${AI_CORS_ORIGINS:-}
+      - ODOO_URL=http://odoo:8069
+      - LOG_LEVEL=info
+    secrets:
+      - ai_services_api_key
+    healthcheck:
+      test: ["CMD", "curl", "-fs", "http://localhost:8000/health"]
+      interval: 30s
+      timeout: 5s
+      retries: 5
+    networks:
+      - nexus_backend
+
+  # ─────────────────────────────────────────────────────────────────────────────
+  # ERPNext Backend (accounting engine — internal only)
+  # ─────────────────────────────────────────────────────────────────────────────
+  erpnext_backend:
+    image: frappe/erpnext-worker:v15
+    restart: unless-stopped
+    logging: *default-logging
+    depends_on:
+      erpnext_db:
+        condition: service_healthy
+      erpnext_redis_cache:
+        condition: service_healthy
+    secrets:
+      - erpnext_admin_password
+    networks:
+      - nexus_backend
+      - erpnext_internal
+    # ERPNext is never exposed to the public internet — only nginx can talk to it.
+
+  erpnext_db:
+    image: mariadb:10.6
+    restart: unless-stopped
+    logging: *default-logging
+    environment:
+      - MYSQL_ROOT_PASSWORD_FILE=/run/secrets/erpnext_admin_password
+    volumes:
+      - erpnext-db-data:/var/lib/mysql
+    secrets:
+      - erpnext_admin_password
+    healthcheck:
+      test: ["CMD", "healthcheck.sh", "--connect", "--innodb_initialized"]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+    networks:
+      - erpnext_internal
+
+  erpnext_redis_cache:
+    image: redis:7-alpine
+    restart: unless-stopped
+    networks:
+      - erpnext_internal
+
+  # ─────────────────────────────────────────────────────────────────────────────
+  # Certbot (Let's Encrypt)
+  # ─────────────────────────────────────────────────────────────────────────────
+  certbot:
+    image: certbot/certbot
+    restart: unless-stopped
+    volumes:
+      - ./certbot/conf:/etc/letsencrypt
+      - ./certbot/www:/var/www/certbot
+    entrypoint: "/bin/sh -c 'trap exit TERM; while :; do certbot renew; sleep 12h; done'"
+    networks:
+      - nexus_backend
+
+  # ─────────────────────────────────────────────────────────────────────────────
+  # Nginx Reverse Proxy
+  # ─────────────────────────────────────────────────────────────────────────────
+  nginx:
+    image: nginx:1.27-alpine
+    restart: unless-stopped
+    logging: *default-logging
+    depends_on:
+      odoo:
+        condition: service_healthy
+      ai_services:
+        condition: service_healthy
+    ports:
+      - "80:80"
+      - "443:443"
+    environment:
+      - ODOO_DOMAIN=${ODOO_DOMAIN}
+    volumes:
+      - ./config/nginx.conf:/etc/nginx/nginx.conf:ro
+      - ./certbot/conf:/etc/letsencrypt:ro
+      - ./certbot/www:/var/www/certbot:ro
+    networks:
+      - nexus_backend
+
+volumes:
+  odoo-db-data:
+  odoo-addons:
+  odoo-data:
+  odoo-logs:
+  nexus-redis-data:
+  erpnext-db-data:
+
+networks:
+  nexus_backend:
+    driver: bridge
+  erpnext_internal:
+    driver: bridge
+    internal: false  # nginx reaches it via the bridge
+
+# =============================================================================
+# Secrets — load from ./secrets/ directory (gitignored)
+# =============================================================================
+secrets:
+  postgres_db:
+    file: ./secrets/postgres_db.txt
+  postgres_user:
+    file: ./secrets/postgres_user.txt
+  postgres_password:
+    file: ./secrets/postgres_password.txt
+  odoo_admin_password:
+    file: ./secrets/odoo_admin_password.txt
+  ai_services_api_key:
+    file: ./secrets/ai_services_api_key.txt
+  erpnext_admin_password:
+    file: ./secrets/erpnext_admin_password.txt
