@@ -25,6 +25,12 @@ jobs:
           docker build -t nexus-ai-services:latest ./ai_services
 
       - name: Validate compose configuration
+        env:
+          POSTGRES_PASSWORD: ci-dummy-password
+          N8N_WEBHOOK_URL: https://example.com/
+          N8N_ENCRYPTION_KEY: ci-dummy-32-chars-long-key-1234
+          N8N_BASIC_AUTH_PASSWORD: ci-dummy-password
+          AI_SERVICES_API_KEY: ci-dummy-key
         run: |
           docker compose config > /dev/null
 

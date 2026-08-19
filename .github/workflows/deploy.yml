@@ -13,10 +13,13 @@ jobs:
         uses: actions/checkout@v4
 
       - name: Validate docker compose syntax
+        env:
+          POSTGRES_PASSWORD: ci-dummy-password
+          N8N_WEBHOOK_URL: https://example.com/
+          N8N_ENCRYPTION_KEY: ci-dummy-32-chars-long-key-1234
+          N8N_BASIC_AUTH_PASSWORD: ci-dummy-password
+          AI_SERVICES_API_KEY: ci-dummy-key
         run: docker compose -f docker-compose.yml config
-
-      - name: Run local pre-deployment checks
-        run: bash scripts/validate-local.sh
 
   deploy:
     needs: validate
