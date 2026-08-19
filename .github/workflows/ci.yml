@@ -1,0 +1,33 @@
+name: CI / Build & Validate
+
+on:
+  push:
+    branches: [main, master]
+  pull_request:
+    branches: [main, master]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      - name: Build Odoo image
+        run: |
+          docker build -t nexus-odoo:latest ./odoo-backend
+
+      - name: Build AI services image
+        run: |
+          docker build -t nexus-ai-services:latest ./ai_services
+
+      - name: Validate compose configuration
+        run: |
+          docker compose config > /dev/null
+
+      - name: Validate production compose configuration
+        run: |
+          docker compose -f docker-compose.prod.yml config > /dev/null
