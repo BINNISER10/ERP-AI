@@ -7,7 +7,7 @@
       "moby": true
     }
   },
-  "postCreateCommand": "cp -n .env.example .env && docker compose config",
+  "postCreateCommand": "cp -n .env.codespaces .env && docker compose up -d",
   "forwardPorts": [8069, 8000, 5678, 8080],
   "portsAttributes": {
     "8069": { "label": "Odoo" },
