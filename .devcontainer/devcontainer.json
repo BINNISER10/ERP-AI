@@ -1,13 +1,7 @@
 {
   "name": "Nexus ERP Dev",
   "image": "mcr.microsoft.com/devcontainers/universal:2",
-  "features": {
-    "ghcr.io/devcontainers/features/docker-in-docker:2": {
-      "version": "latest",
-      "moby": true
-    }
-  },
-  "postCreateCommand": "cp -n .env.codespaces .env && docker compose up -d",
+  "postCreateCommand": "cp -n .env.codespaces .env",
   "forwardPorts": [8069, 8000, 5678, 8080],
   "portsAttributes": {
     "8069": { "label": "Odoo" },
