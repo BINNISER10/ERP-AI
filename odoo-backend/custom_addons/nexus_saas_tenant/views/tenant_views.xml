@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_nexus_saas_tenant_list" model="ir.ui.view">
+        <field name="name">nexus.saas.tenant.list</field>
+        <field name="model">nexus.saas.tenant</field>
+        <field name="arch" type="xml">
+            <list decoration-muted="state == 'cancelled'" decoration-danger="state == 'suspended'" decoration-success="state == 'active'">
+                <field name="name"/>
+                <field name="code"/>
+                <field name="email"/>
+                <field name="plan_id"/>
+                <field name="state"/>
+                <field name="is_trial"/>
+                <field name="trial_end_date"/>
+                <field name="create_date"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="view_nexus_saas_tenant_form" model="ir.ui.view">
+        <field name="name">nexus.saas.tenant.form</field>
+        <field name="model">nexus.saas.tenant</field>
+        <field name="arch" type="xml">
+            <form>
+                <header>
+                    <button name="action_activate" string="Activate" type="object" invisible="state != 'draft'" class="oe_highlight"/>
+                    <button name="action_suspend" string="Suspend" type="object" invisible="state != 'active'"/>
+                    <button name="action_cancel" string="Cancel" type="object" invisible="state in ('cancelled',)"/>
+                    <field name="state" widget="statusbar" statusbar_visible="draft,active,suspended,cancelled"/>
+                </header>
+                <sheet>
+                    <div class="oe_title">
+                        <h1><field name="name" placeholder="Tenant name"/></h1>
+                    </div>
+                    <group>
+                        <group>
+                            <field name="code"/>
+                            <field name="email"/>
+                            <field name="plan_id"/>
+                            <field name="is_trial" readonly="1"/>
+                            <field name="trial_end_date"/>
+                        </group>
+                        <group>
+                            <field name="custom_domain"/>
+                            <field name="subdomain" readonly="1"/>
+                            <field name="primary_company_id"/>
+                            <field name="owner_user_id"/>
+                            <field name="stripe_customer_id"/>
+                        </group>
+                    </group>
+                    <notebook>
+                        <page string="Companies">
+                            <field name="company_ids"/>
+                        </page>
+                        <page string="Users">
+                            <field name="user_ids"/>
+                        </page>
+                        <page string="Quotas">
+                            <group>
+                                <field name="max_users"/>
+                                <field name="max_companies"/>
+                                <field name="max_products"/>
+                                <field name="max_invoices_monthly"/>
+                                <field name="storage_gb"/>
+                            </group>
+                        </page>
+                        <page string="Notes">
+                            <field name="notes"/>
+                        </page>
+                    </notebook>
+                </sheet>
+                <div class="oe_chatter">
+                    <field name="message_follower_ids" widget="mail_followers"/>
+                    <field name="activity_ids" widget="mail_activity"/>
+                    <field name="message_ids" widget="mail_thread"/>
+                </div>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_nexus_saas_tenant" model="ir.actions.act_window">
+        <field name="name">Tenants</field>
+        <field name="res_model">nexus.saas.tenant</field>
+        <field name="view_mode">list,form</field>
+    </record>
+</odoo>

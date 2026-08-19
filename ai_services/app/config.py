@@ -1,9 +1,13 @@
+from pydantic import Field
 from pydantic_settings import BaseSettings, SettingsConfigDict
 
 
 class Settings(BaseSettings):
-    database_url: str = "postgresql://odoo:odoo_secret@db:5432/nexus_erp"
+    database_url: str = ""
     redis_url: str = "redis://redis:6379/0"
+
+    # Shared secret required on every API call via the X-API-Key header.
+    api_services_api_key: str = Field(default="", alias="AI_SERVICES_API_KEY")
 
     ai_provider: str = "auto"
     openai_api_key: str | None = None
@@ -21,6 +25,11 @@ class Settings(BaseSettings):
 
     allowed_schemas: str = "public"
     request_timeout: int = 300
+
+    # CORS: comma-separated list of allowed origins. Empty string disables CORS
+    # (i.e. only same-origin / server-to-server calls). "*" is intentionally not
+    # the default because it allows any website to call the AI API from a browser.
+    cors_origins: str = Field(default="", alias="AI_CORS_ORIGINS")
 
     model_config = SettingsConfigDict(env_file=".env")
 

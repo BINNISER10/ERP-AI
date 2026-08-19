@@ -50,10 +50,11 @@ class RecipeBom(models.Model):
         consumption = {}
         for line in sale_order.order_line:
             product = line.product_id
-            boms = self.search([("product_id", "=", product.id), ("company_id", "=", sale_order.company_id.id)])
-            if not boms:
+            if not product:
                 continue
-            bom = boms[0]
+            bom = self._match_bom(product.id, sale_order.company_id.id)
+            if not bom:
+                continue
             base_qty = line.product_uom_qty
             for ingredient in bom.line_ids:
                 consumed = ingredient.quantity * base_qty
@@ -75,9 +76,19 @@ class RecipeBom(models.Model):
         if not picking_type:
             raise UserError(_("No outgoing picking type found."))
 
+        warehouse = self.env["stock.warehouse"].search(
+            [("company_id", "=", sale_order.company_id.id)], limit=1
+        )
+        default_stock = self.env.ref("stock.stock_location_stock")
+        fallback_src = warehouse.lot_stock_id or default_stock
+
         for product_id, qty in consumption.items():
             product = self.env["product.product"].browse(product_id)
-            src_location = product.property_stock_production or self.env.ref("stock.stock_location_stock")
+            src_location = product.property_stock_production or fallback_src
+            # A move from the production location into the production location
+            # is a no-op; fall back to the warehouse stock location instead.
+            if src_location == production_location:
+                src_location = fallback_src
             move = stock_move_obj.create(
                 {
                     "name": _("Recipe consumption for %s") % sale_order.name,
@@ -95,6 +106,18 @@ class RecipeBom(models.Model):
             move._action_assign()
             move._action_done()
         return True
+
+    def _match_bom(self, product_id, company_id):
+        """Pick the most recent active BOM for a product and company."""
+        return self.search(
+            [
+                ("product_id", "=", product_id),
+                ("company_id", "=", company_id),
+                ("active", "=", True),
+            ],
+            order="version desc",
+            limit=1,
+        )
 
 
 class RecipeBomLine(models.Model):

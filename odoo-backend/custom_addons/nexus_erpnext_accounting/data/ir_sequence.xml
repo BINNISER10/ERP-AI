@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="1">
+        <record id="seq_nexus_journal_entry" model="ir.sequence">
+            <field name="name">Nexus Journal Entry</field>
+            <field name="code">nexus.journal.entry</field>
+            <field name="prefix">JV/%(range_year)s/</field>
+            <field name="padding">5</field>
+            <field name="company_id" eval="False"/>
+        </record>
+
+        <record id="seq_nexus_payment_entry" model="ir.sequence">
+            <field name="name">Nexus Payment Entry</field>
+            <field name="code">nexus.payment.entry</field>
+            <field name="prefix">PAY/%(range_year)s/</field>
+            <field name="padding">5</field>
+            <field name="company_id" eval="False"/>
+        </record>
+
+        <record id="seq_nexus_gl_entry" model="ir.sequence">
+            <field name="name">Nexus GL Entry</field>
+            <field name="code">nexus.gl.entry</field>
+            <field name="prefix">GL/%(range_year)s/</field>
+            <field name="padding">6</field>
+            <field name="company_id" eval="False"/>
+        </record>
+    </data>
+</odoo>

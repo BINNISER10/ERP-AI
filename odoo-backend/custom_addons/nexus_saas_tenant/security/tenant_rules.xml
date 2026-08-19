@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- SaaS administrators see all tenants. -->
+    <record id="rule_nexus_saas_tenant_manager" model="ir.rule">
+        <field name="name">SaaS Tenant: manager sees all</field>
+        <field name="model_id" ref="model_nexus_saas_tenant"/>
+        <field name="domain_force">[(1, '=', 1)]</field>
+        <field name="groups" eval="[(4, ref('base.group_system'))]"/>
+        <field name="perm_read" eval="True"/>
+        <field name="perm_write" eval="True"/>
+        <field name="perm_create" eval="True"/>
+        <field name="perm_unlink" eval="True"/>
+    </record>
+
+    <!-- Regular users only see their own tenant. -->
+    <record id="rule_nexus_saas_tenant_user" model="ir.rule">
+        <field name="name">SaaS Tenant: user sees own tenant</field>
+        <field name="model_id" ref="model_nexus_saas_tenant"/>
+        <field name="domain_force">[('id', '=', user.saas_tenant_id.id)]</field>
+        <field name="groups" eval="[(4, ref('base.group_user'))]"/>
+        <field name="perm_read" eval="True"/>
+        <field name="perm_write" eval="False"/>
+        <field name="perm_create" eval="False"/>
+        <field name="perm_unlink" eval="False"/>
+    </record>
+
+    <!-- Subscriptions follow the same isolation. -->
+    <record id="rule_nexus_saas_subscription_manager" model="ir.rule">
+        <field name="name">SaaS Subscription: manager sees all</field>
+        <field name="model_id" ref="model_nexus_saas_subscription"/>
+        <field name="domain_force">[(1, '=', 1)]</field>
+        <field name="groups" eval="[(4, ref('base.group_system'))]"/>
+    </record>
+    <record id="rule_nexus_saas_subscription_user" model="ir.rule">
+        <field name="name">SaaS Subscription: user sees own tenant</field>
+        <field name="model_id" ref="model_nexus_saas_subscription"/>
+        <field name="domain_force">[('tenant_id', '=', user.saas_tenant_id.id)]</field>
+        <field name="groups" eval="[(4, ref('base.group_user'))]"/>
+    </record>
+
+    <!-- Usage records. -->
+    <record id="rule_nexus_saas_usage_record_manager" model="ir.rule">
+        <field name="name">SaaS Usage Record: manager sees all</field>
+        <field name="model_id" ref="model_nexus_saas_usage_record"/>
+        <field name="domain_force">[(1, '=', 1)]</field>
+        <field name="groups" eval="[(4, ref('base.group_system'))]"/>
+    </record>
+    <record id="rule_nexus_saas_usage_record_user" model="ir.rule">
+        <field name="name">SaaS Usage Record: user sees own tenant</field>
+        <field name="model_id" ref="model_nexus_saas_usage_record"/>
+        <field name="domain_force">[('tenant_id', '=', user.saas_tenant_id.id)]</field>
+        <field name="groups" eval="[(4, ref('base.group_user'))]"/>
+    </record>
+</odoo>

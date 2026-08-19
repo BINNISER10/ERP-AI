@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:uuid/uuid.dart';
 
 import '../database/app_database.dart';
@@ -17,20 +19,36 @@ class PosRepository {
     required double price,
     List<int> taxIds = const [],
     Modifier modifiers = const Modifier(),
-  }) {
+  }) async {
     final effectivePrice = modifiers.applyToPrice(price);
+    final subtotal = effectivePrice * quantity;
+    final taxAmount = await _taxAmountFor(subtotal, taxIds);
     return database.insertCartItem(
       CartItemsCompanion.insert(
         productServerId: product.serverId,
         name: product.name,
         quantity: Value(quantity),
         priceUnit: Value(effectivePrice),
-        taxIdsJson: Value(taxIds.isEmpty ? null : taxIds.toString()),
-        modifiersJson: Value(modifiers.toJson().toString()),
+        taxIdsJson: Value(taxIds.isEmpty ? null : jsonEncode(taxIds)),
+        modifiersJson: Value(jsonEncode(modifiers.toJson())),
         costOfGoodsSold: Value(product.standardPrice * quantity),
-        subtotal: Value(effectivePrice * quantity),
+        subtotal: Value(subtotal),
+        taxAmount: Value(taxAmount),
+        total: Value(subtotal + taxAmount),
       ),
     );
+  }
+
+  Future<double> _taxAmountFor(double subtotal, List<int> taxServerIds) async {
+    if (taxServerIds.isEmpty) return 0.0;
+    final rows = await database.getTaxesByServerIds(taxServerIds.map((e) => e.toString()).toList());
+    var rate = 0.0;
+    for (final row in rows) {
+      if (row.amountType == 'percent') {
+        rate += row.amount / 100.0;
+      }
+    }
+    return subtotal * rate;
   }
 
   Future<List<CartItemRow>> getCart() => database.getCartItems();
@@ -65,8 +83,8 @@ class PosRepository {
       if (stateCode != null && stateCode.isNotEmpty) {
         itemTax = await TaxCalculator.totalTaxFor(itemSubtotal, stateCode, zipCode: zipCode);
       } else if (taxIds.isNotEmpty) {
-        // Fallback flat tax calculation based on stored tax rows.
-        itemTax = itemSubtotal * 0.0825; // placeholder if no local tax data
+        // Fallback tax based on stored tax rows.
+        itemTax = itemSubtotal * await _taxRateFor(taxIds);
       }
 
       subtotal += itemSubtotal;
@@ -122,8 +140,28 @@ class PosRepository {
     );
   }
 
+  Future<double> _taxRateFor(List<int> taxServerIds) async {
+    if (taxServerIds.isEmpty) return 0.0;
+    final rows = await database.getTaxesByServerIds(taxServerIds.map((e) => e.toString()).toList());
+    var rate = 0.0;
+    for (final row in rows) {
+      if (row.amountType == 'percent') {
+        rate += row.amount / 100.0;
+      }
+    }
+    return rate;
+  }
+
   List<int> _parseTaxIds(String? raw) {
-    if (raw == null || raw.isEmpty || raw == '[]') return [];
+    if (raw == null || raw.isEmpty) return [];
+    try {
+      final decoded = jsonDecode(raw);
+      if (decoded is List) {
+        return decoded.map((e) => (e as num).toInt()).toList();
+      }
+    } catch (_) {
+      // Fall through to legacy string format.
+    }
     try {
       final cleaned = raw.replaceAll('[', '').replaceAll(']', '').split(',');
       return cleaned.where((s) => s.trim().isNotEmpty).map(int.parse).toList();

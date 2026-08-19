@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- 1099 Report Wizard -->
+    <record id="view_nexus_us_1099_report_form" model="ir.ui.view">
+        <field name="name">nexus.us.1099.report.form</field>
+        <field name="model">nexus.us.1099.report</field>
+        <field name="arch" type="xml">
+            <form string="تقرير 1099">
+                <header>
+                    <button name="action_compute" string="⚡ حساب التقرير"
+                            type="object" class="btn-primary"
+                            invisible="state != 'draft'"/>
+                    <button name="action_export_csv" string="📊 تصدير CSV"
+                            type="object" class="btn-success"
+                            invisible="state != 'computed'"/>
+                    <field name="state" widget="statusbar"/>
+                </header>
+                <sheet>
+                    <group>
+                        <group string="المعايير / Parameters">
+                            <field name="company_id"/>
+                            <field name="tax_year"/>
+                            <field name="form_type"/>
+                            <field name="threshold"/>
+                        </group>
+                        <group string="النتائج / Results">
+                            <field name="total_amount" readonly="1"
+                                   widget="monetary"/>
+                            <field name="total_vendor_count" readonly="1"/>
+                        </group>
+                    </group>
+                    <notebook>
+                        <page string="الموردون / Vendors">
+                            <field name="line_ids" readonly="1" nolabel="1">
+                                <tree>
+                                    <field name="partner_id"/>
+                                    <field name="tin"/>
+                                    <field name="tin_type"/>
+                                    <field name="total_payments"
+                                           widget="monetary"/>
+                                    <field name="address"/>
+                                </tree>
+                            </field>
+                        </page>
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_nexus_us_1099_report" model="ir.actions.act_window">
+        <field name="name">تقرير 1099</field>
+        <field name="res_model">nexus.us.1099.report</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+    </record>
+
+    <!-- ACH Payment Form -->
+    <record id="view_nexus_us_ach_payment_form" model="ir.ui.view">
+        <field name="name">nexus.us.ach.payment.form</field>
+        <field name="model">nexus.us.ach.payment</field>
+        <field name="arch" type="xml">
+            <form string="ACH Payment">
+                <header>
+                    <button name="action_validate" string="⚡ تحقق"
+                            type="object" class="btn-primary"
+                            invisible="state != 'draft'"/>
+                    <button name="action_export_nacha" string="📄 تصدير NACHA"
+                            type="object" class="btn-success"
+                            invisible="state != 'validated'"/>
+                    <field name="state" widget="statusbar"/>
+                </header>
+                <sheet>
+                    <group>
+                        <group string="تفاصيل التحويل / Transfer">
+                            <field name="company_id"/>
+                            <field name="partner_id"/>
+                            <field name="amount"/>
+                            <field name="currency_id"/>
+                            <field name="sec_code"/>
+                            <field name="memo"/>
+                        </group>
+                        <group string="البنك / Bank">
+                            <field name="routing_number"/>
+                            <field name="account_number" password="True"/>
+                            <field name="account_type"/>
+                            <field name="routing_valid" readonly="1"
+                                   widget="boolean_toggle"/>
+                        </group>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_nexus_us_ach_payment" model="ir.actions.act_window">
+        <field name="name">ACH Payment</field>
+        <field name="res_model">nexus.us.ach.payment</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+    </record>
+
+    <!-- State Tax Rate -->
+    <record id="view_nexus_us_state_tax_rate_tree" model="ir.ui.view">
+        <field name="name">nexus.us.state.tax.rate.tree</field>
+        <field name="model">nexus.us.state.tax.rate</field>
+        <field name="arch" type="xml">
+            <tree string="State Tax Rates">
+                <field name="state_id"/>
+                <field name="name"/>
+                <field name="rate"/>
+                <field name="effective_from"/>
+                <field name="effective_to"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="action_nexus_us_state_tax_rate" model="ir.actions.act_window">
+        <field name="name">أسعار ضرائب الولايات</field>
+        <field name="res_model">nexus.us.state.tax.rate</field>
+        <field name="view_mode">tree</field>
+    </record>
+
+</odoo>

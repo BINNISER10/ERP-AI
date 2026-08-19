@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_mrp_bom_form_ai_advisor" model="ir.ui.view">
+        <field name="name">mrp.bom.form.ai.advisor</field>
+        <field name="model">mrp.bom</field>
+        <field name="inherit_id" ref="mrp.mrp_bom_form_view"/>
+        <field name="arch" type="xml">
+            <xpath expr="//notebook" position="inside">
+                <page string="🤖 مستشار التصنيع الذكي (AI)" name="ai_bom_advisor">
+                    <group>
+                        <group string="سياق الاقتراح">
+                            <field name="ai_destination_type"/>
+                        </group>
+                    </group>
+                    <button name="action_ai_suggest_bom"
+                            type="object"
+                            string="✨ اقترح مكونات BOM ومتطلبات الامتثال"
+                            class="btn-primary my-2"/>
+                    <group>
+                        <field name="ai_compliance_html" nolabel="1" colspan="2"/>
+                    </group>
+                    <group>
+                        <field name="ai_manufacturing_notes_html" nolabel="1" colspan="2"/>
+                    </group>
+                </page>
+            </xpath>
+        </field>
+    </record>
+</odoo>

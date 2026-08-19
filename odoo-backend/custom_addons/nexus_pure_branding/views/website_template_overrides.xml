@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!--
+        Nexus Pure Branding — Website module overrides.
+
+        The `website` app's debug "System Information" page and layout
+        <meta name="generator"> tag leak the upstream name/version and link
+        to odoo.com. Both are neutralized here.
+    -->
+
+    <template id="website_show_website_info_nexus_branding" inherit_id="website.show_website_info">
+        <xpath expr="//small" position="replace">
+            <small groups="base.group_no_one">Nexus build <t t-out="version.get('server_version')"/></small>
+        </xpath>
+        <xpath expr="//p" position="replace">
+            <p>Information about the <t t-esc="res_company.name"/> instance of the Nexus Enterprise Engine.</p>
+        </xpath>
+        <xpath expr="//a[contains(@t-att-href,'odoo.com')]" position="replace">
+            <span t-out="app.shortdesc"/>
+        </xpath>
+    </template>
+
+    <template id="website_website_info_nexus_branding" inherit_id="website.website_info">
+        <xpath expr="//div[@id='wrap']" position="replace">
+            <div id="wrap" class="o_website_info">
+                <section class="container">
+                    <h1><t t-esc="res_company.name"/></h1>
+                    <p>Nexus Enterprise Engine — private business platform.</p>
+                </section>
+            </div>
+        </xpath>
+    </template>
+
+    <template id="website_layout_nexus_branding" inherit_id="website.layout">
+        <xpath expr="//meta[@name='generator']" position="replace">
+            <meta name="generator" content="Nexus Enterprise Engine"/>
+        </xpath>
+        <xpath expr="//a[hasclass('o_frontend_to_backend_apps_btn')]" position="attributes">
+            <attribute name="title">Go to your Apps</attribute>
+        </xpath>
+    </template>
+</odoo>

@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -136,7 +138,15 @@ class _CatalogScreenState extends State<CatalogScreen> {
   }
 
   List<int> _parseTaxIds(String? raw) {
-    if (raw == null || raw.isEmpty || raw == '[]') return [];
+    if (raw == null || raw.isEmpty) return [];
+    try {
+      final decoded = jsonDecode(raw);
+      if (decoded is List) {
+        return decoded.map((e) => (e as num).toInt()).toList();
+      }
+    } catch (_) {
+      // Fall through to legacy string format.
+    }
     try {
       final cleaned = raw.replaceAll('[', '').replaceAll(']', '').split(',');
       return cleaned.where((s) => s.trim().isNotEmpty).map(int.parse).toList();

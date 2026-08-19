@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- ════════════════ Client Action ════════════════ -->
+    <record id="action_nexus_finance_dashboard_client" model="ir.actions.client">
+        <field name="name">لوحة التحكم المالية</field>
+        <field name="tag">nexus_finance_dashboard</field>
+        <field name="target">main</field>
+    </record>
+
+    <!-- ════════════════ Dashboard QWeb Template ════════════════ -->
+    <template id="nexus_finance_dashboard_template" name="Nexus Finance Dashboard">
+        <t t-call="web.layout">
+            <t t-set="head">
+                <script type="text/javascript" src="/ai_enterprise_copilot/static/lib/chart.umd.js"/>
+            </t>
+            <div class="nexus-finance-dashboard">
+                <div class="nexus-dashboard-header">
+                    <div>
+                        <h2><i class="fa fa-line-chart"/> لوحة التحكم المالية</h2>
+                        <p class="text-muted mb-0">Nexus Finance Dashboard — Real-time financial overview</p>
+                    </div>
+                    <div class="nexus-quick-actions">
+                        <a href="/web#menu_id=ai_enterprise_copilot.menu_nexus_accounting_reports&amp;action=ai_enterprise_copilot.action_nexus_report_balance_sheet"
+                           class="btn btn-primary">
+                            <i class="fa fa-file-text-o"/> التقارير المالية
+                        </a>
+                        <a href="/web#menu_id=ai_enterprise_copilot.menu_nexus_accounting_invoices&amp;action=ai_enterprise_copilot.action_nexus_customer_invoices"
+                           class="btn btn-outline-primary">
+                            <i class="fa fa-list-alt"/> الفواتير
+                        </a>
+                    </div>
+                </div>
+
+                <!-- KPI Cards -->
+                <div id="nexus-kpi-container" class="nexus-kpi-container"/>
+
+                <!-- Charts Grid -->
+                <div class="nexus-chart-grid">
+                    <div class="nexus-chart-card">
+                        <h4><i class="fa fa-bar-chart"/> الإيرادات مقابل المصروفات</h4>
+                        <div class="nexus-chart-container">
+                            <canvas id="nexus-chart-revenue-expense"/>
+                        </div>
+                    </div>
+
+                    <div class="nexus-chart-card">
+                        <h4><i class="fa fa-pie-chart"/> أعمار الذمم المدينة</h4>
+                        <div class="nexus-chart-container">
+                            <canvas id="nexus-chart-aging-receivable"/>
+                        </div>
+                    </div>
+
+                    <div class="nexus-chart-card">
+                        <h4><i class="fa fa-area-chart"/> الوضع النقدي (30 يوم)</h4>
+                        <div class="nexus-chart-container">
+                            <canvas id="nexus-chart-cash-flow"/>
+                        </div>
+                    </div>
+
+                    <div class="nexus-chart-card">
+                        <h4><i class="fa fa-trophy"/> أهم 10 عملاء</h4>
+                        <div class="nexus-chart-container">
+                            <canvas id="nexus-chart-top-customers"/>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </t>
+    </template>
+
+    <!-- ════════════════ Dashboard JS Initializer ════════════════ -->
+    <template id="nexus_finance_dashboard_assets_main" inherit_id="web.assets_backend" name="Nexus Finance Dashboard JS">
+        <xpath expr="." position="inside">
+            <script type="module" src="/ai_enterprise_copilot/static/src/js/finance_dashboard.js"/>
+            <link rel="stylesheet" type="text/scss" href="/ai_enterprise_copilot/static/src/scss/finance_dashboard.scss"/>
+        </xpath>
+    </template>
+
+</odoo>

@@ -18,6 +18,13 @@ class UsTaxEngine(models.AbstractModel):
         if amount < 0:
             raise UserError("Taxable amount cannot be negative.")
 
+        if not state_code:
+            return {
+                "total_tax": 0.0,
+                "tax_lines": [],
+                "taxable_amount": amount,
+            }
+
         # Fetch all active rates for the requested state and refine in Python.
         rates = self.env["us.tax.rate"].search(
             [
@@ -45,10 +52,19 @@ class UsTaxEngine(models.AbstractModel):
                 continue
 
             # Validate zip code range when the record specifies one.
-            if rate.zip_start and zip_code and zip_code < rate.zip_start:
-                continue
-            if rate.zip_end and zip_code and zip_code > rate.zip_end:
-                continue
+            # ZIP codes are stored as strings but compared numerically so that
+            # e.g. "07502" sorts above "8000" instead of the other way around.
+            if zip_code and (rate.zip_start or rate.zip_end):
+                try:
+                    zip_num = int(zip_code)
+                    zip_start = int(rate.zip_start) if rate.zip_start else None
+                    zip_end = int(rate.zip_end) if rate.zip_end else None
+                except (ValueError, TypeError):
+                    zip_num = zip_start = zip_end = None
+                if zip_start is not None and zip_num < zip_start:
+                    continue
+                if zip_end is not None and zip_num > zip_end:
+                    continue
 
             if rate.id in applied_rate_ids:
                 continue

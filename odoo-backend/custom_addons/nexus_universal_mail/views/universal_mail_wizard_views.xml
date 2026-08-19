@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_nexus_mail_wizard_form" model="ir.ui.view">
+        <field name="name">nexus.mail.wizard.form</field>
+        <field name="model">nexus.mail.wizard</field>
+        <field name="arch" type="xml">
+            <form string="Universal Email Quick Setup / إعداد البريد الشامل">
+                <sheet>
+                    <div class="oe_title">
+                        <h2>
+                            <span>🚀 إعداد وربط البريد الإلكتروني السريع</span>
+                        </h2>
+                        <p class="text-muted">
+                            اختر مزود بريدك، واضغط على رابط استخراج كلمة المرور الخاصة بالتطبيقات (App Password)، ثم أدخل الرمز السري للربط الفوري.
+                        </p>
+                    </div>
+
+                    <group>
+                        <group string="1. مزود الخدمة والروابط المباشرة">
+                            <field name="provider" widget="radio"/>
+                            <field name="app_password_url" invisible="1"/>
+                        </group>
+                        <group string="2. بيانات الدخول والربط">
+                            <field name="email_address" required="1"/>
+                            <field name="app_password" password="True" required="1"/>
+                            <field name="test_recipient" placeholder="بريدك التجريبي (اختياري)"/>
+                        </group>
+                    </group>
+
+                    <field name="guide_html" widget="html" readonly="1" nolabel="1"/>
+
+                    <div class="d-flex align-items-center mb-3">
+                        <button name="action_open_app_password_url" 
+                                type="object" 
+                                string="🔗 فتح صفحة استخراج كلمة المرور للمزود المختار" 
+                                class="btn btn-outline-primary"
+                                invisible="not app_password_url"/>
+                    </div>
+
+                    <notebook>
+                        <page string="خيارات الربط / Services">
+                            <group>
+                                <field name="setup_outgoing"/>
+                                <field name="setup_incoming"/>
+                                <field name="send_test_email"/>
+                            </group>
+                        </page>
+                        <page string="الإعدادات التقنية المتقدمة / Technical Settings">
+                            <group string="البريد الصادر (SMTP)">
+                                <field name="smtp_host"/>
+                                <field name="smtp_port"/>
+                                <field name="smtp_encryption"/>
+                            </group>
+                            <group string="البريد الوارد (IMAP)">
+                                <field name="imap_host"/>
+                                <field name="imap_port"/>
+                                <field name="imap_ssl"/>
+                            </group>
+                        </page>
+                    </notebook>
+                </sheet>
+                <footer>
+                    <button name="action_test_and_apply" 
+                            string="⚡ حفظ واختبار وتفعيل البريد الآن" 
+                            type="object" 
+                            class="btn-primary"/>
+                    <button string="إلغاء / Cancel" 
+                            class="btn-secondary" 
+                            special="cancel"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_nexus_universal_mail_wizard" model="ir.actions.act_window">
+        <field name="name">Universal Email Setup / إعداد البريد الشامل</field>
+        <field name="res_model">nexus.mail.wizard</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+    </record>
+</odoo>

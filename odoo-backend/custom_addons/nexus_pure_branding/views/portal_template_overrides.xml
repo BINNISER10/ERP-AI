@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!--
+        Nexus Pure Branding — Customer portal overrides.
+
+        The portal sidebar of record pages renders a "Powered by Odoo" block
+        pointing at www.odoo.com. It is removed here.
+    -->
+    <template id="portal_record_sidebar_nexus_branding" inherit_id="portal.portal_record_sidebar">
+        <xpath expr="//div[contains(@class, 'd-none') and contains(@class, 'mt-5')]" position="replace"/>
+    </template>
+</odoo>

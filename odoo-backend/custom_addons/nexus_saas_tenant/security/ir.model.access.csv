@@ -1,0 +1,11 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_nexus_saas_plan_user,nexus.saas.plan.user,model_nexus_saas_plan,base.group_user,1,0,0,0
+access_nexus_saas_plan_manager,nexus.saas.plan.manager,model_nexus_saas_plan,base.group_system,1,1,1,1
+access_nexus_saas_tenant_user,nexus.saas.tenant.user,model_nexus_saas_tenant,base.group_user,1,0,0,0
+access_nexus_saas_tenant_manager,nexus.saas.tenant.manager,model_nexus_saas_tenant,base.group_system,1,1,1,1
+access_nexus_saas_subscription_user,nexus.saas.subscription.user,model_nexus_saas_subscription,base.group_user,1,0,0,0
+access_nexus_saas_subscription_manager,nexus.saas.subscription.manager,model_nexus_saas_subscription,base.group_system,1,1,1,1
+access_nexus_saas_usage_metric_user,nexus.saas.usage.metric.user,model_nexus_saas_usage_metric,base.group_user,1,0,0,0
+access_nexus_saas_usage_metric_manager,nexus.saas.usage.metric.manager,model_nexus_saas_usage_metric,base.group_system,1,1,1,1
+access_nexus_saas_usage_record_user,nexus.saas.usage.record.user,model_nexus_saas_usage_record,base.group_user,1,0,0,0
+access_nexus_saas_usage_record_manager,nexus.saas.usage.record.manager,model_nexus_saas_usage_record,base.group_system,1,1,1,1

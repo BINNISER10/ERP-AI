@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_nexus_saas_subscription_form_billing" model="ir.ui.view">
+        <field name="name">nexus.saas.subscription.form.billing</field>
+        <field name="model">nexus.saas.subscription</field>
+        <field name="inherit_id" ref="nexus_saas_tenant.view_nexus_saas_subscription_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//group[@string='Stripe']" position="replace">
+                <group string="Stripe Billing">
+                    <field name="stripe_customer_id"/>
+                    <field name="stripe_subscription_id"/>
+                    <field name="stripe_price_id"/>
+                    <field name="stripe_checkout_url"/>
+                    <field name="last_stripe_event" readonly="1"/>
+                    <field name="last_stripe_event_at" readonly="1"/>
+                </group>
+                <group>
+                    <button name="action_create_stripe_checkout" string="Generate Stripe Checkout" type="object" class="oe_highlight"/>
+                </group>
+            </xpath>
+        </field>
+    </record>
+</odoo>

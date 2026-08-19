@@ -133,13 +133,25 @@ class LeaseContract(models.Model):
 
     def action_create_invoice(self):
         self.ensure_one()
-        if not self.env["account.journal"].search([("type", "=", "sale")], limit=1):
+        journal = self.env["account.journal"].search([("type", "=", "sale")], limit=1)
+        if not journal:
             raise ValidationError(_("No sales journal found."))
+        income_account = (
+            self.tenant_id.property_account_income_id
+            or journal.default_account_id
+        )
+        if not income_account:
+            raise ValidationError(_(
+                "Set an income account on the tenant or on the sales journal "
+                "before creating an invoice."
+            ))
         move = self.env["account.move"].create(
             {
                 "partner_id": self.tenant_id.id,
                 "move_type": "out_invoice",
                 "invoice_date": fields.Date.context_today(self),
+                "journal_id": journal.id,
+                "ref": self.name,
                 "lease_contract_id": self.id,
                 "company_id": self.company_id.id,
                 "invoice_line_ids": [
@@ -150,6 +162,7 @@ class LeaseContract(models.Model):
                             "name": _("Rent for %s") % self.name,
                             "quantity": 1.0,
                             "price_unit": self.rent_amount,
+                            "account_id": income_account.id,
                         },
                     )
                 ],

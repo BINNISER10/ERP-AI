@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo noupdate="1">
+
+    <!-- ════════════════ US Localization Menu ════════════════ -->
+    <menuitem
+        id="menu_nexus_us_root"
+        name="أمريكا / United States"
+        web_icon="nexus_us_localization,static/description/icon.png"
+        sequence="60"/>
+
+    <menuitem
+        id="menu_nexus_us_settings"
+        name="إعدادات الشركة / Company Settings"
+        parent="menu_nexus_us_root"
+        action="action_nexus_us_company_settings"
+        sequence="10"/>
+
+    <menuitem
+        id="menu_nexus_us_1099"
+        name="الإقرارات الضريبية / Tax Reporting"
+        parent="menu_nexus_us_root"
+        sequence="20"/>
+
+    <menuitem
+        id="menu_nexus_us_1099_report"
+        name="تقرير 1099 / 1099 Report"
+        parent="menu_nexus_us_1099"
+        action="action_nexus_us_1099_report"
+        sequence="10"/>
+
+    <menuitem
+        id="menu_nexus_us_ach"
+        name="تحويلات ACH / ACH Transfers"
+        parent="menu_nexus_us_root"
+        action="action_nexus_us_ach_payment"
+        sequence="30"/>
+
+    <menuitem
+        id="menu_nexus_us_tax_rates"
+        name="أسعار الضرائب / Tax Rates"
+        parent="menu_nexus_us_root"
+        action="action_nexus_us_state_tax_rate"
+        sequence="40"/>
+
+</odoo>

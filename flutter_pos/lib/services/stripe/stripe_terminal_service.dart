@@ -1,26 +1,53 @@
 import 'dart:async';
+import 'dart:convert';
 
+import 'package:dio/dio.dart';
 import 'package:flutter_stripe/flutter_stripe.dart';
 import 'package:stripe_terminal/stripe_terminal.dart';
 
 class StripeTerminalService {
   final StripeTerminal _terminal = StripeTerminal.instance;
   bool _initialized = false;
+  String? _backendUrl;
+  Dio? _dio;
   StreamSubscription<PaymentStatusUpdate>? _statusSubscription;
   StreamSubscription<Reader>? _readerSubscription;
 
-  Future<void> initialize({required String backendUrl, String? token}) async {
+  /// `stripePublishableKey` is the public publishable key used to configure the
+  /// Stripe SDK. Ephemeral reader connection tokens are fetched from the
+  /// backend endpoint `{backendUrl}/stripe/connection-token`, which must return
+  /// `{"secret": "<ephemeral_key_secret>"}`.
+  Future<void> initialize({
+    required String backendUrl,
+    required String stripePublishableKey,
+  }) async {
     if (_initialized) return;
 
-    Stripe.publishableKey = token ?? '';
-    await Stripe.instance.applySettings();
+    _backendUrl = backendUrl;
+    _dio = Dio(BaseOptions(connectTimeout: const Duration(seconds: 10)));
 
-    _terminal.setConnectionTokenFactory(
-      (params) async {
-        // In production, fetch from backend /connection_token.
-        return token ?? '';
-      },
-    );
+    if (stripePublishableKey.isNotEmpty) {
+      Stripe.publishableKey = stripePublishableKey;
+      await Stripe.instance.applySettings();
+    }
+
+    _terminal.setConnectionTokenFactory((params) async {
+      if (_backendUrl == null || _backendUrl!.isEmpty) {
+        throw Exception('StripeTerminalService: backendUrl is not configured.');
+      }
+      final response = await _dio!.get<Map<String, dynamic>>(
+        '$_backendUrl/stripe/connection-token',
+      );
+      if (response.data == null) {
+        throw Exception('StripeTerminalService: empty connection token response.');
+      }
+      final secret = response.data!['secret'] as String?;
+      if (secret == null || secret.isEmpty) {
+        throw Exception(
+            'StripeTerminalService: backend did not return a connection token secret.');
+      }
+      return secret;
+    });
 
     _statusSubscription = _terminal.onConnectionStatusChange.listen((status) {
       // log status
@@ -32,11 +59,11 @@ class StripeTerminalService {
     _initialized = true;
   }
 
-  Future<bool> discoverReaders() async {
+  Future<bool> discoverReaders({bool simulated = false}) async {
     if (!_initialized) return false;
     try {
       final readers = await _terminal.discoverReaders(
-        isSimulated: true,
+        isSimulated: simulated,
         discoveryMethod: DiscoveryMethod.bluetoothScan,
       ).toList();
       return readers.isNotEmpty;
@@ -73,6 +100,8 @@ class StripeTerminalService {
   Future<void> disconnect() async {
     await _statusSubscription?.cancel();
     await _readerSubscription?.cancel();
+    _dio?.close(force: true);
+    _dio = null;
     if (_initialized) {
       await _terminal.disconnectReader();
       _initialized = false;

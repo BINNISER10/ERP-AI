@@ -1,4 +1,4 @@
-"""Account move extension for ERPNext sync tracking."""
+"""Account move extension for hybrid-ledger sync tracking."""
 from odoo import models, fields
 
 
@@ -10,14 +10,14 @@ class AccountMove(models.Model):
     _inherit = "account.move"
 
     erpnext_synced = fields.Boolean(
-        string="Synced to ERPNext",
+        string="Synced to Hybrid Ledger",
         default=False,
         copy=False,
         index=True,
-        help="True when this journal entry/invoice has been pushed to ERPNext.",
+        help="True when this journal entry/invoice has been pushed to the hybrid ledger.",
     )
     erpnext_docname = fields.Char(
-        string="ERPNext Document Name",
+        string="Hybrid Ledger Document Name",
         copy=False,
-        help="Reference name of the corresponding ERPNext document.",
+        help="Reference name of the corresponding hybrid ledger document.",
     )

@@ -5,6 +5,17 @@ terraform {
       version = ">= 5.0"
     }
   }
+  # Optional remote state with locking (recommended for production):
+  # 1. Create an Object Storage bucket, then uncomment:
+  # backend "s3" {
+  #   bucket     = "nexus-tfstate"
+  #   region     = "ap-sydney-1"
+  #   key        = "terraform/terraform.tfstate"
+  #   endpoint   = "ns-<namespace>.compat.objectstorage.ap-sydney-1.oraclecloud.com"
+  #   skip_region_validation      = true
+  #   skip_credentials_validation = true
+  #   skip_requesting_account_id  = true
+  # }
   required_version = ">= 1.2"
 }
 
@@ -50,9 +61,10 @@ resource "oci_core_security_list" "nexus_security_list" {
     protocol    = "all"
   }
 
+  # SSH — restrict to operator IP range whenever possible
   ingress_security_rules {
     protocol    = "6"
-    source      = "0.0.0.0/0"
+    source      = var.ssh_allowed_cidrs
     description = "SSH"
     tcp_options {
       min = 22
@@ -60,23 +72,24 @@ resource "oci_core_security_list" "nexus_security_list" {
     }
   }
 
+  # Public web traffic only goes through nginx (HTTP → HTTPS redirect)
   ingress_security_rules {
     protocol    = "6"
     source      = "0.0.0.0/0"
-    description = "Odoo Web"
+    description = "HTTP"
     tcp_options {
-      min = 8069
-      max = 8069
+      min = 80
+      max = 80
     }
   }
 
   ingress_security_rules {
     protocol    = "6"
     source      = "0.0.0.0/0"
-    description = "AI Services"
+    description = "HTTPS"
     tcp_options {
-      min = 8000
-      max = 8000
+      min = 443
+      max = 443
     }
   }
 }

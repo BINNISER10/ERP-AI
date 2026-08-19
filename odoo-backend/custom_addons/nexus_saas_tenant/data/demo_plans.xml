@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo noupdate="1">
+    <record id="plan_free" model="nexus.saas.plan">
+        <field name="name">Free / تجريبي</field>
+        <field name="code">free</field>
+        <field name="sequence">1</field>
+        <field name="is_default" eval="True"/>
+        <field name="price_monthly">0</field>
+        <field name="price_yearly">0</field>
+        <field name="trial_days">14</field>
+        <field name="max_users">2</field>
+        <field name="max_companies">1</field>
+        <field name="max_products">100</field>
+        <field name="max_invoices_monthly">50</field>
+        <field name="storage_gb">1</field>
+        <field name="max_api_calls_daily">100</field>
+    </record>
+
+    <record id="plan_basic" model="nexus.saas.plan">
+        <field name="name">Basic / أساسي</field>
+        <field name="code">basic</field>
+        <field name="sequence">10</field>
+        <field name="price_monthly">199</field>
+        <field name="price_yearly">1990</field>
+        <field name="trial_days">14</field>
+        <field name="max_users">5</field>
+        <field name="max_companies">1</field>
+        <field name="max_products">5000</field>
+        <field name="max_invoices_monthly">1000</field>
+        <field name="storage_gb">10</field>
+        <field name="max_api_calls_daily">1000</field>
+        <field name="has_white_label" eval="True"/>
+    </record>
+
+    <record id="plan_professional" model="nexus.saas.plan">
+        <field name="name">Professional / احترافي</field>
+        <field name="code">professional</field>
+        <field name="sequence">20</field>
+        <field name="price_monthly">499</field>
+        <field name="price_yearly">4990</field>
+        <field name="trial_days">14</field>
+        <field name="max_users">20</field>
+        <field name="max_companies">3</field>
+        <field name="max_products">20000</field>
+        <field name="max_invoices_monthly">10000</field>
+        <field name="storage_gb">50</field>
+        <field name="max_api_calls_daily">10000</field>
+        <field name="has_white_label" eval="True"/>
+        <field name="has_advanced_accounting" eval="True"/>
+        <field name="has_multi_location" eval="True"/>
+    </record>
+
+    <record id="plan_enterprise" model="nexus.saas.plan">
+        <field name="name">Enterprise / مؤسسي</field>
+        <field name="code">enterprise</field>
+        <field name="sequence">30</field>
+        <field name="price_monthly">1299</field>
+        <field name="price_yearly">12990</field>
+        <field name="trial_days">14</field>
+        <field name="max_users">0</field>
+        <field name="max_companies">0</field>
+        <field name="max_products">0</field>
+        <field name="max_invoices_monthly">0</field>
+        <field name="storage_gb">500</field>
+        <field name="max_api_calls_daily">100000</field>
+        <field name="has_white_label" eval="True"/>
+        <field name="has_advanced_accounting" eval="True"/>
+        <field name="has_multi_location" eval="True"/>
+        <field name="has_ai_copilot" eval="True"/>
+        <field name="has_priority_support" eval="True"/>
+    </record>
+</odoo>

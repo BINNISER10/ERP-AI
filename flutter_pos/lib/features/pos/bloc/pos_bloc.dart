@@ -1,6 +1,9 @@
+import 'dart:convert';
+
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../core/database/app_database.dart';
+import '../../../core/models/modifier.dart';
 import '../../../core/repository/pos_repository.dart';
 import 'pos_event.dart';
 import 'pos_state.dart';
@@ -52,12 +55,16 @@ class PosBloc extends Bloc<PosEvent, PosState> {
       final product = await (database.select(database.products)
             ..where((p) => p.serverId.equals(existing.productServerId)))
           .getSingle();
+      final modifiers = existing.modifiersJson != null
+          ? Modifier.fromJson(jsonDecode(existing.modifiersJson!) as Map<String, dynamic>)
+          : const Modifier();
       await database.deleteCartItem(event.cartItemId);
       await _repository.addToCart(
         product: product,
         quantity: event.quantity,
-        price: existing.priceUnit,
+        price: product.listPrice,
         taxIds: _parseTaxIds(existing.taxIdsJson),
+        modifiers: modifiers,
       );
       final cart = await _repository.getCart();
       emit(state.copyWith(cart: cart));
@@ -82,7 +89,15 @@ class PosBloc extends Bloc<PosEvent, PosState> {
   }
 
   List<int> _parseTaxIds(String? raw) {
-    if (raw == null || raw.isEmpty || raw == '[]') return [];
+    if (raw == null || raw.isEmpty) return [];
+    try {
+      final decoded = jsonDecode(raw);
+      if (decoded is List) {
+        return decoded.map((e) => (e as num).toInt()).toList();
+      }
+    } catch (_) {
+      // Fall through to legacy string format.
+    }
     try {
       final cleaned = raw.replaceAll('[', '').replaceAll(']', '').split(',');
       return cleaned.where((s) => s.trim().isNotEmpty).map(int.parse).toList();

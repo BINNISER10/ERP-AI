@@ -35,9 +35,19 @@ class SaleOrder(models.Model):
         res = super(SaleOrder, self).action_confirm()
         for order in self:
             if not order.recipe_consumed:
-                boms = self.env["recipe.bom"].search([("company_id", "=", order.company_id.id)])
-                if boms:
-                    boms[0].consume_for_sale_order(order)
+                bom_model = self.env["recipe.bom"].with_user(self.env.user)
+                if "recipe.bom" in self.env:
+                    boms = bom_model.search(
+                        [
+                            ("company_id", "=", order.company_id.id),
+                            ("active", "=", True),
+                        ],
+                        limit=1,
+                    )
+                    if boms:
+                        # Stock moves require stock rights; run as sudo so
+                        # front-office users confirming sales are not blocked.
+                        boms[0].with_user(self.env.user).sudo().consume_for_sale_order(order)
                 order.recipe_consumed = True
         return res
 

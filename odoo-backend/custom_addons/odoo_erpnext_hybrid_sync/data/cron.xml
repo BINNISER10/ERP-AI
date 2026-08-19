@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo noupdate="1">
+    <!-- Nexus Core sync queue worker — drains pending outbound records every 2 minutes -->
+    <record id="nexus_sync_queue_processor_cron" model="ir.cron">
+        <field name="name">Nexus Core: Sync Queue Processor</field>
+        <field name="model_id" ref="model_nexus_sync_queue"/>
+        <field name="state">code</field>
+        <field name="code">model.process_queue(batch_size=25)</field>
+        <field name="interval_number">2</field>
+        <field name="interval_type">minutes</field>
+        <field name="active" eval="True"/>
+    </record>
+</odoo>

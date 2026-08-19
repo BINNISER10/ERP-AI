@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- Saudization Dashboard - Client Action -->
+    <record id="action_nexus_saudi_saudization_dashboard" model="ir.actions.client">
+        <field name="name">لوحة نطاقات / Saudization Dashboard</field>
+        <field name="tag">nexus_saudi_saudization_dashboard</field>
+        <field name="target">main</field>
+    </record>
+
+    <!-- Saudization Dashboard Template -->
+    <template id="nexus_saudi_saudization_dashboard_template" name="Saudization Dashboard">
+        <t t-call="web.layout">
+            <div class="nexus-saudization-dashboard">
+                <div class="nexus-dashboard-header">
+                    <div>
+                        <h2><i class="fa fa-users"/> نظام نطاقات / Saudization (Nitaqat)</h2>
+                        <p class="text-muted mb-0">نسبة التوطين الحالية والهدف - Saudization Tracking</p>
+                    </div>
+                </div>
+
+                <div id="nexus-saudization-kpis" class="nexus-kpi-container"/>
+
+                <div class="nexus-chart-grid">
+                    <div class="nexus-chart-card">
+                        <h4><i class="fa fa-pie-chart"/> توزيع الجنسية / Nationality Mix</h4>
+                        <div class="nexus-chart-container">
+                            <canvas id="nexus-saudization-chart"/>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="nexus-chart-card mt-4">
+                    <h4><i class="fa fa-list"/> تفاصيل الموظفين / Employee Breakdown</h4>
+                    <table class="table table-sm" id="nexus-saudization-employees">
+                        <thead>
+                            <tr>
+                                <th>الموظف / Employee</th>
+                                <th>الجنسية / Nationality</th>
+                                <th>القسم / Department</th>
+                                <th>الوظيفة / Job</th>
+                            </tr>
+                        </thead>
+                        <tbody/>
+                    </table>
+                </div>
+            </div>
+        </t>
+    </template>
+
+</odoo>

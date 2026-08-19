@@ -1,3 +1,5 @@
 id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
-access_hybrid_config_user,hybrid.config.user,model_hybrid_config,base.group_user,1,0,0,0
+access_hybrid_config_user,hybrid.config.user,model_hybrid_config,nexus_base_security.group_nexus_manager,1,0,0,0
 access_hybrid_config_manager,hybrid.config.manager,model_hybrid_config,base.group_system,1,1,1,1
+access_nexus_sync_queue_user,nexus.sync.queue.user,model_nexus_sync_queue,nexus_base_security.group_nexus_manager,1,0,0,0
+access_nexus_sync_queue_manager,nexus.sync.queue.manager,model_nexus_sync_queue,base.group_system,1,1,1,1

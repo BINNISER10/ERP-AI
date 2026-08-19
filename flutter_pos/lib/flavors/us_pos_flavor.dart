@@ -1,8 +1,10 @@
+import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../app.dart';
+import '../config.dart';
 import '../core/database/app_database.dart';
 import '../core/network/odoo_jsonrpc.dart';
 import '../core/utils/tax_calculator.dart';
@@ -41,19 +43,27 @@ Future<void> runUsPos() async {
 
   const flavor = Flavor.usPos;
   final database = AppDatabase();
-  final client = OdooJsonRpcClient(baseUrl: 'http://localhost:8069', database: 'nexus_erp');
+  final client = OdooJsonRpcClient(baseUrl: odooBaseUrl, database: 'nexus_erp');
   final printer = ThermalPrinterService();
   final stripeTerminal = StripeTerminalService();
+  final syncBloc = SyncBloc(client: client, database: database);
 
   // Activate Stripe Terminal for US card reader processing.
-  if (flavor.stripeTerminalEnabled) {
+  if (flavor.stripeTerminalEnabled && stripePublishableKey.isNotEmpty) {
     await stripeTerminal.initialize(
-      backendUrl: 'http://localhost:8000',
-      token: const String.fromEnvironment('STRIPE_PUBLISHABLE_KEY', defaultValue: ''),
+      backendUrl: aiBaseUrl,
+      stripePublishableKey: stripePublishableKey,
     );
   }
 
   await database.setup();
+
+  // Push offline orders automatically once connectivity returns.
+  Connectivity().onConnectivityChanged.listen((results) {
+    if (results.any((r) => r != ConnectivityResult.none)) {
+      syncBloc.add(const SyncPendingOrders());
+    }
+  });
 
   runApp(
     MultiBlocProvider(
@@ -68,7 +78,7 @@ Future<void> runUsPos() async {
             stripeTerminal: stripeTerminal,
           )..add(const SetPaymentMethod('card')),
         ),
-        BlocProvider(create: (_) => SyncBloc(client: client, database: database)),
+        BlocProvider.value(value: syncBloc),
       ],
       child: const NexusUsPosApp(flavor: flavor),
     ),

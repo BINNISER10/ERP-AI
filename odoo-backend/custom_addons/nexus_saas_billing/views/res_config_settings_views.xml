@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="res_config_settings_view_form_billing" model="ir.ui.view">
+        <field name="name">res.config.settings.view.form.inherit.saas.billing</field>
+        <field name="model">res.config.settings</field>
+        <field name="inherit_id" ref="base.res_config_settings_view_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//div[@name='saas_settings']" position="inside">
+                <setting help="Stripe Secret Key used for server-side API calls" string="Stripe Secret Key">
+                    <field name="saas_stripe_secret_key" password="True"/>
+                </setting>
+                <setting help="Stripe Publishable Key for client-side Stripe.js" string="Stripe Publishable Key">
+                    <field name="saas_stripe_publishable_key"/>
+                </setting>
+                <setting help="Webhook endpoint signing secret" string="Stripe Webhook Secret">
+                    <field name="saas_stripe_webhook_secret" password="True"/>
+                </setting>
+            </xpath>
+        </field>
+    </record>
+</odoo>

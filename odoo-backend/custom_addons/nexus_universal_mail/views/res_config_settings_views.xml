@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="res_config_settings_view_form_universal_mail" model="ir.ui.view">
+        <field name="name">res.config.settings.view.form.universal.mail</field>
+        <field name="model">res.config.settings</field>
+        <field name="inherit_id" ref="base.res_config_settings_view_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//form" position="inside">
+                <app data-string="Nexus Mail" string="Nexus Mail / البريد" name="nexus_universal_mail">
+                    <block title="Universal Email Setup / إعداد البريد الشامل" id="universal_email_settings">
+                        <setting id="quick_mail_wizard_setting" string="ربط البريد الإلكتروني بخطوة واحدة" help="ربط أي بريد (Google, Outlook, Apple, Yahoo, Zoho, بريد الشركة) عبر كلمات مرور التطبيقات (App Passwords) برابط مباشر.">
+                            <div class="mt8">
+                                <button name="action_open_universal_mail_wizard" 
+                                        type="object" 
+                                        string="🚀 فتح معالج إعداد البريد الشامل" 
+                                        class="btn-primary" 
+                                        icon="fa-envelope"/>
+                            </div>
+                        </setting>
+                    </block>
+                </app>
+            </xpath>
+        </field>
+    </record>
+</odoo>

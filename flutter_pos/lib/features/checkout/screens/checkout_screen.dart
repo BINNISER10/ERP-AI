@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import '../../../core/models/order_payload.dart';
 import '../../pos/bloc/pos_bloc.dart';
 import '../../pos/bloc/pos_event.dart';
 import '../../pos/bloc/pos_state.dart';
@@ -108,7 +109,7 @@ class CheckoutScreen extends StatelessWidget {
                               height: 16,
                               child: CircularProgressIndicator(strokeWidth: 2),
                             )
-                          : const Text('Pay & Post to Odoo'),
+                          : const Text('Pay & Complete Order'),
                     ),
                   ],
                 ),
@@ -130,14 +131,28 @@ class CheckoutScreen extends StatelessWidget {
   }
 
   Future<void> _onSplitBill(BuildContext context) async {
-    final payments = await Navigator.of(context).push<List<dynamic>>(
-      MaterialPageRoute(builder: (_) => const SplitBillScreen()),
+    final total = context.read<PosBloc>().state.total;
+    final payments = await Navigator.of(context).push<List<SplitPayment>>(
+      MaterialPageRoute(builder: (_) => SplitBillScreen(total: total)),
     );
-    if (payments != null && context.mounted) {
-      // Simplified: the split bill screen is expected to update the CheckoutBloc
-      // via inherited state or returning data. Real implementation maps list to
-      // SplitPayment objects.
+    if (payments != null && payments.isNotEmpty && context.mounted) {
+      context.read<CheckoutBloc>().add(SetSplitPayments(payments));
     }
+  }
+
+  /// Dispatches `event` and waits for `done` after a processing cycle.
+  ///
+  /// Subscribes *before* dispatching so no emission can be missed, and only
+  /// resolves when the bloc passes through processing and reaches `done`.
+  Future<void> _dispatchAndWait(
+    BuildContext context,
+    CheckoutEvent event,
+    bool Function(CheckoutState) done,
+  ) async {
+    final bloc = context.read<CheckoutBloc>();
+    final future = bloc.stream.skipWhile((s) => !s.processing).firstWhere(done);
+    bloc.add(event);
+    return future;
   }
 
   Future<void> _onCheckout(BuildContext context) async {
@@ -148,26 +163,21 @@ class CheckoutScreen extends StatelessWidget {
     );
     if (!context.mounted) return;
 
-    context.read<CheckoutBloc>().add(
-          BuildOrder(
-            stateCode: result?['state']?.toUpperCase(),
-            zipCode: result?['zip'],
-          ),
-        );
-
-    // Wait for BuildOrder to finish.
-    await for (final state in context.read<CheckoutBloc>().stream) {
-      if (!state.processing) break;
-    }
+    await _dispatchAndWait(
+      context,
+      BuildOrder(
+        stateCode: result?['state']?.toUpperCase(),
+        zipCode: result?['zip'],
+      ),
+      (s) => !s.processing,
+    );
 
     if (!context.mounted) return;
-    context.read<CheckoutBloc>().add(const ProcessPayment());
-
-    // After payment, clear cart.
-    await for (final state in context.read<CheckoutBloc>().stream) {
-      if (state.paid) break;
-      if (state.error != null) break;
-    }
+    await _dispatchAndWait(
+      context,
+      const ProcessPayment(),
+      (s) => s.paid || s.error != null,
+    );
 
     if (!context.mounted) return;
     final state = context.read<CheckoutBloc>().state;

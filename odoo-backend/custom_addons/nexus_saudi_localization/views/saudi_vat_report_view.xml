@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- VAT Report Form -->
+    <record id="view_nexus_saudi_vat_report_form" model="ir.ui.view">
+        <field name="name">nexus.saudi.vat.report.form</field>
+        <field name="model">nexus.saudi.vat.report</field>
+        <field name="arch" type="xml">
+            <form string="إقرار ضريبة القيمة المضافة">
+                <header>
+                    <button name="action_compute" string="⚡ حساب التقرير"
+                            type="object" class="btn-primary"
+                            invisible="state != 'draft'"/>
+                    <button name="action_export" string="� تصدير XML لـ ZATCA"
+                            type="object" class="btn-success"
+                            invisible="state != 'computed'"/>
+                    <field name="state" widget="statusbar"/>
+                </header>
+                <sheet>
+                    <group>
+                        <group string="الفترة / Period">
+                            <field name="company_id"/>
+                            <field name="period_start"/>
+                            <field name="period_end"/>
+                        </group>
+                        <group string="النتائج / Results">
+                            <field name="sales_total" readonly="1"
+                                   widget="monetary"/>
+                            <field name="purchases_total" readonly="1"
+                                   widget="monetary"/>
+                            <field name="output_vat" readonly="1"
+                                   widget="monetary"/>
+                            <field name="input_vat" readonly="1"
+                                   widget="monetary"/>
+                            <field name="net_vat" readonly="1"
+                                   widget="monetary"/>
+                        </group>
+                    </group>
+                    <notebook>
+                        <page string="الملخص / Summary">
+                            <field name="summary_html" readonly="1"/>
+                        </page>
+                        <page string="XML (ZATCA Format)">
+                            <field name="xml_payload" readonly="1" widget="text"/>
+                        </page>
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_nexus_saudi_vat_report" model="ir.actions.act_window">
+        <field name="name">إقرار ضريبة القيمة المضافة</field>
+        <field name="res_model">nexus.saudi.vat.report</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+    </record>
+
+</odoo>

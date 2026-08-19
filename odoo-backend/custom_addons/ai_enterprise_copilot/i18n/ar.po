@@ -1,0 +1,1594 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* ai_enterprise_copilot
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 18.0-20260810\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-08-14 03:25+0000\n"
+"PO-Revision-Date: 2026-08-14 03:25+0000\n"
+"Last-Translator: Nexus AI\n"
+"Language-Team: Nexus\n"
+"Language: ar\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=6; plural=(n==0 ? 0 : n==1 ? 1 : n==2 ? 2 : n%100>=3 && n%100<=10 ? 3 : n%100>=11 && n%100<=99 ? 4 : 5);\n"
+
+#. module: ai_enterprise_copilot
+#: model_terms:ir.ui.view,arch_db:ai_enterprise_copilot.view_nexus_setup_journey_form
+msgid "1. Identity & Legal"
+msgstr "١. الهوية والقانون"
+
+#. module: ai_enterprise_copilot
+#: model_terms:ir.ui.view,arch_db:ai_enterprise_copilot.view_nexus_setup_journey_form
+msgid "2. Structure & HR"
+msgstr "٢. الهيكل والموارد البشرية"
+
+#. module: ai_enterprise_copilot
+#: model_terms:ir.ui.view,arch_db:ai_enterprise_copilot.view_nexus_setup_journey_form
+msgid "3. Financial Core"
+msgstr "٣. الأساس المالي"
+
+#. module: ai_enterprise_copilot
+#: model_terms:ir.ui.view,arch_db:ai_enterprise_copilot.view_nexus_setup_journey_form
+msgid "4. Operations"
+msgstr "٤. العمليات"
+
+#. module: ai_enterprise_copilot
+#: model_terms:ir.ui.view,arch_db:ai_enterprise_copilot.view_nexus_setup_journey_form
+msgid "5. Go-Live"
+msgstr "٥. البدء الفعلي"
+
+#. module: ai_enterprise_copilot
+#: model:ir.ui.menu,name:ai_enterprise_copilot.menu_copilot_root
+msgid "AI Copilot"
+msgstr "مساعد الذكاء الاصطناعي"
+
+#. module: ai_enterprise_copilot
+#. odoo-python
+#: code:addons/ai_enterprise_copilot/models/incident.py:0
+msgid "AI Copilot Notice"
+msgstr "تنبيه مساعد الذكاء الاصطناعي"
+
+#. module: ai_enterprise_copilot
+#: model:ir.actions.act_window,name:ai_enterprise_copilot.action_copilot_config
+msgid "AI Copilot Settings"
+msgstr "إعدادات مساعد الذكاء الاصطناعي"
+
+#. module: ai_enterprise_copilot
+#: model_terms:ir.ui.view,arch_db:ai_enterprise_copilot.view_copilot_config_form
+msgid "AI Enterprise Copilot"
+msgstr "مساعد المؤسسة الذكي"
+
+#. module: ai_enterprise_copilot
+#: model:ir.model,name:ai_enterprise_copilot.model_copilot_insight
+msgid "AI Enterprise Copilot Insight"
+msgstr "رؤية مساعد المؤسسة الذكي"
+
+#. module: ai_enterprise_copilot
+#: model:ir.model,name:ai_enterprise_copilot.model_copilot_config
+#: model_terms:ir.ui.view,arch_db:ai_enterprise_copilot.view_copilot_config_form
+msgid "AI Enterprise Copilot Settings"
+msgstr "إعدادات مساعد المؤسسة الذكي"
+
+#. module: ai_enterprise_copilot
+#: model:ir.model.fields,help:ai_enterprise_copilot.field_copilot_config__llm_api_key
+msgid "API key for the selected LLM provider."
+msgstr "مفتاح API لمزود نموذج اللغة الكبير المختار."
+
+#. module: ai_enterprise_copilot
+#: model_terms:ir.ui.view,arch_db:ai_enterprise_copilot.view_nexus_setup_journey_form
+msgid "Accounts & Payment"
+msgstr "الحسابات والدفع"
+
+#. module: ai_enterprise_copilot
+#: model:ir.model.fields,field_description:ai_enterprise_copilot.field_nexus_setup_journey__message_needaction
+msgid "Action Needed"
+msgstr "يلزم اتخاذ إجراء"
+
+#. module: ai_enterprise_copilot
+#: model:ir.model.fields,field_description:ai_enterprise_copilot.field_copilot_config__active
+#: model:ir.model.fields,field_description:ai_enterprise_copilot.field_copilot_insight__active
+#: model:ir.model.fields,field_description:ai_enterprise_copilot.field_nexus_setup_journey__active
+msgid "Active"
+msgstr "نشط"
+
+#. module: ai_enterprise_copilot
+#: model_terms:ir.ui.view,arch_db:ai_enterprise_copilot.view_nexus_setup_journey_form
+msgid ""
+"Add your branches/warehouses, departments and employees. Each addition is "
+"sent to Nexus Core as a structural element."
+msgstr "أضف فروعك/مستودعاتك وأقسامك وموظفيك. يُرسل كل إضافة إلى نواة Nexus كعنصر هيكلي."
+
+#. module: ai_enterprise_copilot
+#: model_terms:ir.ui.view,arch_db:ai_enterprise_copilot.view_nexus_setup_journey_form
+msgid "All stages are complete and your setup has been synced to Nexus Core."
+msgstr "تمت جميع المراحل ومزامنة إعداداتك مع نواة Nexus."
+
+#. module: ai_enterprise_copilot
+#: model:ir.model.fields.selection,name:ai_enterprise_copilot.selection__copilot_behavior_log__state__allowed
+msgid "Allowed"
+msgstr "مسموح"
+
+#. module: ai_enterprise_copilot
+#. odoo-python
+#: code:addons/ai_enterprise_copilot/models/setup_journey.py:0
+msgid ""
+"Almost ready! Please configure a POS terminal first so we can open a session"
+" for you."
+msgstr "أصبحنا على وشك الانتهاء! الرجاء ضبط جهاز نقاط البيع أولاً حتى نتمكن من فتح جلسة لك."
+
+#. module: ai_enterprise_copilot
+#: model:ir.model.fields.selection,name:ai_enterprise_copilot.selection__copilot_config__llm_provider__anthropic
+msgid "Anthropic"
+msgstr "Anthropic"
+
+#. module: ai_enterprise_copilot
+#: model_terms:ir.ui.view,arch_db:ai_enterprise_copilot.view_nexus_setup_journey_form
+msgid "Any additional setup notes..."
+msgstr "أي ملاحظات إضافية للإعداد..."
+
+#. module: ai_enterprise_copilot
+#: model:ir.model.fields,field_description:ai_enterprise_copilot.field_nexus_setup_journey__message_attachment_count
+msgid "Attachment Count"
+msgstr "عدد المرفقات"
+
+#. module: ai_enterprise_copilot
+#: model:ir.model.fields,field_description:ai_enterprise_copilot.field_copilot_behavior_log__action
+msgid "Attempted Action"
+msgstr "الإجراء الذي تمت محاولته"
+
+#. module: ai_enterprise_copilot
+#: model:ir.model.fields,field_description:ai_enterprise_copilot.field_nexus_setup_step__auto_sync
+msgid "Auto Sync"
+msgstr "المزامنة التلقائية"
+
+#. module: ai_enterprise_copilot
+#: model:ir.model.fields,field_description:ai_enterprise_copilot.field_nexus_setup_journey__bank_journal_ids
+msgid "Bank Accounts"
+msgstr "حسابات البنوك"
+
+#. module: ai_enterprise_copilot
+#. odoo-python
+#: code:addons/ai_enterprise_copilot/models/setup_journey.py:0
+msgid "Bank accounts, cash registers, payment methods and taxes."
+msgstr "حسابات البنوك، وسجلات النقدية، وطرق الدفع، والضرائب."
+
+#. module: ai_enterprise_copilot
+#: model:ir.model.fields,help:ai_enterprise_copilot.field_copilot_config__erpnext_url
+#: model:ir.model.fields,help:ai_enterprise_copilot.field_copilot_setup_wizard__erpnext_url
+msgid "Base URL of the ERPNext instance."
+msgstr "عنوان URL الأساسي لمثيل ERPNext."
+
+#. module: ai_enterprise_copilot
+#: model:ir.model.fields,help:ai_enterprise_copilot.field_copilot_config__nexus_core_url
+msgid "Base URL of the Nexus Core API that receives setup configuration."
+msgstr "عنوان URL الأساسي لواجهة برمجة تطبيقات نواة Nexus التي تستقبل إعدادات الإعداد."
+
+#. module: ai_enterprise_copilot
+#: model:ir.model.fields,help:ai_enterprise_copilot.field_copilot_config__n8n_url
+#: model:ir.model.fields,help:ai_enterprise_copilot.field_copilot_setup_wizard__n8n_url
+msgid "Base URL of the n8n automation server."
+msgstr "عنوان URL الأساسي لخادم أتمتة n8n."
+
+#. module: ai_enterprise_copilot
+#: model:ir.model.fields,help:ai_enterprise_copilot.field_copilot_config__nexus_core_api_key
+msgid "Bearer token or API key for Nexus Core authentication."
+msgstr "رمز Bearer أو مفتاح API للمصادقة على نواة Nexus."
+
+#. module: ai_enterprise_copilot
+#. odoo-python
+#: code:addons/ai_enterprise_copilot/models/behavior_log.py:0
+msgid "Behavior Log"
+msgstr "سجل السلوك"
+
+#. module: ai_enterprise_copilot
+#: model:ir.actions.act_window,name:ai_enterprise_copilot.action_copilot_behavior_log
+#: model:ir.ui.menu,name:ai_enterprise_copilot.menu_copilot_behavior_log
+msgid "Behavior Logs"
+msgstr "سجلات السلوك"
+
+#. module: ai_enterprise_copilot
+#: model:ir.model.fields.selection,name:ai_enterprise_copilot.selection__copilot_behavior_log__state__blocked
+msgid "Blocked"
+msgstr "محظور"
+
+#. module: ai_enterprise_copilot
+#: model:ir.model.fields,field_description:ai_enterprise_copilot.field_nexus_setup_journey__warehouse_ids
+msgid "Branches / Warehouses"
+msgstr "الفروع / المستودعات"
+
+#. module: ai_enterprise_copilot
+#. odoo-python
+#: code:addons/ai_enterprise_copilot/models/setup_journey.py:0
+msgid "Branches/warehouses, departments and employees."
+msgstr "الفروع/المستودعات والأقسام والموظفين."
+
+#. module: ai_enterprise_copilot
+#: model:ir.model.fields.selection,name:ai_enterprise_copilot.selection__copilot_insight__persona__ceo
+msgid "CEO"
+msgstr "الرئيس التنفيذي"
+
+#. module: ai_enterprise_copilot
+#: model:ir.model.fields.selection,name:ai_enterprise_copilot.selection__copilot_insight__persona__cfo
+msgid "CFO"
+msgstr "المدير المالي"
+
+#. module: ai_enterprise_copilot
+#: model:ir.model.fields.selection,name:ai_enterprise_copilot.selection__copilot_insight__persona__coo
+msgid "COO"
+msgstr "مدير العمليات"
+
+#. module: ai_enterprise_copilot
+#: model:ir.model.fields.selection,name:ai_enterprise_copilot.selection__nexus_setup_journey__state__cancelled
+msgid "Cancelled"
+msgstr "ملغى"
+
+#. module: ai_enterprise_copilot
+#: model:ir.model.fields,field_description:ai_enterprise_copilot.field_nexus_setup_journey__cash_journal_ids
+msgid "Cash Registers"
+msgstr "سجلات النقدية"
+
+#. module: ai_enterprise_copilot
+#: model:ir.model.fields,field_description:ai_enterprise_copilot.field_copilot_setup_wizard__coa_sync_status
+msgid "Chart of Accounts Sync Status"
+msgstr "حالة مزامنة شجرة الحسابات"
+
+#. module: ai_enterprise_copilot
+#. odoo-python
+#: code:addons/ai_enterprise_copilot/models/milestone.py:0
+msgid "Chart of Accounts Sync Triggered"
+msgstr "تم تشغيل مزامنة شجرة الحسابات"
+
+#. module: ai_enterprise_copilot
+#: model_terms:ir.ui.view,arch_db:ai_enterprise_copilot.view_copilot_setup_wizard_form
+msgid "Close"
+msgstr "إغلاق"
+
+#. module: ai_enterprise_copilot
+#: model:ir.model.fields,field_description:ai_enterprise_copilot.field_nexus_setup_step__code
+msgid "Code"
+msgstr "الرمز"
+
+#. module: ai_enterprise_copilot
+#: model:ir.model.fields,field_description:ai_enterprise_copilot.field_copilot_config__company_id
+#: model:ir.model.fields,field_description:ai_enterprise_copilot.field_copilot_setup_milestone__company_id
+#: model:ir.model.fields,field_description:ai_enterprise_copilot.field_copilot_setup_wizard__company_id
+#: model:ir.model.fields,field_description:ai_enterprise_copilot.field_nexus_setup_journey__company_id
+msgid "Company"
+msgstr "الشركة"
+
+#. module: ai_enterprise_copilot
+#: model_terms:ir.ui.view,arch_db:ai_enterprise_copilot.view_nexus_setup_journey_form
+msgid "Company Identity"
+msgstr "هوية الشركة"
+
+#. module: ai_enterprise_copilot
+#: model:ir.model.fields,field_description:ai_enterprise_copilot.field_nexus_setup_journey__company_logo
+msgid "Company Logo"
+msgstr "شعار الشركة"
+
+#. module: ai_enterprise_copilot
+#: model:ir.model.fields,field_description:ai_enterprise_copilot.field_nexus_setup_journey__company_name
+msgid "Company Name"
+msgstr "اسم الشركة"
+
+#. module: ai_enterprise_copilot
+#. odoo-python
+#: code:addons/ai_enterprise_copilot/models/setup_journey.py:0
+msgid "Company name, logo, tax ID, currency and industry."
+msgstr "اسم الشركة والشعار ورقم الضريبة والعملة والصناعة."
+
+#. module: ai_enterprise_copilot
+#: model:ir.model.fields,help:ai_enterprise_copilot.field_copilot_config__company_id
+msgid "Company that this Copilot configuration belongs to."
+msgstr "الشركة التي تنتمي إليها إعدادات مساعد الذكاء الاصطناعي."
+
+#. module: ai_enterprise_copilot
+#: model_terms:ir.ui.view,arch_db:ai_enterprise_copilot.view_nexus_setup_journey_form
+msgid "Complete & Sync Finance"
+msgstr "إكمال ومزامنة المالية"
+
+#. module: ai_enterprise_copilot
+#: model_terms:ir.ui.view,arch_db:ai_enterprise_copilot.view_nexus_setup_journey_form
+msgid "Complete & Sync Identity"
+msgstr "إكمال ومزامنة الهوية"
+
+#. module: ai_enterprise_copilot
+#: model_terms:ir.ui.view,arch_db:ai_enterprise_copilot.view_nexus_setup_journey_form
+msgid "Complete & Sync Operations"
+msgstr "إكمال ومزامنة العمليات"
+
+#. module: ai_enterprise_copilot
+#: model_terms:ir.ui.view,arch_db:ai_enterprise_copilot.view_nexus_setup_journey_form
+msgid "Complete & Sync Structure"
+msgstr "إكمال ومزامنة الهيكل"
+
+#. module: ai_enterprise_copilot
+#: model:ir.model.fields,field_description:ai_enterprise_copilot.field_copilot_setup_milestone__completed_date
+msgid "Completed Date"
+msgstr "تاريخ الإكمال"
+
+#. module: ai_enterprise_copilot
+#: model:ir.model.fields,field_description:ai_enterprise_copilot.field_copilot_config__name
+msgid "Configuration Name"
+msgstr "اسم التكوين"
+
+#. module: ai_enterprise_copilot
+#: model_terms:ir.ui.view,arch_db:ai_enterprise_copilot.view_nexus_setup_journey_form
+msgid ""
+"Configure bank accounts, cash registers, POS payment methods and tax rules "
+"so you can collect and account money correctly."
+msgstr "اضبط حسابات البنوك وسجلات النقدية وطرق دفع نقاط البيع وقواعد الضريبة لكي تتمكن من تحصيل الأموال وحسابها بشكل صحيح."
+
+#. module: ai_enterprise_copilot
+#: model:ir.model.fields,field_description:ai_enterprise_copilot.field_copilot_setup_wizard__connection_status
+msgid "Connection Status"
+msgstr "حالة الاتصال"
+
+#. module: ai_enterprise_copilot
+#. odoo-python
+#: code:addons/ai_enterprise_copilot/models/milestone.py:0
+msgid "Connection validated successfully (HTTP %s)."
+msgstr "تم التحقق من الاتصال بنجاح (HTTP %s)."
+
+#. module: ai_enterprise_copilot
+#: model:ir.model,name:ai_enterprise_copilot.model_copilot_behavior_log
+msgid "Copilot Behavioral Interceptor Log"
+msgstr "سجل اعتراض سلوك مساعد الذكاء الاصطناعي"
+
+#. module: ai_enterprise_copilot
+#: model:ir.actions.act_window,name:ai_enterprise_copilot.action_copilot_setup_wizard
+#: model_terms:ir.ui.view,arch_db:ai_enterprise_copilot.view_copilot_setup_wizard_form
+msgid "Copilot Setup"
+msgstr "إعداد المساعد"
+
+#. module: ai_enterprise_copilot
+#: model:ir.model,name:ai_enterprise_copilot.model_copilot_setup_milestone
+msgid "Copilot Setup Milestone"
+msgstr "معالم إعداد المساعد"
+
+#. module: ai_enterprise_copilot
+#: model:ir.model,name:ai_enterprise_copilot.model_copilot_setup_wizard
+msgid "Copilot Setup Wizard"
+msgstr "معالج إعداد المساعد"
+
+#. module: ai_enterprise_copilot
+#: model:ir.model,name:ai_enterprise_copilot.model_copilot_support_incident
+msgid "Copilot Support Incident"
+msgstr "حادثة دعم المساعد"
+
+#. module: ai_enterprise_copilot
+#. odoo-python
+#: code:addons/ai_enterprise_copilot/models/incident.py:0
+msgid ""
+"Copilot is not configured. Cannot check hybrid health because no Hybrid Sync"
+" configuration is linked."
+msgstr "لم يتم تكوين المساعد. لا يمكن التحقق من صحة التكامل لعدم ربط تكوين المزامنة الهجينة."
+
+#. module: ai_enterprise_copilot
+#: model:ir.actions.server,name:ai_enterprise_copilot.copilot_fetch_erpnext_kpis_cron_ir_actions_server
+msgid "Copilot: Fetch ERPNext KPIs"
+msgstr "المساعد: جلب مؤشرات أداء ERPNext"
+
+#. module: ai_enterprise_copilot
+#: model:ir.actions.server,name:ai_enterprise_copilot.copilot_hybrid_health_check_cron_ir_actions_server
+msgid "Copilot: Hybrid Health Check"
+msgstr "المساعد: فحص صحة التكامل"
+
+#. module: ai_enterprise_copilot
+#: model_terms:ir.ui.view,arch_db:ai_enterprise_copilot.view_nexus_setup_journey_form
+msgid ""
+"Create product categories and items, then set up your POS terminal. You will"
+" not be able to sell until payment methods are configured."
+msgstr "أنشئ فئات المنتجات والمنتجات، ثم اضبط جهاز نقاط البيع. لن تتمكن من البيع حتى يتم ضبط طرق الدفع."
+
+#. module: ai_enterprise_copilot
+#: model:ir.model.fields,field_description:ai_enterprise_copilot.field_copilot_behavior_log__create_uid
+#: model:ir.model.fields,field_description:ai_enterprise_copilot.field_copilot_config__create_uid
+#: model:ir.model.fields,field_description:ai_enterprise_copilot.field_copilot_insight__create_uid
+#: model:ir.model.fields,field_description:ai_enterprise_copilot.field_copilot_setup_milestone__create_uid
+#: model:ir.model.fields,field_description:ai_enterprise_copilot.field_copilot_setup_wizard__create_uid
+#: model:ir.model.fields,field_description:ai_enterprise_copilot.field_copilot_support_incident__create_uid
+#: model:ir.model.fields,field_description:ai_enterprise_copilot.field_nexus_setup_journey__create_uid
+#: model:ir.model.fields,field_description:ai_enterprise_copilot.field_nexus_setup_step__create_uid
+msgid "Created by"
+msgstr "أنشئ بواسطة"
+
+#. module: ai_enterprise_copilot
+#: model:ir.model.fields,field_description:ai_enterprise_copilot.field_copilot_behavior_log__create_date
+#: model:ir.model.fields,field_description:ai_enterprise_copilot.field_copilot_config__create_date
+#: model:ir.model.fields,field_description:ai_enterprise_copilot.field_copilot_insight__create_date
+#: model:ir.model.fields,field_description:ai_enterprise_copilot.field_copilot_setup_milestone__create_date
+#: model:ir.model.fields,field_description:ai_enterprise_copilot.field_copilot_setup_wizard__create_date
+#: model:ir.model.fields,field_description:ai_enterprise_copilot.field_copilot_support_incident__create_date
+#: model:ir.model.fields,field_description:ai_enterprise_copilot.field_nexus_setup_journey__create_date
+#: model:ir.model.fields,field_description:ai_enterprise_copilot.field_nexus_setup_step__create_date
+msgid "Created on"
+msgstr "أنشئ في"
+
+#. module: ai_enterprise_copilot
+#: model:ir.model.fields.selection,name:ai_enterprise_copilot.selection__copilot_support_incident__severity__critical
+msgid "Critical"
+msgstr "حرج"
+
+#. module: ai_enterprise_copilot
+#: model:ir.model.fields,field_description:ai_enterprise_copilot.field_nexus_setup_journey__currency_id
+msgid "Currency"
+msgstr "العملة"
+
+#. module: ai_enterprise_copilot
+#: model_terms:ir.ui.view,arch_db:ai_enterprise_copilot.view_nexus_setup_journey_form
+msgid ""
+"Define your company name, logo, tax ID, currency and industry. This is the "
+"foundation of your Nexus Hybrid instance."
+msgstr "حدد اسم شركك وشعارها ورقم الضريبة وعملتها وصناعتها. هذا هو الأساس لمثيل Nexus Hybrid الخاص بك."
+
+#. module: ai_enterprise_copilot
+#: model:ir.model.fields,field_description:ai_enterprise_copilot.field_nexus_setup_journey__department_ids
+msgid "Departments"
+msgstr "الأقسام"
+
+#. module: ai_enterprise_copilot
+#: model:ir.model.fields,field_description:ai_enterprise_copilot.field_copilot_setup_milestone__description
+#: model:ir.model.fields,field_description:ai_enterprise_copilot.field_copilot_support_incident__description
+#: model:ir.model.fields,field_description:ai_enterprise_copilot.field_nexus_setup_step__description
+msgid "Description"
+msgstr "الوصف"
+
+#. module: ai_enterprise_copilot
+#: model:ir.model.fields,field_description:ai_enterprise_copilot.field_copilot_config__dev_team_webhook
+msgid "Dev Team Webhook URL"
+msgstr "عنوان URL لخطاف فريق التطوير"
+
+#. module: ai_enterprise_copilot
+#: model_terms:ir.ui.view,arch_db:ai_enterprise_copilot.view_copilot_config_form
+msgid "DevOps Monitoring"
+msgstr "مراقبة DevOps"
+
+#. module: ai_enterprise_copilot
+#: model:ir.model.fields,field_description:ai_enterprise_copilot.field_copilot_behavior_log__display_name
+#: model:ir.model.fields,field_description:ai_enterprise_copilot.field_copilot_config__display_name
+#: model:ir.model.fields,field_description:ai_enterprise_copilot.field_copilot_insight__display_name
+#: model:ir.model.fields,field_description:ai_enterprise_copilot.field_copilot_setup_milestone__display_name
+#: model:ir.model.fields,field_description:ai_enterprise_copilot.field_copilot_setup_wizard__display_name
+#: model:ir.model.fields,field_description:ai_enterprise_copilot.field_copilot_support_incident__display_name
+#: model:ir.model.fields,field_description:ai_enterprise_copilot.field_nexus_setup_journey__display_name
+#: model:ir.model.fields,field_description:ai_enterprise_copilot.field_nexus_setup_step__display_name
+msgid "Display Name"
+msgstr "اسم العرض"
+
+#. module: ai_enterprise_copilot
+#: model:ir.model.fields.selection,name:ai_enterprise_copilot.selection__copilot_setup_milestone__state__done
+#: model:ir.model.fields.selection,name:ai_enterprise_copilot.selection__copilot_setup_wizard__step__done
+#: model:ir.model.fields.selection,name:ai_enterprise_copilot.selection__nexus_setup_journey__stage__done
+#: model:ir.model.fields.selection,name:ai_enterprise_copilot.selection__nexus_setup_journey__state__done
+#: model:ir.model.fields.selection,name:ai_enterprise_copilot.selection__nexus_setup_step__state__done
+msgid "Done"
+msgstr "مكتمل"
+
+#. module: ai_enterprise_copilot
+#: model:ir.model.fields.selection,name:ai_enterprise_copilot.selection__nexus_setup_journey__state__draft
+msgid "Draft"
+msgstr "مسودة"
+
+#. module: ai_enterprise_copilot
+#: model:ir.model.fields.selection,name:ai_enterprise_copilot.selection__copilot_support_incident__source__erpnext
+msgid "ERPNext"
+msgstr "السجل المالي المركزي"
+
+#. module: ai_enterprise_copilot
+#: model:ir.model.fields,field_description:ai_enterprise_copilot.field_copilot_config__erpnext_api_key
+msgid "ERPNext API Key"
+msgstr "مفتاح الربط بالسجل المركزي (API Key)"
+
+#. module: ai_enterprise_copilot
+#: model:ir.model.fields,field_description:ai_enterprise_copilot.field_copilot_config__erpnext_api_secret
+msgid "ERPNext API Secret"
+msgstr "الرمز السري للسجل المركزي (API Secret)"
+
+#. module: ai_enterprise_copilot
+#: model:ir.model.fields,help:ai_enterprise_copilot.field_copilot_config__erpnext_api_key
+msgid "ERPNext API key for token-based authentication."
+msgstr "مفتاح الربط للمصادقة المشفرة."
+
+#. module: ai_enterprise_copilot
+#: model:ir.model.fields,help:ai_enterprise_copilot.field_copilot_config__erpnext_api_secret
+msgid "ERPNext API secret for token-based authentication."
+msgstr "الرمز السري للمصادقة المشفرة."
+
+#. module: ai_enterprise_copilot
+#: model:ir.model.fields,field_description:ai_enterprise_copilot.field_copilot_config__erpnext_url
+msgid "ERPNext Base URL"
+msgstr "رابط السجل المالي المركزي"
+
+#. module: ai_enterprise_copilot
+#: model_terms:ir.ui.view,arch_db:ai_enterprise_copilot.view_copilot_config_form
+msgid "ERPNext Connection"
+msgstr "الاتصال بالسجل المركزي"
+
+#. module: ai_enterprise_copilot
+#. odoo-python
+#: code:addons/ai_enterprise_copilot/models/milestone.py:0
+msgid "ERPNext Connection Validated"
+msgstr "تم التحقق من اتصال ERPNext"
+
+#. module: ai_enterprise_copilot
+#. odoo-python
+#: code:addons/ai_enterprise_copilot/models/insight.py:0
+msgid "ERPNext KPI Fetch Failed"
+msgstr "فشل جلب مؤشرات أداء ERPNext"
+
+#. module: ai_enterprise_copilot
+#. odoo-python
+#: code:addons/ai_enterprise_copilot/models/insight.py:0
+msgid "ERPNext KPI fetch failed"
+msgstr "فشل جلب مؤشرات أداء ERPNext"
+
+#. module: ai_enterprise_copilot
+#: model:ir.model.fields,field_description:ai_enterprise_copilot.field_copilot_setup_wizard__erpnext_url
+msgid "ERPNext URL"
+msgstr "عنوان URL لـ ERPNext"
+
+#. module: ai_enterprise_copilot
+#. odoo-python
+#: code:addons/ai_enterprise_copilot/models/insight.py:0
+msgid "ERPNext is not configured yet"
+msgstr "لم يتم تكوين ERPNext بعد"
+
+#. module: ai_enterprise_copilot
+#. odoo-python
+#: code:addons/ai_enterprise_copilot/models/insight.py:0
+msgid ""
+"ERPNext is temporarily unavailable. I will retry soon; your Odoo invoices "
+"are still safe here."
+msgstr "ERPNext غير متاح مؤقتاً. سأعيد المحاولة قريباً؛ فواتير Odoo الخاصة بك لا تزال آمنة هنا."
+
+#. module: ai_enterprise_copilot
+#: model:ir.model.fields.selection,name:ai_enterprise_copilot.selection__nexus_setup_journey__industry_domain__education
+msgid "Education"
+msgstr "التعليم"
+
+#. module: ai_enterprise_copilot
+#: model:ir.model.fields,field_description:ai_enterprise_copilot.field_nexus_setup_journey__employee_ids
+msgid "Employees"
+msgstr "الموظفين"
+
+#. module: ai_enterprise_copilot
+#: model:ir.model.fields,help:ai_enterprise_copilot.field_copilot_config__active
+msgid "Enable or disable this Copilot."
+msgstr "تفعيل أو تعطيل هذا المساعد."
+
+#. module: ai_enterprise_copilot
+#: model:ir.model.fields,help:ai_enterprise_copilot.field_copilot_config__dev_team_webhook
+msgid "Endpoint that receives silent technical incident payloads."
+msgstr "نقطة النهاية التي تستقبل حمولات حوادث تقنية صامتة."
+
+#. module: ai_enterprise_copilot
+#: model:ir.model.fields.selection,name:ai_enterprise_copilot.selection__nexus_setup_step__last_sync_status__error
+msgid "Error"
+msgstr "خطأ"
+
+#. module: ai_enterprise_copilot
+#: model:ir.actions.act_window,name:ai_enterprise_copilot.action_copilot_dashboard_insights
+#: model:ir.ui.menu,name:ai_enterprise_copilot.menu_copilot_dashboard
+msgid "Executive Insights"
+msgstr "رؤى تنفيذية"
+
+#. module: ai_enterprise_copilot
+#: model_terms:ir.ui.view,arch_db:ai_enterprise_copilot.view_nexus_setup_journey_form
+msgid "Final Validation"
+msgstr "التحقق النهائي"
+
+#. module: ai_enterprise_copilot
+#. odoo-python
+#: code:addons/ai_enterprise_copilot/models/setup_journey.py:0
+msgid "Final validation and readiness check."
+msgstr "التحقق النهائي وفحص الاستعداد."
+
+#. module: ai_enterprise_copilot
+#. odoo-python
+#: code:addons/ai_enterprise_copilot/models/insight.py:0
+msgid "Financial & Manufacturing Snapshot"
+msgstr "لقطة مالية وتصنيعية"
+
+#. module: ai_enterprise_copilot
+#. odoo-python
+#: code:addons/ai_enterprise_copilot/models/setup_journey.py:0
+#: model:ir.model.fields.selection,name:ai_enterprise_copilot.selection__nexus_setup_journey__stage__financial_core
+#: model:ir.model.fields.selection,name:ai_enterprise_copilot.selection__nexus_setup_step__stage__financial_core
+msgid "Financial Core"
+msgstr "الأساس المالي"
+
+#. module: ai_enterprise_copilot
+#: model:ir.model.fields,field_description:ai_enterprise_copilot.field_nexus_setup_journey__message_follower_ids
+msgid "Followers"
+msgstr "المتابعون"
+
+#. module: ai_enterprise_copilot
+#: model:ir.model.fields,field_description:ai_enterprise_copilot.field_nexus_setup_journey__message_partner_ids
+msgid "Followers (Partners)"
+msgstr "المتابعون (الشركاء)"
+
+#. module: ai_enterprise_copilot
+#: model:ir.model.fields,help:ai_enterprise_copilot.field_copilot_insight__warm_message
+msgid "Friendly guidance for the end user."
+msgstr "إرشادات ودية للمستخدم النهائي."
+
+#. module: ai_enterprise_copilot
+#: model:ir.model.fields,help:ai_enterprise_copilot.field_copilot_behavior_log__warm_message
+msgid "Friendly message that was shown to the user."
+msgstr "رسالة ودية عُرضت للمستخدم."
+
+#. module: ai_enterprise_copilot
+#: model:ir.model.fields.selection,name:ai_enterprise_copilot.selection__copilot_support_incident__source__general
+msgid "General"
+msgstr "عام"
+
+#. module: ai_enterprise_copilot
+#. odoo-python
+#: code:addons/ai_enterprise_copilot/models/setup_journey.py:0
+#: model:ir.model.fields.selection,name:ai_enterprise_copilot.selection__nexus_setup_journey__stage__go_live
+#: model:ir.model.fields.selection,name:ai_enterprise_copilot.selection__nexus_setup_step__stage__go_live
+msgid "Go-Live"
+msgstr "البدء الفعلي"
+
+#. module: ai_enterprise_copilot
+#: model:ir.model.fields.selection,name:ai_enterprise_copilot.selection__copilot_config__llm_provider__gemini
+msgid "Google Gemini"
+msgstr "جوجل جيميناي"
+
+#. module: ai_enterprise_copilot
+#: model:ir.model.fields,field_description:ai_enterprise_copilot.field_nexus_setup_journey__has_message
+msgid "Has Message"
+msgstr "يحتوي على رسالة"
+
+#. module: ai_enterprise_copilot
+#: model:ir.model.fields.selection,name:ai_enterprise_copilot.selection__nexus_setup_journey__industry_domain__healthcare
+msgid "Healthcare"
+msgstr "الرعاية الصحية"
+
+#. module: ai_enterprise_copilot
+#: model:ir.model.fields.selection,name:ai_enterprise_copilot.selection__copilot_support_incident__severity__high
+msgid "High"
+msgstr "عالي"
+
+#. module: ai_enterprise_copilot
+#: model:ir.model.fields,field_description:ai_enterprise_copilot.field_copilot_config__hybrid_config_id
+#: model:ir.model.fields,field_description:ai_enterprise_copilot.field_copilot_setup_wizard__hybrid_config_id
+msgid "Hybrid Sync Configuration"
+msgstr "تكوين المزامنة الهجينة"
+
+#. module: ai_enterprise_copilot
+#. odoo-python
+#: code:addons/ai_enterprise_copilot/models/insight.py:0
+msgid "I cannot fetch your KPIs because the ERPNext URL is missing."
+msgstr "لا أستطيع جلب مؤشرات الأداء الخاصة بك لأن عنوان URL لـ ERPNext مفقود."
+
+#. module: ai_enterprise_copilot
+#: model:ir.model.fields,field_description:ai_enterprise_copilot.field_copilot_behavior_log__id
+#: model:ir.model.fields,field_description:ai_enterprise_copilot.field_copilot_config__id
+#: model:ir.model.fields,field_description:ai_enterprise_copilot.field_copilot_insight__id
+#: model:ir.model.fields,field_description:ai_enterprise_copilot.field_copilot_setup_milestone__id
+#: model:ir.model.fields,field_description:ai_enterprise_copilot.field_copilot_setup_wizard__id
+#: model:ir.model.fields,field_description:ai_enterprise_copilot.field_copilot_support_incident__id
+#: model:ir.model.fields,field_description:ai_enterprise_copilot.field_nexus_setup_journey__id
+#: model:ir.model.fields,field_description:ai_enterprise_copilot.field_nexus_setup_step__id
+msgid "ID"
+msgstr "المعرف"
+
+#. module: ai_enterprise_copilot
+#. odoo-python
+#: code:addons/ai_enterprise_copilot/models/incident.py:0
+msgid "INC-%(timestamp)s"
+msgstr "حادث-%(timestamp)s"
+
+#. module: ai_enterprise_copilot
+#: model:ir.model.fields.selection,name:ai_enterprise_copilot.selection__copilot_insight__persona__it_admin
+msgid "IT Admin"
+msgstr "مسؤول تكنولوجيا المعلومات"
+
+#. module: ai_enterprise_copilot
+#. odoo-python
+#: code:addons/ai_enterprise_copilot/models/setup_journey.py:0
+#: model:ir.model.fields.selection,name:ai_enterprise_copilot.selection__nexus_setup_journey__stage__identity_legal
+#: model:ir.model.fields.selection,name:ai_enterprise_copilot.selection__nexus_setup_step__stage__identity_legal
+msgid "Identity & Legal"
+msgstr "الهوية والقانون"
+
+#. module: ai_enterprise_copilot
+#: model:ir.model.fields,help:ai_enterprise_copilot.field_nexus_setup_journey__message_needaction
+msgid "If checked, new messages require your attention."
+msgstr "إذا تم تحديده، تتطلب الرسائل الجديدة اهتمامك."
+
+#. module: ai_enterprise_copilot
+#: model:ir.model.fields,help:ai_enterprise_copilot.field_nexus_setup_journey__message_has_error
+#: model:ir.model.fields,help:ai_enterprise_copilot.field_nexus_setup_journey__message_has_sms_error
+msgid "If checked, some messages have a delivery error."
+msgstr "إذا تم تحديده، تحتوي بعض الرسائل على خطأ في التسليم."
+
+#. module: ai_enterprise_copilot
+#: model:ir.model.fields,help:ai_enterprise_copilot.field_nexus_setup_step__auto_sync
+msgid ""
+"If set, completing this step will push the configuration to Nexus Core."
+msgstr "إذا تم التعيين، فإن إكمال هذه الخطوة سيدفع التكوين إلى نواة Nexus."
+
+#. module: ai_enterprise_copilot
+#: model:ir.model.fields.selection,name:ai_enterprise_copilot.selection__copilot_setup_milestone__state__in_progress
+#: model:ir.model.fields.selection,name:ai_enterprise_copilot.selection__nexus_setup_journey__state__in_progress
+#: model:ir.model.fields.selection,name:ai_enterprise_copilot.selection__nexus_setup_step__state__in_progress
+msgid "In Progress"
+msgstr "قيد التنفيذ"
+
+#. module: ai_enterprise_copilot
+#: model:ir.model.fields,field_description:ai_enterprise_copilot.field_copilot_support_incident__name
+msgid "Incident"
+msgstr "حادثة"
+
+#. module: ai_enterprise_copilot
+#: model:ir.ui.menu,name:ai_enterprise_copilot.menu_copilot_incidents
+msgid "Incidents"
+msgstr "الحوادث"
+
+#. module: ai_enterprise_copilot
+#: model:ir.model.fields,field_description:ai_enterprise_copilot.field_nexus_setup_journey__industry_domain
+msgid "Industry / Domain"
+msgstr "الصناعة / المجال"
+
+#. module: ai_enterprise_copilot
+#: model:ir.model.fields,field_description:ai_enterprise_copilot.field_copilot_insight__insight_text
+msgid "Insight"
+msgstr "رؤية"
+
+#. module: ai_enterprise_copilot
+#: model:ir.model.fields.selection,name:ai_enterprise_copilot.selection__copilot_support_incident__state__investigating
+msgid "Investigating"
+msgstr "قيد التحقيق"
+
+#. module: ai_enterprise_copilot
+#: model:ir.model.fields,field_description:ai_enterprise_copilot.field_nexus_setup_journey__message_is_follower
+msgid "Is Follower"
+msgstr "متابع"
+
+#. module: ai_enterprise_copilot
+#: model:ir.model.fields,field_description:ai_enterprise_copilot.field_nexus_setup_journey__product_ids
+msgid "Items / Products"
+msgstr "العناصر / المنتجات"
+
+#. module: ai_enterprise_copilot
+#: model:ir.model.fields,help:ai_enterprise_copilot.field_nexus_setup_step__sync_payload
+msgid "JSON snapshot sent to Nexus Core."
+msgstr "لقطة JSON مُرسلة إلى نواة Nexus."
+
+#. module: ai_enterprise_copilot
+#: model:ir.model,name:ai_enterprise_copilot.model_account_move
+msgid "Journal Entry"
+msgstr "قيد اليومية"
+
+#. module: ai_enterprise_copilot
+#: model:ir.model.fields,field_description:ai_enterprise_copilot.field_nexus_setup_step__journey_id
+msgid "Journey"
+msgstr "رحلة"
+
+#. module: ai_enterprise_copilot
+#: model_terms:ir.ui.view,arch_db:ai_enterprise_copilot.view_copilot_config_form
+msgid "LLM / AI"
+msgstr "نموذج اللغة الكبير / الذكاء الاصطناعي"
+
+#. module: ai_enterprise_copilot
+#: model:ir.model.fields,field_description:ai_enterprise_copilot.field_copilot_config__llm_api_key
+msgid "LLM API Key"
+msgstr "مفتاح API لنموذج اللغة الكبير"
+
+#. module: ai_enterprise_copilot
+#: model:ir.model.fields,field_description:ai_enterprise_copilot.field_copilot_config__llm_model
+msgid "LLM Model"
+msgstr "نموذج اللغة الكبير"
+
+#. module: ai_enterprise_copilot
+#: model:ir.model.fields,field_description:ai_enterprise_copilot.field_copilot_config__llm_provider
+msgid "LLM Provider"
+msgstr "مزود نموذج اللغة الكبير"
+
+#. module: ai_enterprise_copilot
+#: model:ir.model.fields,field_description:ai_enterprise_copilot.field_copilot_config__llm_timeout
+msgid "LLM Timeout (seconds)"
+msgstr "مهلة نموذج اللغة الكبير (ثوانٍ)"
+
+#. module: ai_enterprise_copilot
+#: model:ir.model.fields,field_description:ai_enterprise_copilot.field_nexus_setup_step__last_sync_date
+msgid "Last Sync Date"
+msgstr "تاريخ آخر مزامنة"
+
+#. module: ai_enterprise_copilot
+#: model:ir.model.fields,field_description:ai_enterprise_copilot.field_nexus_setup_step__last_sync_message
+msgid "Last Sync Message"
+msgstr "رسالة آخر مزامنة"
+
+#. module: ai_enterprise_copilot
+#: model:ir.model.fields,field_description:ai_enterprise_copilot.field_nexus_setup_step__sync_payload
+msgid "Last Sync Payload"
+msgstr "حمولة آخر مزامنة"
+
+#. module: ai_enterprise_copilot
+#: model:ir.model.fields,field_description:ai_enterprise_copilot.field_nexus_setup_step__last_sync_status
+msgid "Last Sync Status"
+msgstr "حالة آخر مزامنة"
+
+#. module: ai_enterprise_copilot
+#: model:ir.model.fields,field_description:ai_enterprise_copilot.field_copilot_behavior_log__write_uid
+#: model:ir.model.fields,field_description:ai_enterprise_copilot.field_copilot_config__write_uid
+#: model:ir.model.fields,field_description:ai_enterprise_copilot.field_copilot_insight__write_uid
+#: model:ir.model.fields,field_description:ai_enterprise_copilot.field_copilot_setup_milestone__write_uid
+#: model:ir.model.fields,field_description:ai_enterprise_copilot.field_copilot_setup_wizard__write_uid
+#: model:ir.model.fields,field_description:ai_enterprise_copilot.field_copilot_support_incident__write_uid
+#: model:ir.model.fields,field_description:ai_enterprise_copilot.field_nexus_setup_journey__write_uid
+#: model:ir.model.fields,field_description:ai_enterprise_copilot.field_nexus_setup_step__write_uid
+msgid "Last Updated by"
+msgstr "آخر تحديث بواسطة"
+
+#. module: ai_enterprise_copilot
+#: model:ir.model.fields,field_description:ai_enterprise_copilot.field_copilot_behavior_log__write_date
+#: model:ir.model.fields,field_description:ai_enterprise_copilot.field_copilot_config__write_date
+#: model:ir.model.fields,field_description:ai_enterprise_copilot.field_copilot_insight__write_date
+#: model:ir.model.fields,field_description:ai_enterprise_copilot.field_copilot_setup_milestone__write_date
+#: model:ir.model.fields,field_description:ai_enterprise_copilot.field_copilot_setup_wizard__write_date
+#: model:ir.model.fields,field_description:ai_enterprise_copilot.field_copilot_support_incident__write_date
+#: model:ir.model.fields,field_description:ai_enterprise_copilot.field_nexus_setup_journey__write_date
+#: model:ir.model.fields,field_description:ai_enterprise_copilot.field_nexus_setup_step__write_date
+msgid "Last Updated on"
+msgstr "آخر تحديث في"
+
+#. module: ai_enterprise_copilot
+#: model_terms:ir.ui.view,arch_db:ai_enterprise_copilot.view_nexus_setup_journey_form
+msgid "Locations & People"
+msgstr "المواقع والأشخاص"
+
+#. module: ai_enterprise_copilot
+#: model:ir.model.fields,field_description:ai_enterprise_copilot.field_copilot_setup_wizard__log
+msgid "Log"
+msgstr "السجل"
+
+#. module: ai_enterprise_copilot
+#: model:ir.model.fields.selection,name:ai_enterprise_copilot.selection__nexus_setup_journey__industry_domain__logistics
+msgid "Logistics"
+msgstr "الخدمات اللوجستية"
+
+#. module: ai_enterprise_copilot
+#: model:ir.model.fields.selection,name:ai_enterprise_copilot.selection__copilot_support_incident__severity__low
+msgid "Low"
+msgstr "منخفض"
+
+#. module: ai_enterprise_copilot
+#: model:ir.model.fields.selection,name:ai_enterprise_copilot.selection__nexus_setup_journey__industry_domain__manufacturing
+msgid "Manufacturing"
+msgstr "التصنيع"
+
+#. module: ai_enterprise_copilot
+#: model_terms:ir.ui.view,arch_db:ai_enterprise_copilot.view_nexus_setup_journey_form
+msgid "Mark Done & Sync"
+msgstr "تحديد كمكتمل والمزامنة"
+
+#. module: ai_enterprise_copilot
+#: model_terms:ir.ui.view,arch_db:ai_enterprise_copilot.view_nexus_setup_journey_kanban
+msgid "Mark current stage done"
+msgstr "تحديد المرحلة الحالية كمكتملة"
+
+#. module: ai_enterprise_copilot
+#: model:ir.model.fields.selection,name:ai_enterprise_copilot.selection__copilot_support_incident__severity__medium
+msgid "Medium"
+msgstr "متوسط"
+
+#. module: ai_enterprise_copilot
+#: model:ir.model.fields,field_description:ai_enterprise_copilot.field_nexus_setup_journey__message_has_error
+msgid "Message Delivery error"
+msgstr "خطأ في تسليم الرسالة"
+
+#. module: ai_enterprise_copilot
+#: model:ir.model.fields,field_description:ai_enterprise_copilot.field_nexus_setup_journey__message_ids
+msgid "Messages"
+msgstr "الرسائل"
+
+#. module: ai_enterprise_copilot
+#: model:ir.model.fields,field_description:ai_enterprise_copilot.field_copilot_setup_milestone__name
+msgid "Milestone"
+msgstr "معلم"
+
+#. module: ai_enterprise_copilot
+#: model:ir.ui.menu,name:ai_enterprise_copilot.menu_copilot_milestones
+msgid "Milestones"
+msgstr "المعالم"
+
+#. module: ai_enterprise_copilot
+#: model:ir.model.fields,field_description:ai_enterprise_copilot.field_copilot_behavior_log__model_name
+msgid "Model Name"
+msgstr "اسم النموذج"
+
+#. module: ai_enterprise_copilot
+#: model:ir.model.fields,help:ai_enterprise_copilot.field_copilot_config__llm_model
+msgid "Model name, e.g. qwen2.5:1.5b or gpt-4o."
+msgstr "اسم النموذج، مثل qwen2.5:1.5b أو gpt-4o."
+
+#. module: ai_enterprise_copilot
+#: model:ir.model.fields,field_description:ai_enterprise_copilot.field_nexus_setup_journey__name
+#: model:ir.model.fields,field_description:ai_enterprise_copilot.field_nexus_setup_step__name
+msgid "Name"
+msgstr "الاسم"
+
+#. module: ai_enterprise_copilot
+#: model:ir.model.fields.selection,name:ai_enterprise_copilot.selection__copilot_support_incident__state__new
+msgid "New"
+msgstr "جديد"
+
+#. module: ai_enterprise_copilot
+#. odoo-python
+#: code:addons/ai_enterprise_copilot/models/setup_journey.py:0
+msgid "New Journey"
+msgstr "رحلة جديدة"
+
+#. module: ai_enterprise_copilot
+#: model_terms:ir.ui.view,arch_db:ai_enterprise_copilot.view_nexus_setup_journey_kanban
+msgid "Next"
+msgstr "التالي"
+
+#. module: ai_enterprise_copilot
+#: model_terms:ir.ui.view,arch_db:ai_enterprise_copilot.view_nexus_setup_journey_form
+msgid "Next Step"
+msgstr "الخطوة التالية"
+
+#. module: ai_enterprise_copilot
+#: model:ir.actions.act_window,name:ai_enterprise_copilot.action_nexus_setup_journey
+#: model:ir.ui.menu,name:ai_enterprise_copilot.menu_nexus_command_center_root
+msgid "Nexus Command Center"
+msgstr "مركز قيادة Nexus"
+
+#. module: ai_enterprise_copilot
+#: model_terms:ir.ui.view,arch_db:ai_enterprise_copilot.view_copilot_config_form
+msgid "Nexus Core (Setup Sync)"
+msgstr "نواة Nexus (مزامنة الإعداد)"
+
+#. module: ai_enterprise_copilot
+#: model:ir.model.fields,field_description:ai_enterprise_copilot.field_copilot_config__nexus_core_api_key
+msgid "Nexus Core API Key"
+msgstr "مفتاح API لنواة Nexus"
+
+#. module: ai_enterprise_copilot
+#: model:ir.model.fields,field_description:ai_enterprise_copilot.field_copilot_config__nexus_core_url
+msgid "Nexus Core Base URL"
+msgstr "عنوان URL الأساسي لنواة Nexus"
+
+#. module: ai_enterprise_copilot
+#. odoo-python
+#: code:addons/ai_enterprise_copilot/models/setup_journey.py:0
+msgid "Nexus Core URL is not configured."
+msgstr "لم يتم تكوين عنوان URL لنواة Nexus."
+
+#. module: ai_enterprise_copilot
+#: model:ir.model,name:ai_enterprise_copilot.model_nexus_setup_journey
+#: model_terms:ir.ui.view,arch_db:ai_enterprise_copilot.view_nexus_setup_journey_form
+msgid "Nexus Setup Journey"
+msgstr "رحلة إعداد Nexus"
+
+#. module: ai_enterprise_copilot
+#: model:ir.model,name:ai_enterprise_copilot.model_nexus_setup_step
+msgid "Nexus Setup Step"
+msgstr "خطوة إعداد Nexus"
+
+#. module: ai_enterprise_copilot
+#. odoo-python
+#: code:addons/ai_enterprise_copilot/models/milestone.py:0
+msgid "No n8n URL configured; sync queued for later manual trigger."
+msgstr "لم يتم تكوين عنوان URL لـ n8n؛ تم وضع المزامنة في قائمة الانتظار للتشغيل اليدوي لاحقاً."
+
+#. module: ai_enterprise_copilot
+#: model:ir.model.fields,field_description:ai_enterprise_copilot.field_copilot_support_incident__notify_users
+msgid "Notify Users"
+msgstr "إخطار المستخدمين"
+
+#. module: ai_enterprise_copilot
+#: model:ir.model.fields,field_description:ai_enterprise_copilot.field_nexus_setup_journey__message_needaction_counter
+msgid "Number of Actions"
+msgstr "عدد الإجراءات"
+
+#. module: ai_enterprise_copilot
+#: model:ir.model.fields,field_description:ai_enterprise_copilot.field_nexus_setup_journey__message_has_error_counter
+msgid "Number of errors"
+msgstr "عدد الأخطاء"
+
+#. module: ai_enterprise_copilot
+#: model:ir.model.fields,help:ai_enterprise_copilot.field_nexus_setup_journey__message_needaction_counter
+msgid "Number of messages requiring action"
+msgstr "عدد الرسائل التي تتطلب إجراءً"
+
+#. module: ai_enterprise_copilot
+#: model:ir.model.fields,help:ai_enterprise_copilot.field_nexus_setup_journey__message_has_error_counter
+msgid "Number of messages with delivery error"
+msgstr "عدد الرسائل التي بها خطأ في التسليم"
+
+#. module: ai_enterprise_copilot
+#: model:ir.model.fields.selection,name:ai_enterprise_copilot.selection__copilot_config__llm_provider__ollama
+msgid "Ollama"
+msgstr "Ollama"
+
+#. module: ai_enterprise_copilot
+#: model:ir.model.constraint,message:ai_enterprise_copilot.constraint_copilot_config_company_uniq
+msgid "Only one Copilot configuration is allowed per company."
+msgstr "يُسمح بتكوين مساعد واحد فقط لكل شركة."
+
+#. module: ai_enterprise_copilot
+#: model:ir.model.constraint,message:ai_enterprise_copilot.constraint_nexus_setup_journey_company_uniq
+msgid "Only one setup journey is allowed per company."
+msgstr "يُسمح برحلة إعداد واحدة فقط لكل شركة."
+
+#. module: ai_enterprise_copilot
+#: model_terms:ir.ui.view,arch_db:ai_enterprise_copilot.view_nexus_setup_journey_form
+#: model_terms:ir.ui.view,arch_db:ai_enterprise_copilot.view_nexus_setup_journey_kanban
+msgid "Open"
+msgstr "فتح"
+
+#. module: ai_enterprise_copilot
+#: model_terms:ir.ui.view,arch_db:ai_enterprise_copilot.view_nexus_setup_journey_form
+#: model_terms:ir.ui.view,arch_db:ai_enterprise_copilot.view_nexus_setup_journey_kanban
+msgid "Open Journey"
+msgstr "فتح الرحلة"
+
+#. module: ai_enterprise_copilot
+#. odoo-python
+#: code:addons/ai_enterprise_copilot/models/pos_config_inherit.py:0
+#: code:addons/ai_enterprise_copilot/models/setup_journey.py:0
+msgid "Open Setup Journey"
+msgstr "فتح رحلة الإعداد"
+
+#. module: ai_enterprise_copilot
+#: model:ir.model.fields.selection,name:ai_enterprise_copilot.selection__copilot_config__llm_provider__openai
+msgid "OpenAI"
+msgstr "OpenAI"
+
+#. module: ai_enterprise_copilot
+#. odoo-python
+#: code:addons/ai_enterprise_copilot/models/setup_journey.py:0
+#: model:ir.model.fields.selection,name:ai_enterprise_copilot.selection__nexus_setup_journey__stage__operations
+#: model:ir.model.fields.selection,name:ai_enterprise_copilot.selection__nexus_setup_step__stage__operations
+msgid "Operations"
+msgstr "العمليات"
+
+#. module: ai_enterprise_copilot
+#: model:ir.model.fields,help:ai_enterprise_copilot.field_copilot_config__n8n_webhook_key
+msgid "Optional bearer token used by n8n webhooks."
+msgstr "رمز Bearer اختياري يستخدمه خطافات n8n."
+
+#. module: ai_enterprise_copilot
+#: model:ir.model.fields.selection,name:ai_enterprise_copilot.selection__nexus_setup_journey__industry_domain__other
+msgid "Other"
+msgstr "أخرى"
+
+#. module: ai_enterprise_copilot
+#. odoo-python
+#: code:addons/ai_enterprise_copilot/models/incident.py:0
+msgid ""
+"Our financial core is doing a quick update. Keep selling, I am queuing your "
+"invoices safely!"
+msgstr "يقوم الأساس المالي بتحديث سريع. استمر في البيع، أنا أضع فواتيرك في قائمة الانتظار بأمان!"
+
+#. module: ai_enterprise_copilot
+#: model:ir.model.fields,field_description:ai_enterprise_copilot.field_nexus_setup_journey__pos_config_ids
+msgid "POS Terminals"
+msgstr "أجهزة نقاط البيع"
+
+#. module: ai_enterprise_copilot
+#: model:ir.model.fields,field_description:ai_enterprise_copilot.field_nexus_setup_journey__payment_method_ids
+msgid "Payment Methods"
+msgstr "طرق الدفع"
+
+#. module: ai_enterprise_copilot
+#: model:ir.model.fields.selection,name:ai_enterprise_copilot.selection__copilot_setup_milestone__state__pending
+#: model:ir.model.fields.selection,name:ai_enterprise_copilot.selection__nexus_setup_step__last_sync_status__pending
+#: model:ir.model.fields.selection,name:ai_enterprise_copilot.selection__nexus_setup_step__state__pending
+msgid "Pending"
+msgstr "معلق"
+
+#. module: ai_enterprise_copilot
+#: model:ir.model.fields,field_description:ai_enterprise_copilot.field_copilot_insight__persona
+msgid "Persona"
+msgstr "الشخصية"
+
+#. module: ai_enterprise_copilot
+#: model:ir.model.fields,help:ai_enterprise_copilot.field_nexus_setup_journey__warehouse_ids
+msgid "Physical locations that act as branches or warehouses."
+msgstr "المواقع الفعلية التي تعمل كفروع أو مستودعات."
+
+#. module: ai_enterprise_copilot
+#. odoo-python
+#: code:addons/ai_enterprise_copilot/models/milestone.py:0
+msgid ""
+"Please configure a Hybrid Sync record first (Settings -> Hybrid ERP Sync)."
+msgstr "الرجاء تكوين سجل المزامنة الهجينة أولاً (الإعدادات -> مزامنة ERP الهجينة)."
+
+#. module: ai_enterprise_copilot
+#. odoo-python
+#: code:addons/ai_enterprise_copilot/models/insight.py:0
+msgid "Please open Copilot Settings and link a Hybrid Sync configuration."
+msgstr "الرجاء فتح إعدادات المساعد وربط تكوين المزامنة الهجينة."
+
+#. module: ai_enterprise_copilot
+#: model:ir.model,name:ai_enterprise_copilot.model_pos_config
+msgid "Point of Sale Configuration"
+msgstr "تكوين نقطة البيع"
+
+#. module: ai_enterprise_copilot
+#: model:ir.model.fields,help:ai_enterprise_copilot.field_copilot_config__llm_provider
+msgid "Preferred Large Language Model provider."
+msgstr "مزود نموذج اللغة الكبير المفضل."
+
+#. module: ai_enterprise_copilot
+#: model:ir.model.fields,field_description:ai_enterprise_copilot.field_nexus_setup_journey__product_category_ids
+msgid "Product Categories"
+msgstr "فئات المنتجات"
+
+#. module: ai_enterprise_copilot
+#. odoo-python
+#: code:addons/ai_enterprise_copilot/models/setup_journey.py:0
+msgid "Product categories, items and POS terminal."
+msgstr "فئات المنتجات والمنتجات وجهاز نقاط البيع."
+
+#. module: ai_enterprise_copilot
+#: model_terms:ir.ui.view,arch_db:ai_enterprise_copilot.view_nexus_setup_journey_form
+msgid "Products & POS"
+msgstr "المنتجات ونقاط البيع"
+
+#. module: ai_enterprise_copilot
+#: model:ir.model.fields,field_description:ai_enterprise_copilot.field_nexus_setup_journey__progress
+msgid "Progress (%)"
+msgstr "التقدم (%)"
+
+#. module: ai_enterprise_copilot
+#: model:ir.model.fields,field_description:ai_enterprise_copilot.field_nexus_setup_journey__rating_ids
+msgid "Ratings"
+msgstr "التقييمات"
+
+#. module: ai_enterprise_copilot
+#: model_terms:ir.ui.view,arch_db:ai_enterprise_copilot.view_nexus_setup_journey_form
+msgid "Re-sync All to Nexus Core"
+msgstr "إعادة المزامنة الكل مع نواة Nexus"
+
+#. module: ai_enterprise_copilot
+#: model:ir.model.fields,field_description:ai_enterprise_copilot.field_copilot_behavior_log__reason
+msgid "Reason"
+msgstr "السبب"
+
+#. module: ai_enterprise_copilot
+#: model:ir.model.fields,field_description:ai_enterprise_copilot.field_copilot_behavior_log__record_id
+msgid "Record"
+msgstr "سجل"
+
+#. module: ai_enterprise_copilot
+#. odoo-python
+#: code:addons/ai_enterprise_copilot/models/account_move_override.py:0
+msgid "Record %(name)s is already synced with ERPNext."
+msgstr "السجل %(name)s مزامن بالفعل مع ERPNext."
+
+#. module: ai_enterprise_copilot
+#: model:ir.model.fields,field_description:ai_enterprise_copilot.field_copilot_behavior_log__name
+msgid "Reference"
+msgstr "المرجع"
+
+#. module: ai_enterprise_copilot
+#: model:ir.model.fields,help:ai_enterprise_copilot.field_copilot_config__llm_timeout
+msgid "Request timeout when calling the LLM service."
+msgstr "مهلة الطلب عند استدعاء خدمة نموذج اللغة الكبير."
+
+#. module: ai_enterprise_copilot
+#: model:ir.model.fields,field_description:ai_enterprise_copilot.field_nexus_setup_step__required
+msgid "Required"
+msgstr "مطلوب"
+
+#. module: ai_enterprise_copilot
+#: model:ir.model.fields.selection,name:ai_enterprise_copilot.selection__copilot_support_incident__state__resolved
+msgid "Resolved"
+msgstr "تم الحل"
+
+#. module: ai_enterprise_copilot
+#: model:ir.model.fields.selection,name:ai_enterprise_copilot.selection__nexus_setup_journey__industry_domain__restaurant
+msgid "Restaurant / F&B"
+msgstr "المطاعم والمشروبات"
+
+#. module: ai_enterprise_copilot
+#: model:ir.model.fields.selection,name:ai_enterprise_copilot.selection__nexus_setup_journey__industry_domain__retail
+msgid "Retail"
+msgstr "التجزئة"
+
+#. module: ai_enterprise_copilot
+#: model:ir.model.fields,field_description:ai_enterprise_copilot.field_nexus_setup_journey__message_has_sms_error
+msgid "SMS Delivery error"
+msgstr "خطأ في تسليم الرسائل القصيرة"
+
+#. module: ai_enterprise_copilot
+#: model:ir.model.fields,help:ai_enterprise_copilot.field_copilot_config__hybrid_config_id
+msgid "Select the ERPNext/n8n connection to use."
+msgstr "حدد اتصال ERPNext/n8n المراد استخدامه."
+
+#. module: ai_enterprise_copilot
+#: model:ir.model.fields,field_description:ai_enterprise_copilot.field_copilot_setup_milestone__sequence
+#: model:ir.model.fields,field_description:ai_enterprise_copilot.field_nexus_setup_step__sequence
+msgid "Sequence"
+msgstr "التسلسل"
+
+#. module: ai_enterprise_copilot
+#: model:ir.model.fields.selection,name:ai_enterprise_copilot.selection__nexus_setup_journey__industry_domain__services
+msgid "Services"
+msgstr "الخدمات"
+
+#. module: ai_enterprise_copilot
+#: model:ir.ui.menu,name:ai_enterprise_copilot.menu_copilot_settings
+msgid "Settings"
+msgstr "الإعدادات"
+
+#. module: ai_enterprise_copilot
+#: model:ir.ui.menu,name:ai_enterprise_copilot.menu_copilot_setup
+msgid "Setup"
+msgstr "الإعداد"
+
+#. module: ai_enterprise_copilot
+#: model:ir.ui.menu,name:ai_enterprise_copilot.menu_nexus_setup_journey
+msgid "Setup Journey"
+msgstr "رحلة الإعداد"
+
+#. module: ai_enterprise_copilot
+#: model:ir.actions.act_window,name:ai_enterprise_copilot.action_copilot_setup_milestone
+msgid "Setup Milestones"
+msgstr "معالم الإعداد"
+
+#. module: ai_enterprise_copilot
+#: model:ir.model.fields,field_description:ai_enterprise_copilot.field_nexus_setup_journey__notes
+msgid "Setup Notes"
+msgstr "ملاحظات الإعداد"
+
+#. module: ai_enterprise_copilot
+#: model:ir.actions.act_window,name:ai_enterprise_copilot.action_nexus_setup_step
+#: model:ir.model.fields,field_description:ai_enterprise_copilot.field_nexus_setup_journey__step_ids
+#: model:ir.ui.menu,name:ai_enterprise_copilot.menu_nexus_setup_steps
+msgid "Setup Steps"
+msgstr "خطوات الإعداد"
+
+#. module: ai_enterprise_copilot
+#: model_terms:ir.ui.view,arch_db:ai_enterprise_copilot.view_copilot_setup_wizard_form
+msgid "Setup is complete. You can now use the AI Copilot dashboard."
+msgstr "اكتمل الإعداد. يمكنك الآن استخدام لوحة تحكم مساعد الذكاء الاصطناعي."
+
+#. module: ai_enterprise_copilot
+#: model:ir.model.fields,field_description:ai_enterprise_copilot.field_copilot_support_incident__severity
+msgid "Severity"
+msgstr "الخطورة"
+
+#. module: ai_enterprise_copilot
+#: model:ir.model.fields.selection,name:ai_enterprise_copilot.selection__copilot_setup_milestone__state__skipped
+#: model:ir.model.fields.selection,name:ai_enterprise_copilot.selection__nexus_setup_step__state__skipped
+msgid "Skipped"
+msgstr "تم تخطيه"
+
+#. module: ai_enterprise_copilot
+#: model:ir.model.fields,field_description:ai_enterprise_copilot.field_copilot_insight__source
+#: model:ir.model.fields,field_description:ai_enterprise_copilot.field_copilot_support_incident__source
+msgid "Source"
+msgstr "المصدر"
+
+#. module: ai_enterprise_copilot
+#: model:ir.model.fields,field_description:ai_enterprise_copilot.field_nexus_setup_journey__stage
+#: model:ir.model.fields,field_description:ai_enterprise_copilot.field_nexus_setup_step__stage
+msgid "Stage"
+msgstr "المرحلة"
+
+#. module: ai_enterprise_copilot
+#: model_terms:ir.ui.view,arch_db:ai_enterprise_copilot.view_nexus_setup_journey_form
+msgid "Start Setup"
+msgstr "بدء الإعداد"
+
+#. module: ai_enterprise_copilot
+#: model:ir.model.fields,field_description:ai_enterprise_copilot.field_copilot_behavior_log__state
+#: model:ir.model.fields,field_description:ai_enterprise_copilot.field_copilot_setup_milestone__state
+#: model:ir.model.fields,field_description:ai_enterprise_copilot.field_copilot_support_incident__state
+#: model:ir.model.fields,field_description:ai_enterprise_copilot.field_nexus_setup_journey__state
+#: model:ir.model.fields,field_description:ai_enterprise_copilot.field_nexus_setup_step__state
+msgid "State"
+msgstr "الحالة"
+
+#. module: ai_enterprise_copilot
+#: model:ir.model.fields,field_description:ai_enterprise_copilot.field_copilot_setup_wizard__step
+msgid "Step"
+msgstr "الخطوة"
+
+#. module: ai_enterprise_copilot
+#. odoo-python
+#: code:addons/ai_enterprise_copilot/models/setup_journey.py:0
+msgid "Step %s not found in this journey."
+msgstr "الخطوة %s غير موجودة في هذه الرحلة."
+
+#. module: ai_enterprise_copilot
+#. odoo-python
+#: code:addons/ai_enterprise_copilot/models/setup_journey.py:0
+#: model:ir.model.fields.selection,name:ai_enterprise_copilot.selection__nexus_setup_journey__stage__structure_hr
+#: model:ir.model.fields.selection,name:ai_enterprise_copilot.selection__nexus_setup_step__stage__structure_hr
+msgid "Structure & HR"
+msgstr "الهيكل والموارد البشرية"
+
+#. module: ai_enterprise_copilot
+#: model:ir.model.fields.selection,name:ai_enterprise_copilot.selection__nexus_setup_step__last_sync_status__success
+msgid "Success"
+msgstr "نجاح"
+
+#. module: ai_enterprise_copilot
+#: model:ir.actions.act_window,name:ai_enterprise_copilot.action_copilot_incidents
+msgid "Support Incidents"
+msgstr "حوادث الدعم"
+
+#. module: ai_enterprise_copilot
+#: model:ir.model.fields.selection,name:ai_enterprise_copilot.selection__copilot_setup_wizard__step__chart_of_accounts
+#: model_terms:ir.ui.view,arch_db:ai_enterprise_copilot.view_copilot_setup_wizard_form
+msgid "Sync Chart of Accounts"
+msgstr "مزامنة شجرة الحسابات"
+
+#. module: ai_enterprise_copilot
+#. odoo-python
+#: code:addons/ai_enterprise_copilot/models/setup_journey.py:0
+msgid "Sync successful (HTTP %s)."
+msgstr "نجحت المزامنة (HTTP %s)."
+
+#. module: ai_enterprise_copilot
+#: model:ir.model.fields,field_description:ai_enterprise_copilot.field_nexus_setup_journey__tax_id
+msgid "Tax ID"
+msgstr "الرقم الضريبي"
+
+#. module: ai_enterprise_copilot
+#: model:ir.model.fields,field_description:ai_enterprise_copilot.field_nexus_setup_journey__tax_ids
+msgid "Taxes"
+msgstr "الضرائب"
+
+#. module: ai_enterprise_copilot
+#: model:ir.model.fields,help:ai_enterprise_copilot.field_nexus_setup_journey__tax_id
+msgid ""
+"The Tax Identification Number. Values here will be validated based on the "
+"country format. You can use '/' to indicate that the partner is not subject "
+"to tax."
+msgstr "الرقم الضريبي للتعريف. سيتم التحقق من القيم هنا بناءً على تنسيق الدولة. يمكنك استخدام '/' للإشارة إلى أن الشريك غير خاضع للضريبة."
+
+#. module: ai_enterprise_copilot
+#: model:ir.model.fields,help:ai_enterprise_copilot.field_copilot_insight__persona
+msgid "The audience/persona that should see this insight."
+msgstr "الجمهور/الشخصية الذي يجب أن يرى هذه الرؤية."
+
+#. module: ai_enterprise_copilot
+#. odoo-python
+#: code:addons/ai_enterprise_copilot/models/account_move_override.py:0
+msgid ""
+"This invoice %(name)s has already been synced with ERPNext. To keep both "
+"ledgers perfectly aligned, please use a Credit Note instead. I am here to "
+"help you create it if you need me."
+msgstr "هذه الفاتورة %(name)s تمت مزامنتها بالفعل مع ERPNext. للحفاظ على مواءمة دفتر الأستاذين بشكل مثالي، يرجى استخدام مذكرة ائتمان بدلاً من ذلك. أنا هنا لمساعدتك في إنشائها إذا احتجتني."
+
+#. module: ai_enterprise_copilot
+#: model:ir.model.fields,field_description:ai_enterprise_copilot.field_copilot_insight__name
+msgid "Title"
+msgstr "العنوان"
+
+#. module: ai_enterprise_copilot
+#: model:ir.model.fields,field_description:ai_enterprise_copilot.field_copilot_support_incident__traceback
+msgid "Traceback"
+msgstr "تتبع الخطأ"
+
+#. module: ai_enterprise_copilot
+#: model:ir.model.fields,field_description:ai_enterprise_copilot.field_copilot_setup_milestone__triggered_by
+msgid "Triggered By"
+msgstr "مُشغّل بواسطة"
+
+#. module: ai_enterprise_copilot
+#: model:ir.model.fields,field_description:ai_enterprise_copilot.field_copilot_behavior_log__user_id
+msgid "User"
+msgstr "المستخدم"
+
+#. module: ai_enterprise_copilot
+#: model_terms:ir.ui.view,arch_db:ai_enterprise_copilot.view_nexus_setup_journey_form
+msgid "Validate & Go Live"
+msgstr "التحقق والبدء الفعلي"
+
+#. module: ai_enterprise_copilot
+#: model:ir.model.fields.selection,name:ai_enterprise_copilot.selection__copilot_setup_wizard__step__connection
+#: model_terms:ir.ui.view,arch_db:ai_enterprise_copilot.view_copilot_setup_wizard_form
+msgid "Validate ERPNext Connection"
+msgstr "التحقق من اتصال ERPNext"
+
+#. module: ai_enterprise_copilot
+#: model:ir.model.fields,field_description:ai_enterprise_copilot.field_copilot_behavior_log__warm_message
+#: model:ir.model.fields,field_description:ai_enterprise_copilot.field_copilot_insight__warm_message
+msgid "Warm Message"
+msgstr "رسالة دافئة"
+
+#. module: ai_enterprise_copilot
+#: model:ir.model.fields.selection,name:ai_enterprise_copilot.selection__nexus_setup_step__last_sync_status__warning
+msgid "Warning"
+msgstr "تحذير"
+
+#. module: ai_enterprise_copilot
+#: model:ir.model.fields,field_description:ai_enterprise_copilot.field_copilot_config__dev_team_webhook_timeout
+msgid "Webhook Timeout (seconds)"
+msgstr "مهلة Webhook (ثوانٍ)"
+
+#. module: ai_enterprise_copilot
+#: model:ir.model.fields,field_description:ai_enterprise_copilot.field_nexus_setup_journey__website_message_ids
+msgid "Website Messages"
+msgstr "رسائل الموقع"
+
+#. module: ai_enterprise_copilot
+#: model:ir.model.fields,help:ai_enterprise_copilot.field_nexus_setup_journey__website_message_ids
+msgid "Website communication history"
+msgstr "سجل تواصل الموقع"
+
+#. module: ai_enterprise_copilot
+#: model:ir.model.fields,help:ai_enterprise_copilot.field_copilot_support_incident__notify_users
+msgid "When true, a warm notification is broadcast to active users."
+msgstr "عند التفعيل، يتم بث إشعار دافئ للمستخدمين النشطين."
+
+#. module: ai_enterprise_copilot
+#: model_terms:ir.ui.view,arch_db:ai_enterprise_copilot.view_nexus_setup_journey_form
+msgid "You are live! 🚀"
+msgstr "أنت الآن على الهواء! 🚀"
+
+#. module: ai_enterprise_copilot
+#. odoo-python
+#: code:addons/ai_enterprise_copilot/models/setup_journey.py:0
+msgid "You must complete all setup stages before going live."
+msgstr "يجب إكمال جميع مراحل الإعداد قبل البدء الفعلي."
+
+#. module: ai_enterprise_copilot
+#. odoo-python
+#: code:addons/ai_enterprise_copilot/models/setup_journey.py:0
+msgid ""
+"You're almost there! You've set up your products beautifully, but we just "
+"need to add a Payment Method so you can collect money. Click here to add "
+"one."
+msgstr "أصبحنا على وشك الانتهاء! لقد قمت بإعداد منتجاتك بشكل رائع، لكننا نحتاج فقط إلى إضافة طريقة دفع لكي تتمكن من تحصيل الأموال. انقر هنا لإضافتها."
+
+#. module: ai_enterprise_copilot
+#. odoo-python
+#: code:addons/ai_enterprise_copilot/models/insight.py:0
+msgid ""
+"Your financial and manufacturing data is flowing. I will keep watching for "
+"trends and alert you when something needs attention."
+msgstr "تتدفق بياناتك المالية والتصنيعية. سأستمر في مراقبة الاتجاهات وأنبهك عندما يتطلب الأمر اهتماماً."
+
+#. module: ai_enterprise_copilot
+#: model:ir.model.fields,help:ai_enterprise_copilot.field_copilot_insight__source
+msgid "e.g. erpnext_kpi, cron_error, manual."
+msgstr "مثال: erpnext_kpi، cron_error، manual."
+
+#. module: ai_enterprise_copilot
+#: model:ir.model.fields,help:ai_enterprise_copilot.field_copilot_behavior_log__action
+msgid "e.g. write, unlink, cancel."
+msgstr "مثال: write، unlink، cancel."
+
+#. module: ai_enterprise_copilot
+#: model_terms:ir.ui.view,arch_db:ai_enterprise_copilot.view_copilot_config_form
+msgid "https://core.nexus-engine.app"
+msgstr "https://core.nexus-engine.app"
+
+#. module: ai_enterprise_copilot
+#: model_terms:ir.ui.view,arch_db:ai_enterprise_copilot.view_copilot_config_form
+msgid "https://hooks.slack.com/services/..."
+msgstr "https://hooks.slack.com/services/..."
+
+#. module: ai_enterprise_copilot
+#: model:ir.model.fields.selection,name:ai_enterprise_copilot.selection__copilot_support_incident__source__n8n
+msgid "n8n"
+msgstr "n8n"
+
+#. module: ai_enterprise_copilot
+#: model_terms:ir.ui.view,arch_db:ai_enterprise_copilot.view_copilot_config_form
+msgid "n8n Automation"
+msgstr "أتمتة n8n"
+
+#. module: ai_enterprise_copilot
+#: model:ir.model.fields,field_description:ai_enterprise_copilot.field_copilot_config__n8n_url
+msgid "n8n Base URL"
+msgstr "عنوان URL الأساسي لـ n8n"
+
+#. module: ai_enterprise_copilot
+#: model:ir.model.fields,field_description:ai_enterprise_copilot.field_copilot_setup_wizard__n8n_url
+msgid "n8n URL"
+msgstr "عنوان URL لـ n8n"
+
+#. module: ai_enterprise_copilot
+#: model:ir.model.fields,field_description:ai_enterprise_copilot.field_copilot_config__n8n_webhook_key
+msgid "n8n Webhook Key"
+msgstr "مفتاح Webhook لـ n8n"
+
+#. module: ai_enterprise_copilot
+#. odoo-python
+#: code:addons/ai_enterprise_copilot/models/milestone.py:0
+msgid "n8n webhook called successfully (HTTP %s)."
+msgstr "تم استدعاء خطاف n8n بنجاح (HTTP %s)."
+
+#. module: ai_enterprise_copilot
+#: model_terms:ir.ui.view,arch_db:ai_enterprise_copilot.view_copilot_config_form
+msgid "qwen2.5:1.5b"
+msgstr "qwen2.5:1.5b"
+
+#. module: ai_enterprise_copilot
+#: model:ir.actions.act_window,name:ai_enterprise_copilot.action_nexus_accounting_dashboard
+msgid "Dashboard"
+msgstr "لوحة التحكم"
+
+#. module: ai_enterprise_copilot
+#: model:ir.ui.menu,name:ai_enterprise_copilot.menu_nexus_accounting_root
+msgid "Nexus Accounting"
+msgstr "المحاسبة"
+
+#. module: ai_enterprise_copilot
+#: model:ir.ui.menu,name:ai_enterprise_copilot.menu_nexus_accounting_setup
+msgid "Setup"
+msgstr "الإعداد"
+
+#. module: ai_enterprise_copilot
+#: model:ir.actions.act_window,name:ai_enterprise_copilot.action_nexus_accounting_dashboard
+#: model:ir.ui.menu,name:ai_enterprise_copilot.menu_nexus_accounting_masters
+msgid "Accounting Masters"
+msgstr "الأساسيات المحاسبية"
+
+#. module: ai_enterprise_copilot
+#: model:ir.ui.menu,name:ai_enterprise_copilot.menu_nexus_accounting_transactions
+msgid "Transactions"
+msgstr "العمليات"
+
+#. module: ai_enterprise_copilot
+#: model:ir.actions.act_window,name:ai_enterprise_copilot.action_nexus_chart_of_accounts
+#: model:ir.ui.menu,name:ai_enterprise_copilot.menu_nexus_accounting_chart
+msgid "Chart of Accounts"
+msgstr "شجرة الحسابات"
+
+#. module: ai_enterprise_copilot
+#: model:ir.actions.act_window,name:ai_enterprise_copilot.action_nexus_journals
+#: model:ir.ui.menu,name:ai_enterprise_copilot.menu_nexus_accounting_journals
+msgid "Journals"
+msgstr "اليوميات"
+
+#. module: ai_enterprise_copilot
+#: model:ir.actions.act_window,name:ai_enterprise_copilot.action_nexus_bank_accounts
+#: model:ir.ui.menu,name:ai_enterprise_copilot.menu_nexus_accounting_bank
+msgid "Bank Accounts"
+msgstr "حسابات البنوك"
+
+#. module: ai_enterprise_copilot
+#: model:ir.actions.act_window,name:ai_enterprise_copilot.action_nexus_cash_registers
+#: model:ir.ui.menu,name:ai_enterprise_copilot.menu_nexus_accounting_cash
+msgid "Cash Registers"
+msgstr "سجلات النقدية"
+
+#. module: ai_enterprise_copilot
+#: model:ir.actions.act_window,name:ai_enterprise_copilot.action_nexus_taxes
+#: model:ir.ui.menu,name:ai_enterprise_copilot.menu_nexus_accounting_taxes
+msgid "Taxes"
+msgstr "الضرائب"
+
+#. module: ai_enterprise_copilot
+#: model:ir.actions.act_window,name:ai_enterprise_copilot.action_nexus_customer_invoices
+#: model:ir.ui.menu,name:ai_enterprise_copilot.menu_nexus_accounting_invoices
+msgid "Customer Invoices"
+msgstr "فواتير العملاء"
+
+#. module: ai_enterprise_copilot
+#: model:ir.actions.act_window,name:ai_enterprise_copilot.action_nexus_vendor_bills
+#: model:ir.ui.menu,name:ai_enterprise_copilot.menu_nexus_accounting_bills
+msgid "Vendor Bills"
+msgstr "فواتير الموردين"
+
+#. module: ai_enterprise_copilot
+#: model:ir.actions.act_window,name:ai_enterprise_copilot.action_nexus_payments
+#: model:ir.ui.menu,name:ai_enterprise_copilot.menu_nexus_accounting_payments
+msgid "Payments"
+msgstr "المدفوعات"
+
+#. module: ai_enterprise_copilot
+#: model:ir.actions.act_window,name:ai_enterprise_copilot.action_nexus_bank_statements
+#: model:ir.ui.menu,name:ai_enterprise_copilot.menu_nexus_accounting_statements
+msgid "Bank Statements"
+msgstr "كشوفات الحسابات البنكية"

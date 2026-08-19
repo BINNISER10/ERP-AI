@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo noupdate="1">
+
+    <!-- Daily: Check economic nexus thresholds -->
+    <record id="us_economic_nexus_check_cron" model="ir.cron">
+        <field name="name">Nexus US: Economic Nexus Check</field>
+        <field name="model_id" ref="model_nexus_us_company_settings"/>
+        <field name="state">code</field>
+        <field name="code">model._cron_check_economic_nexus()</field>
+        <field name="interval_number">1</field>
+        <field name="interval_type">days</field>
+        <field name="active" eval="True"/>
+        <field name="priority">15</field>
+    </record>
+
+    <!-- Yearly: 1099 reminder (January) -->
+    <record id="us_1099_reminder_cron" model="ir.cron">
+        <field name="name">Nexus US: 1099 Reminder</field>
+        <field name="model_id" ref="model_nexus_us_company_settings"/>
+        <field name="state">code</field>
+        <field name="code">model._cron_1099_reminder()</field>
+        <field name="interval_number">1</field>
+        <field name="interval_type">months</field>
+        <field name="active" eval="True"/>
+        <field name="priority">20</field>
+    </record>
+
+</odoo>

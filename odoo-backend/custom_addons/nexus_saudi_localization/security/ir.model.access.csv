@@ -1,0 +1,13 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_nexus_saudi_company_settings_user,nexus.saudi.company.settings.user,model_nexus_saudi_company_settings,nexus_base_security.group_nexus_manager,1,1,1,0
+access_nexus_saudi_company_settings_manager,nexus.saudi.company.settings.manager,model_nexus_saudi_company_settings,base.group_system,1,1,1,1
+access_nexus_saudi_zatca_qr_user,nexus.saudi.zatca.qr.user,model_nexus_saudi_zatca_qr,base.group_user,1,1,1,0
+access_nexus_saudi_zatca_qr_manager,nexus.saudi.zatca.qr.manager,model_nexus_saudi_zatca_qr,base.group_system,1,1,1,1
+access_nexus_saudi_vat_report_user,nexus.saudi.vat.report.user,model_nexus_saudi_vat_report,base.group_user,1,1,1,0
+access_nexus_saudi_vat_report_manager,nexus.saudi.vat.report.manager,model_nexus_saudi_vat_report,base.group_system,1,1,1,1
+access_nexus_saudi_saudization_tracker_user,nexus.saudi.saudization.tracker.user,model_nexus_saudi_saudization_tracker,base.group_user,1,0,0,0
+access_nexus_saudi_saudization_tracker_manager,nexus.saudi.saudization.tracker.manager,model_nexus_saudi_saudization_tracker,base.group_system,1,1,1,1
+access_nexus_saudi_einvoice_user,nexus.saudi.einvoice.user,model_nexus_saudi_einvoice,base.group_user,1,1,1,0
+access_nexus_saudi_einvoice_manager,nexus.saudi.einvoice.manager,model_nexus_saudi_einvoice,base.group_system,1,1,1,1
+access_nexus_saudi_payment_term_user,nexus.saudi.payment.term.user,model_nexus_saudi_payment_term,base.group_user,1,0,0,0
+access_nexus_saudi_payment_term_manager,nexus.saudi.payment.term.manager,model_nexus_saudi_payment_term,base.group_system,1,1,1,1

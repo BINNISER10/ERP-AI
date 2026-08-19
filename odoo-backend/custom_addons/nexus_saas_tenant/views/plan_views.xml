@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_nexus_saas_plan_list" model="ir.ui.view">
+        <field name="name">nexus.saas.plan.list</field>
+        <field name="model">nexus.saas.plan</field>
+        <field name="arch" type="xml">
+            <list>
+                <field name="sequence" widget="handle"/>
+                <field name="name"/>
+                <field name="code"/>
+                <field name="price_monthly"/>
+                <field name="price_yearly"/>
+                <field name="trial_days"/>
+                <field name="is_default"/>
+                <field name="active"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="view_nexus_saas_plan_form" model="ir.ui.view">
+        <field name="name">nexus.saas.plan.form</field>
+        <field name="model">nexus.saas.plan</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <div class="oe_title">
+                        <h1><field name="name" placeholder="Plan name"/></h1>
+                    </div>
+                    <group>
+                        <group string="Basic">
+                            <field name="code"/>
+                            <field name="sequence"/>
+                            <field name="active"/>
+                            <field name="is_default"/>
+                            <field name="currency_id"/>
+                        </group>
+                        <group string="Pricing">
+                            <field name="price_monthly"/>
+                            <field name="price_yearly"/>
+                            <field name="trial_days"/>
+                        </group>
+                    </group>
+                    <group string="Quotas (0 = unlimited)">
+                        <field name="max_users"/>
+                        <field name="max_companies"/>
+                        <field name="max_products"/>
+                        <field name="max_invoices_monthly"/>
+                        <field name="storage_gb"/>
+                        <field name="max_api_calls_daily"/>
+                    </group>
+                    <group string="Features">
+                        <field name="has_ai_copilot"/>
+                        <field name="has_advanced_accounting"/>
+                        <field name="has_multi_location"/>
+                        <field name="has_priority_support"/>
+                        <field name="has_white_label"/>
+                    </group>
+                    <group string="Stripe Mapping">
+                        <field name="stripe_price_id_monthly"/>
+                        <field name="stripe_price_id_yearly"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_nexus_saas_plan" model="ir.actions.act_window">
+        <field name="name">SaaS Plans</field>
+        <field name="res_model">nexus.saas.plan</field>
+        <field name="view_mode">list,form</field>
+    </record>
+</odoo>

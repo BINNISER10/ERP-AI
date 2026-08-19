@@ -19,24 +19,35 @@ class _ModifierDialogState extends State<ModifierDialog> {
   final Map<String, String> _substitutes = {};
   final Map<String, double> _surcharges = {};
 
+  late final List<dynamic> _options;
+  late final List<dynamic> _surchargeOptions;
+
   @override
-  Widget build(BuildContext context) {
-    Map<String, dynamic>? schema;
+  void initState() {
+    super.initState();
+    final Map<String, dynamic>? schema;
     try {
       schema = jsonDecode(widget.product.modifierSchema ?? '{}') as Map<String, dynamic>?;
     } catch (_) {
-      schema = {};
+      schema = null;
     }
-
     final options = schema?['options'] as List<dynamic>? ?? [];
+    final surcharges = schema?['surcharges'] as List<dynamic>? ?? [];
+    _options = options.where((o) => (o['type'] as String? ?? 'toggle') != 'surcharge').toList();
+    _surchargeOptions = surcharges.isEmpty
+        ? options.where((o) => (o['type'] as String? ?? '') == 'surcharge').toList()
+        : surcharges;
+  }
 
+  @override
+  Widget build(BuildContext context) {
     return AlertDialog(
       title: Text('Modifiers for ${widget.product.name}'),
       content: SingleChildScrollView(
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-            ...options.map((opt) {
+            ..._options.map((opt) {
               final name = opt['name'] as String;
               final type = opt['type'] as String? ?? 'toggle';
               final choices = (opt['choices'] as List<dynamic>?)?.cast<String>() ?? [];
@@ -66,6 +77,21 @@ class _ModifierDialogState extends State<ModifierDialog> {
                       .toList(),
                   onChanged: (v) => setState(() => _substitutes[name] = v ?? ''),
                 ),
+              );
+            }),
+            ..._surchargeOptions.map((opt) {
+              final name = opt['name'] as String;
+              final price = (opt['price'] as num?)?.toDouble() ?? 0.0;
+              return CheckboxListTile(
+                title: Text('$name (+ \$${price.toStringAsFixed(2)})'),
+                value: _surcharges.containsKey(name),
+                onChanged: (v) => setState(() {
+                  if (v == true) {
+                    _surcharges[name] = price;
+                  } else {
+                    _surcharges.remove(name);
+                  }
+                }),
               );
             }),
           ],

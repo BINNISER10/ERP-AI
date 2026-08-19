@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!--
+        Nexus Pure Branding — Backend / login / public layout overrides.
+
+        Every override below is a pure `_inherit` on upstream Odoo QWeb
+        templates. Nothing here touches core files.
+    -->
+
+    <!--
+        web.layout — base HTML skeleton for the login page, the web client
+        bootstrap and every public page. We swap the default document title
+        and the default favicon so no "Odoo" default ever leaks out.
+    -->
+    <template id="web_layout_nexus_branding" inherit_id="web.layout">
+        <xpath expr="//title" position="attributes">
+            <attribute name="t-esc">title or 'Nexus Enterprise Engine'</attribute>
+        </xpath>
+        <xpath expr="//link[@rel='shortcut icon']" position="attributes">
+            <attribute name="t-att-href">x_icon or '/nexus_pure_branding/static/src/img/nexus_favicon.svg'</attribute>
+        </xpath>
+    </template>
+
+    <!--
+        web.brand_promotion — the "Powered by [Odoo logo]" block rendered in the frontend footer.
+        Hidden with CSS d-none so the block disappears cleanly everywhere.
+    -->
+    <template id="web_brand_promotion_nexus_branding" inherit_id="web.brand_promotion">
+        <xpath expr="//div" position="attributes">
+            <attribute name="class" add="d-none" separator=" "/>
+        </xpath>
+    </template>
+
+    <!--
+        web.login_layout — login page footer. Removes the
+        "Powered by Odoo" link to www.odoo.com (the Manage Databases link is
+        kept as it is a purely local administration entry point).
+    -->
+    <template id="web_login_layout_nexus_branding" inherit_id="web.login_layout">
+        <xpath expr="//a[contains(@href, 'www.odoo.com')]" position="replace"/>
+    </template>
+
+    <!--
+        web.webclient_bootstrap — backend bootstrap. Replaces the Odoo iOS
+        touch icon and the Odoo purple theme-color with Nexus assets.
+    -->
+    <template id="web_webclient_bootstrap_nexus_branding" inherit_id="web.webclient_bootstrap">
+        <xpath expr="//link[@rel='apple-touch-icon']" position="attributes">
+            <attribute name="href">/nexus_pure_branding/static/src/img/nexus_favicon.svg</attribute>
+        </xpath>
+        <xpath expr="//meta[@name='theme-color']" position="attributes">
+            <attribute name="content">#0B3D2E</attribute>
+        </xpath>
+    </template>
+
+    <!--
+        base.module_view_kanban — the Settings > Apps module card. Removes
+        the "Upgrade" dropdown entry and the paid-upgrade footer button
+        that link to odoo.com/pricing.
+    -->
+    <record id="view_module_kanban_hide_upgrade_nexus_branding" model="ir.ui.view">
+        <field name="name">module.kanban.hide.upgrade.nexus.pure.branding</field>
+        <field name="model">ir.module.module</field>
+        <field name="inherit_id" ref="base.module_view_kanban"/>
+        <field name="arch" type="xml">
+            <xpath expr="//a[@name='button_immediate_upgrade']" position="replace"/>
+            <xpath expr="//a[contains(@href,'odoo.com/pricing')]" position="replace"/>
+        </field>
+    </record>
+</odoo>

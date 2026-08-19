@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- ── Fiscal Years (nexus.fiscal.year) ── -->
+    <record id="view_nexus_fiscal_year_form" model="ir.ui.view">
+        <field name="name">nexus.fiscal.year.form</field>
+        <field name="model">nexus.fiscal.year</field>
+        <field name="arch" type="xml">
+            <form string="Fiscal Year">
+                <header>
+                    <button name="action_create_opening_entry" type="object"
+                        string="Create Opening Entry" class="btn-secondary"
+                        invisible="year_closed"/>
+                </header>
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="year_name" string="Fiscal Year" readonly="1"/>
+                            <field name="year_start_date" string="Start Date"/>
+                            <field name="year_end_date" string="End Date"/>
+                        </group>
+                        <group>
+                            <field name="company_id" groups="base.group_multi_company"/>
+                            <field name="year_closed" string="Year Closed"
+                                widget="boolean_toggle"/>
+                            <field name="auto_created"/>
+                        </group>
+                    </group>
+                    <group string="Entries">
+                        <field name="opening_journal_entry_id" readonly="1"/>
+                        <field name="closing_journal_entry_id" readonly="1"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="view_nexus_fiscal_year_list" model="ir.ui.view">
+        <field name="name">nexus.fiscal.year.list</field>
+        <field name="model">nexus.fiscal.year</field>
+        <field name="arch" type="xml">
+            <list string="Fiscal Years" multi_edit="1">
+                <field name="year_name"/>
+                <field name="year_start_date"/>
+                <field name="year_end_date"/>
+                <field name="year_closed" string="Closed"/>
+                <field name="company_id" groups="base.group_multi_company"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="action_nexus_fiscal_year" model="ir.actions.act_window">
+        <field name="name">Fiscal Years</field>
+        <field name="res_model">nexus.fiscal.year</field>
+        <field name="view_mode">list,form</field>
+    </record>
+</odoo>

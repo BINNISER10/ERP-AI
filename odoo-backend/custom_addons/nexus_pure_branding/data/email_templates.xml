@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!--
+        Nexus Pure Branding — E-mail template overrides.
+
+        The mail notification layouts embed a "Powered by Odoo" link to
+        www.odoo.com in the footer of every system e-mail. Both the classic
+        layout and the "light" layout are patched so the footer only keeps
+        the functional "Unfollow" link.
+    -->
+
+    <!-- mail_notification_layout — classic notification layout -->
+    <template id="mail_notification_layout_nexus_branding" inherit_id="mail.mail_notification_layout">
+        <xpath expr="//div[@t-if='show_footer' and .//span[@id='mail_unfollow']]" position="replace">
+            <div style="color: #555555; font-size:11px;">
+                <span id="mail_unfollow">
+                    | <a href="/mail/unfollow" style="text-decoration:none; color:#555555;">Unfollow</a>
+                </span>
+            </div>
+        </xpath>
+    </template>
+
+    <!-- mail_notification_light — light notification layout -->
+    <template id="mail_notification_light_nexus_branding" inherit_id="mail.mail_notification_light">
+        <xpath expr="//td[.//span[@id='mail_unfollow']]" position="replace">
+            <td align="center" style="min-width: 590px;">
+                <span id="mail_unfollow">
+                    | <a href="/mail/unfollow" style="text-decoration:none; color:#555555;">Unfollow</a>
+                </span>
+            </td>
+        </xpath>
+    </template>
+</odoo>

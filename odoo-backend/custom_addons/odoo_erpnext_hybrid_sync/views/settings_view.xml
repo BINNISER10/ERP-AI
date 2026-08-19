@@ -4,23 +4,23 @@
         <field name="name">hybrid.config.form</field>
         <field name="model">hybrid.config</field>
         <field name="arch" type="xml">
-            <form string="Hybrid ERP Sync">
+            <form string="Nexus Core Ledger Synchronization / مزامنة السجل المركزي">
                 <sheet>
                     <div class="oe_title">
-                        <h1>Hybrid ERP Sync</h1>
+                        <h1>Nexus Core Ledger Synchronization</h1>
                     </div>
                     <group>
                         <field name="company_id"/>
                         <field name="active"/>
                     </group>
-                    <group string="ERPNext">
-                        <field name="erpnext_url" placeholder="https://erp.nexus-engine.app"/>
-                        <field name="erpnext_api_key" password="True"/>
-                        <field name="erpnext_api_secret" password="True"/>
+                    <group string="السجل المحاسبي المركزي (Core Financial Ledger)">
+                        <field name="erpnext_url" string="رابط السجل المركزي (Core Ledger URL)" placeholder="https://core.nexus-engine.app"/>
+                        <field name="erpnext_api_key" string="مفتاح الربط (API Key)" password="True"/>
+                        <field name="erpnext_api_secret" string="الرمز السري (API Secret)" password="True"/>
                     </group>
-                    <group string="n8n">
-                        <field name="n8n_url" placeholder="https://n8n.nexus-engine.app"/>
-                        <field name="n8n_webhook_key" password="True"/>
+                    <group string="أتمتة العمليات (n8n Automation)">
+                        <field name="n8n_url" string="رابط الأتمتة (Automation URL)" placeholder="https://n8n.nexus-engine.app"/>
+                        <field name="n8n_webhook_key" string="مفتاح الويب هوك" password="True"/>
                     </group>
                 </sheet>
             </form>
@@ -31,24 +31,24 @@
         <field name="name">hybrid.config.list</field>
         <field name="model">hybrid.config</field>
         <field name="arch" type="xml">
-            <list>
+            <list string="Nexus Ledger Sync Configurations">
                 <field name="company_id"/>
-                <field name="erpnext_url"/>
-                <field name="n8n_url"/>
+                <field name="erpnext_url" string="Core Ledger URL"/>
+                <field name="n8n_url" string="Automation URL"/>
                 <field name="active"/>
             </list>
         </field>
     </record>
 
     <record id="action_hybrid_config" model="ir.actions.act_window">
-        <field name="name">Hybrid ERP Sync</field>
+        <field name="name">Nexus Ledger Synchronization</field>
         <field name="res_model">hybrid.config</field>
         <field name="view_mode">list,form</field>
     </record>
 
     <menuitem
         id="menu_hybrid_config"
-        name="Hybrid Sync"
+        name="مزامنة السجل المركزي (Ledger Sync)"
         parent="base.menu_custom"
         action="action_hybrid_config"
         sequence="100"/>

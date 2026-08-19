@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo noupdate="1">
+
+    <!-- �═══════════════ Saudi Localization Menu ════════════════ -->
+    <menuitem
+        id="menu_nexus_saudi_root"
+        name="السعودية / Saudi Arabia"
+        web_icon="nexus_saudi_localization,static/description/icon.png"
+        sequence="50"/>
+
+    <menuitem
+        id="menu_nexus_saudi_settings"
+        name="إعدادات الشركة / Company Settings"
+        parent="menu_nexus_saudi_root"
+        action="action_nexus_saudi_company_settings"
+        sequence="10"/>
+
+    <menuitem
+        id="menu_nexus_saudi_zatca"
+        name="الفوترة الإلكترونية / ZATCA E-Invoicing"
+        parent="menu_nexus_saudi_root"
+        sequence="20"/>
+
+    <menuitem
+        id="menu_nexus_saudi_zatca_qr"
+        name="رمز QR للفاتورة / Invoice QR"
+        parent="menu_nexus_saudi_zatca"
+        action="action_nexus_saudi_zatca_qr"
+        sequence="10"/>
+
+    <menuitem
+        id="menu_nexus_saudi_einvoice"
+        name="الفاتورة الإلكترونية / E-Invoice XML"
+        parent="menu_nexus_saudi_zatca"
+        action="action_nexus_saudi_einvoice"
+        sequence="20"/>
+
+    <menuitem
+        id="menu_nexus_saudi_zatca_settings"
+        name="إعدادات ZATCA / ZATCA Settings"
+        parent="menu_nexus_saudi_zatca"
+        action="action_nexus_saudi_zatca_settings"
+        sequence="30"/>
+
+    <menuitem
+        id="menu_nexus_saudi_vat"
+        name="ضريبة القيمة المضافة / VAT"
+        parent="menu_nexus_saudi_root"
+        sequence="30"/>
+
+    <menuitem
+        id="menu_nexus_saudi_vat_report"
+        name="إقرار ضريبة القيمة المضافة / VAT Return"
+        parent="menu_nexus_saudi_vat"
+        action="action_nexus_saudi_vat_report"
+        sequence="10"/>
+
+    <menuitem
+        id="menu_nexus_saudi_saudization"
+        name="نطاقات / Saudization (Nitaqat)"
+        parent="menu_nexus_saudi_root"
+        action="action_nexus_saudi_saudization_dashboard"
+        sequence="40"/>
+
+    <menuitem
+        id="menu_nexus_saudi_payment_terms"
+        name="شروط الدفع / Payment Terms"
+        parent="menu_nexus_saudi_root"
+        action="action_nexus_saudi_payment_term"
+        sequence="50"/>
+
+</odoo>

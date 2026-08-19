@@ -1,0 +1,13 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_nexus_us_company_settings_user,nexus.us.company.settings.user,model_nexus_us_company_settings,nexus_base_security.group_nexus_manager,1,1,1,0
+access_nexus_us_company_settings_manager,nexus.us.company.settings.manager,model_nexus_us_company_settings,base.group_system,1,1,1,1
+access_nexus_us_1099_report_user,nexus.us.1099.report.user,model_nexus_us_1099_report,base.group_user,1,1,1,0
+access_nexus_us_1099_report_manager,nexus.us.1099.report.manager,model_nexus_us_1099_report,base.group_system,1,1,1,1
+access_nexus_us_1099_report_line_user,nexus.us.1099.report.line.user,model_nexus_us_1099_report_line,base.group_user,1,0,0,0
+access_nexus_us_1099_report_line_manager,nexus.us.1099.report.line.manager,model_nexus_us_1099_report_line,base.group_system,1,1,1,1
+access_nexus_us_ach_payment_user,nexus.us.ach.payment.user,model_nexus_us_ach_payment,base.group_user,1,1,1,0
+access_nexus_us_ach_payment_manager,nexus.us.ach.payment.manager,model_nexus_us_ach_payment,base.group_system,1,1,1,1
+access_nexus_us_multi_state_tax_user,nexus.us.multi.state.tax.user,model_nexus_us_multi_state_tax,base.group_user,1,0,0,0
+access_nexus_us_multi_state_tax_manager,nexus.us.multi.state.tax.manager,model_nexus_us_multi_state_tax,base.group_system,1,1,1,1
+access_nexus_us_state_tax_rate_user,nexus.us.state.tax.rate.user,model_nexus_us_state_tax_rate,base.group_user,1,0,0,0
+access_nexus_us_state_tax_rate_manager,nexus.us.state.tax.rate.manager,model_nexus_us_state_tax_rate,base.group_system,1,1,1,1

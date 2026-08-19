@@ -62,7 +62,7 @@
                 <footer>
                     <button
                         name="action_validate_erpnext"
-                        string="Validate ERPNext Connection"
+                        string="Validate Hybrid Connection"
                         type="object"
                         class="btn-primary"
                         invisible="step != 'connection'">

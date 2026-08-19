@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Nexus Financial Engine Account Types with their root types -->
+    <record id="account_type_asset" model="nexus.account.type">
+        <field name="name">Asset</field>
+        <field name="root_type">asset</field>
+        <field name="sequence">10</field>
+    </record>
+    <record id="account_type_bank" model="nexus.account.type">
+        <field name="name">Bank</field>
+        <field name="root_type">asset</field>
+        <field name="sequence">20</field>
+    </record>
+    <record id="account_type_cash" model="nexus.account.type">
+        <field name="name">Cash</field>
+        <field name="root_type">asset</field>
+        <field name="sequence">30</field>
+    </record>
+    <record id="account_type_receivable" model="nexus.account.type">
+        <field name="name">Receivable</field>
+        <field name="root_type">asset</field>
+        <field name="sequence">40</field>
+    </record>
+    <record id="account_type_fixed_asset" model="nexus.account.type">
+        <field name="name">Fixed Asset</field>
+        <field name="root_type">asset</field>
+        <field name="sequence">50</field>
+    </record>
+    <record id="account_type_stock" model="nexus.account.type">
+        <field name="name">Stock</field>
+        <field name="root_type">asset</field>
+        <field name="sequence">60</field>
+    </record>
+    <record id="account_type_liability" model="nexus.account.type">
+        <field name="name">Liability</field>
+        <field name="root_type">liability</field>
+        <field name="sequence">70</field>
+    </record>
+    <record id="account_type_payable" model="nexus.account.type">
+        <field name="name">Payable</field>
+        <field name="root_type">liability</field>
+        <field name="sequence">80</field>
+    </record>
+    <record id="account_type_tax" model="nexus.account.type">
+        <field name="name">Tax</field>
+        <field name="root_type">liability</field>
+        <field name="sequence">90</field>
+    </record>
+    <record id="account_type_equity" model="nexus.account.type">
+        <field name="name">Equity</field>
+        <field name="root_type">equity</field>
+        <field name="sequence">100</field>
+    </record>
+    <record id="account_type_income" model="nexus.account.type">
+        <field name="name">Income</field>
+        <field name="root_type">income</field>
+        <field name="sequence">110</field>
+    </record>
+    <record id="account_type_expense" model="nexus.account.type">
+        <field name="name">Expense</field>
+        <field name="root_type">expense</field>
+        <field name="sequence">120</field>
+    </record>
+    <record id="account_type_chargeable" model="nexus.account.type">
+        <field name="name">Chargeable</field>
+        <field name="root_type">income</field>
+        <field name="sequence">130</field>
+    </record>
+</odoo>

@@ -15,6 +15,7 @@ class SqlQueryResponse(BaseModel):
     result: list[dict] | None = None
     columns: list[str] | None = None
     row_count: int = 0
+    truncated: bool = False
 
 
 class OcrRequest(BaseModel):
@@ -129,4 +130,115 @@ class ReportSuggestion(BaseModel):
 
 class ReportSuggestionResponse(BaseModel):
     reports: list[ReportSuggestion] = []
+    summary_ar: str = ""
+
+
+# --- Document Hunter Schemas ---
+
+class DocumentHunterResponse(BaseModel):
+    document_type: str = "unknown"  # cr, vat, gosi, national_address, unknown
+    document_title_ar: str = ""
+    cr_number: str | None = None
+    vat_number: str | None = None
+    gosi_number: str | None = None
+    company_name_ar: str | None = None
+    company_name_en: str | None = None
+    activity_description: str | None = None
+    industry_sector: str | None = None
+    issue_date: str | None = None
+    expiry_date: str | None = None
+    capital: float | None = None
+    employee_count: int | None = None
+    saudization_rate: float | None = None
+    city: str | None = None
+    district: str | None = None
+    street: str | None = None
+    building_no: str | None = None
+    postal_code: str | None = None
+    confidence: float = 0.0
+    raw_text: str = ""
+    ai_questions: list[dict] = []
+    suggested_modules: list[str] = []
+
+
+# --- AI Developer Staff Schemas ---
+
+class DeveloperConsultRequest(BaseModel):
+    prompt: str
+    persona: str = "odoo_senior_dev"  # odoo_senior_dev, business_architect, tax_compliance_expert, data_analyst, pos_hardware_engineer
+    context_module: str = "general"
+    error_traceback: str | None = None
+    language: str = "ar"
+
+
+class DeveloperConsultResponse(BaseModel):
+    title: str = ""
+    solution_ar: str = ""
+    code: str | None = None
+    code_type: str = "python"  # python, sql, xml, n8n, text
+    recommended_actions: list[str] = []
+    root_cause: str | None = None
+
+
+# --- Smart Chart-of-Accounts Import Schemas ---
+
+class CoaAccountRow(BaseModel):
+    code: str = ""
+    name: str = ""
+    raw_type_hint: str | None = None
+    parent_code: str | None = None
+
+
+class CoaMappingRequest(BaseModel):
+    accounts: list[CoaAccountRow] = []
+    country: str = "SA"
+    language: str = "ar"
+
+
+class CoaAccountMapping(BaseModel):
+    code: str = ""
+    name: str = ""
+    account_type: str = "asset_current"
+    is_group: bool = False
+    reconcile: bool = False
+    suggested_parent_code: str | None = None
+    confidence: float = 0.5
+    reasoning_ar: str = ""
+
+
+class CoaMappingResponse(BaseModel):
+    mappings: list[CoaAccountMapping] = []
+    warnings_ar: list[str] = []
+    summary_ar: str = ""
+
+
+# --- Smart Manufacturing BOM Advisor Schemas ---
+
+class BomAdvisorRequest(BaseModel):
+    product_name: str
+    product_category: str | None = None
+    description: str | None = None
+    destination_type: str | None = None  # e.g. hospital, warehouse, residential, retail
+    country: str = "SA"
+    language: str = "ar"
+
+
+class BomComponentSuggestion(BaseModel):
+    name: str = ""
+    quantity: float = 1.0
+    uom: str = "Units"
+    is_critical: bool = False
+    reasoning_ar: str = ""
+
+
+class ComplianceSuggestion(BaseModel):
+    requirement_ar: str = ""
+    reason_ar: str = ""
+    severity: str = "recommended"  # recommended, required
+
+
+class BomAdvisorResponse(BaseModel):
+    components: list[BomComponentSuggestion] = []
+    compliance_suggestions: list[ComplianceSuggestion] = []
+    manufacturing_notes_ar: list[str] = []
     summary_ar: str = ""

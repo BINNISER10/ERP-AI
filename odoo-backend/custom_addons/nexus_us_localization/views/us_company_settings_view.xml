@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- Company Settings Form -->
+    <record id="view_nexus_us_company_settings_form" model="ir.ui.view">
+        <field name="name">nexus.us.company.settings.form</field>
+        <field name="model">nexus.us.company.settings</field>
+        <field name="arch" type="xml">
+            <form string="إعدادات الشركة الأمريكية / US Company Settings">
+                <sheet>
+                    <group>
+                        <group string="معلومات الشركة / Company Info">
+                            <field name="company_id"/>
+                            <field name="legal_name"/>
+                            <field name="ein"/>
+                            <field name="state_of_incorporation"/>
+                        </group>
+                        <group string="السنة المالية / Fiscal Year">
+                            <field name="fiscal_year_end_month"/>
+                            <field name="fiscal_year_end_day"/>
+                            <field name="accounting_basis"/>
+                        </group>
+                    </group>
+                    <group>
+                        <group string="1099 Tracking">
+                            <field name="track_1099"/>
+                            <field name="require_w9"/>
+                            <field name="form_1099_threshold"/>
+                        </group>
+                        <group string="Sales Tax Nexus">
+                            <field name="nexus_state_ids" widget="many2many_tags"/>
+                            <field name="default_sales_tax_rate"/>
+                            <field name="use_economic_nexus"/>
+                            <field name="economic_nexus_threshold_usd"
+                                   invisible="not use_economic_nexus"/>
+                            <field name="economic_nexus_txn_threshold"
+                                   invisible="not use_economic_nexus"/>
+                        </group>
+                    </group>
+                    <group>
+                        <group string="ACH / Bank Transfers">
+                            <field name="ach_processor"/>
+                            <field name="ach_routing_number"
+                                   invisible="ach_processor == 'manual'"/>
+                            <field name="ach_account_number"
+                                   invisible="ach_processor == 'manual'"/>
+                            <field name="ach_processor_api_key"
+                                   invisible="ach_processor == 'manual'"/>
+                        </group>
+                    </group>
+                    <field name="notes" placeholder="ملاحظات..."/>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_nexus_us_company_settings" model="ir.actions.act_window">
+        <field name="name">إعدادات الشركة الأمريكية</field>
+        <field name="res_model">nexus.us.company.settings</field>
+        <field name="view_mode">form</field>
+    </record>
+
+</odoo>

@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!--
+        Nexus Pure Branding — Settings view overrides.
+
+        The "About" block of the General Settings page renders the Odoo
+        edition box (`res_config_edition`, "Odoo 18 (Community Edition)"
+        + copyright link to odoo.com) and the Odoo mobile app store badges
+        (`mobile_apps_funnel`). Both are removed here.
+    -->
+    <record id="res_config_settings_view_form_nexus_branding" model="ir.ui.view">
+        <field name="name">res.config.settings.view.form.inherit.nexus.pure.branding</field>
+        <field name="model">res.config.settings</field>
+        <field name="inherit_id" ref="base_setup.res_config_settings_view_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//widget[@name='mobile_apps_funnel']" position="replace"/>
+            <xpath expr="//widget[@name='res_config_edition']" position="replace"/>
+        </field>
+    </record>
+
+    <!--
+        Email server settings tooltip: the upstream text points the user at
+        "Odoo Online"'s hosted email service (@mycompany.odoo.com). Replaced
+        with a neutral tooltip that carries no upstream branding.
+    -->
+    <record id="mail_res_config_settings_view_form_nexus_branding" model="ir.ui.view">
+        <field name="name">mail.res_config_settings_view_form.nexus.pure.branding</field>
+        <field name="model">res.config.settings</field>
+        <field name="inherit_id" ref="mail.res_config_settings_view_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//setting[@id='email_servers_setting']" position="attributes">
+                <attribute name="title">Configure your own outgoing/incoming email server to send and receive emails.</attribute>
+            </xpath>
+        </field>
+    </record>
+</odoo>
