@@ -1,4 +1,4 @@
-"""Nexus Setup Journey: a gamified, stage-based onboarding engine.
+﻿"""Nexus Setup Journey: a gamified, stage-based onboarding engine.
 
 The journey walks the user through five critical setup stages and silently
 pushes each completed stage to the Nexus Core via an outbound API call.
@@ -111,10 +111,10 @@ class NexusSetupStep(models.Model):
 
 
 def _normalize_arabic_digits(text):
-    """Normalize Arabic-Indic numerals (٠١٢٣٤٥٦٧٨٩) to standard ASCII digits (0-9)."""
+    """Normalize Arabic-Indic numerals (Ù Ù¡Ù¢Ù£Ù¤Ù¥Ù¦Ù§Ù¨Ù©) to standard ASCII digits (0-9)."""
     if not text:
         return ""
-    trans = str.maketrans("٠١٢٣٤٥٦٧٨٩", "0123456789")
+    trans = str.maketrans("Ù Ù¡Ù¢Ù£Ù¤Ù¥Ù¦Ù§Ù¨Ù©", "0123456789")
     return text.translate(trans)
 
 
@@ -125,34 +125,34 @@ class NexusScannedDocument(models.Model):
     _order = "id desc"
 
     journey_id = fields.Many2one("nexus.setup.journey", string="Setup Journey", ondelete="cascade")
-    name = fields.Char(string="اسم الملف (File Name)", required=True)
-    attachment_id = fields.Many2one("ir.attachment", string="الملف المرفق")
-    file_type = fields.Char(string="نوع الملف")
+    name = fields.Char(string="Ø§Ø³Ù… Ø§Ù„Ù…Ù„Ù (File Name)", required=True)
+    attachment_id = fields.Many2one("ir.attachment", string="Ø§Ù„Ù…Ù„Ù Ø§Ù„Ù…Ø±ÙÙ‚")
+    file_type = fields.Char(string="Ù†ÙˆØ¹ Ø§Ù„Ù…Ù„Ù")
     document_type = fields.Selection(
         [
-            ("cr", "📑 السجل التجاري"),
-            ("vat", "🧾 شهادة ضريبة القيمة المضافة"),
-            ("national_address", "📍 شهادة العنوان الوطني"),
-            ("gosi", "🛡️ شهادة التأمينات الاجتماعية"),
-            ("balady", "🏢 رخصة النشاط التجاري (بلدي)"),
-            ("nitaqat", "👥 شهادة السعودة ونطاقات"),
-            ("chamber", "🏛️ شهادة الغرفة التجارية"),
-            ("invoice", "💰 فاتورة / سند مالي"),
-            ("contract", "📝 عقد تجاري"),
-            ("other", "📄 وثيقة أعمال عامة"),
+            ("cr", "ðŸ“‘ Ø§Ù„Ø³Ø¬Ù„ Ø§Ù„ØªØ¬Ø§Ø±ÙŠ"),
+            ("vat", "ðŸ§¾ Ø´Ù‡Ø§Ø¯Ø© Ø¶Ø±ÙŠØ¨Ø© Ø§Ù„Ù‚ÙŠÙ…Ø© Ø§Ù„Ù…Ø¶Ø§ÙØ©"),
+            ("national_address", "ðŸ“ Ø´Ù‡Ø§Ø¯Ø© Ø§Ù„Ø¹Ù†ÙˆØ§Ù† Ø§Ù„ÙˆØ·Ù†ÙŠ"),
+            ("gosi", "ðŸ›¡ï¸ Ø´Ù‡Ø§Ø¯Ø© Ø§Ù„ØªØ£Ù…ÙŠÙ†Ø§Øª Ø§Ù„Ø§Ø¬ØªÙ…Ø§Ø¹ÙŠØ©"),
+            ("balady", "ðŸ¢ Ø±Ø®ØµØ© Ø§Ù„Ù†Ø´Ø§Ø· Ø§Ù„ØªØ¬Ø§Ø±ÙŠ (Ø¨Ù„Ø¯ÙŠ)"),
+            ("nitaqat", "ðŸ‘¥ Ø´Ù‡Ø§Ø¯Ø© Ø§Ù„Ø³Ø¹ÙˆØ¯Ø© ÙˆÙ†Ø·Ø§Ù‚Ø§Øª"),
+            ("chamber", "ðŸ›ï¸ Ø´Ù‡Ø§Ø¯Ø© Ø§Ù„ØºØ±ÙØ© Ø§Ù„ØªØ¬Ø§Ø±ÙŠØ©"),
+            ("invoice", "ðŸ’° ÙØ§ØªÙˆØ±Ø© / Ø³Ù†Ø¯ Ù…Ø§Ù„ÙŠ"),
+            ("contract", "ðŸ“ Ø¹Ù‚Ø¯ ØªØ¬Ø§Ø±ÙŠ"),
+            ("other", "ðŸ“„ ÙˆØ«ÙŠÙ‚Ø© Ø£Ø¹Ù…Ø§Ù„ Ø¹Ø§Ù…Ø©"),
         ],
-        string="نوع الوثيقة المصطادة",
+        string="Ù†ÙˆØ¹ Ø§Ù„ÙˆØ«ÙŠÙ‚Ø© Ø§Ù„Ù…ØµØ·Ø§Ø¯Ø©",
         default="other",
     )
-    extracted_summary = fields.Char(string="الملخص المستخرج")
-    extracted_data_json = fields.Text(string="البيانات المستخرجة (JSON)")
+    extracted_summary = fields.Char(string="Ø§Ù„Ù…Ù„Ø®Øµ Ø§Ù„Ù…Ø³ØªØ®Ø±Ø¬")
+    extracted_data_json = fields.Text(string="Ø§Ù„Ø¨ÙŠØ§Ù†Ø§Øª Ø§Ù„Ù…Ø³ØªØ®Ø±Ø¬Ø© (JSON)")
     state = fields.Selection(
         [
-            ("uploaded", "جاهز للفحص"),
-            ("extracted", "تم الصيد والاستخراج ✅"),
-            ("failed", "تعذر الاستخراج ⚠️"),
+            ("uploaded", "Ø¬Ø§Ù‡Ø² Ù„Ù„ÙØ­Øµ"),
+            ("extracted", "ØªÙ… Ø§Ù„ØµÙŠØ¯ ÙˆØ§Ù„Ø§Ø³ØªØ®Ø±Ø§Ø¬ âœ…"),
+            ("failed", "ØªØ¹Ø°Ø± Ø§Ù„Ø§Ø³ØªØ®Ø±Ø§Ø¬ âš ï¸"),
         ],
-        string="الحالة",
+        string="Ø§Ù„Ø­Ø§Ù„Ø©",
         default="uploaded",
     )
 
@@ -246,62 +246,62 @@ class NexusSetupJourney(models.Model):
         "nexus_journey_attachment_rel",
         "journey_id",
         "attachment_id",
-        string="المستندات المرفوعة (حتى 100+ وثيقة)",
+        string="Ø§Ù„Ù…Ø³ØªÙ†Ø¯Ø§Øª Ø§Ù„Ù…Ø±ÙÙˆØ¹Ø© (Ø­ØªÙ‰ 100+ ÙˆØ«ÙŠÙ‚Ø©)",
     )
     scanned_document_ids = fields.One2many(
         "nexus.scanned.document",
         "journey_id",
-        string="سجل الوثائق المفحوصة والمصطادة",
+        string="Ø³Ø¬Ù„ Ø§Ù„ÙˆØ«Ø§Ø¦Ù‚ Ø§Ù„Ù…ÙØ­ÙˆØµØ© ÙˆØ§Ù„Ù…ØµØ·Ø§Ø¯Ø©",
     )
     total_documents_count = fields.Integer(
-        string="إجمالي الوثائق",
+        string="Ø¥Ø¬Ù…Ø§Ù„ÙŠ Ø§Ù„ÙˆØ«Ø§Ø¦Ù‚",
         compute="_compute_document_counts",
     )
     scanned_documents_count = fields.Integer(
-        string="الوثائق المعالجة",
+        string="Ø§Ù„ÙˆØ«Ø§Ø¦Ù‚ Ø§Ù„Ù…Ø¹Ø§Ù„Ø¬Ø©",
         compute="_compute_document_counts",
     )
 
-    upload_document_file = fields.Binary(string="اسحب أو ارفع أي وثيقة رسمية هنا (Single AI Dropzone)", attachment=True)
-    upload_document_filename = fields.Char(string="اسم ملف الوثيقة")
+    upload_document_file = fields.Binary(string="Ø§Ø³Ø­Ø¨ Ø£Ùˆ Ø§Ø±ÙØ¹ Ø£ÙŠ ÙˆØ«ÙŠÙ‚Ø© Ø±Ø³Ù…ÙŠØ© Ù‡Ù†Ø§ (Single AI Dropzone)", attachment=True)
+    upload_document_filename = fields.Char(string="Ø§Ø³Ù… Ù…Ù„Ù Ø§Ù„ÙˆØ«ÙŠÙ‚Ø©")
     
     # Saudi Official Registry & Licenses
-    cr_number = fields.Char(string="رقم السجل التجاري", placeholder="1010XXXXXX")
-    gosi_number = fields.Char(string="رقم اشتراك التأمينات", placeholder="700XXXXXXX")
-    balady_license_no = fields.Char(string="رقم رخصة بلدي", placeholder="1445XXXXXXXX")
-    saudization_rate = fields.Float(string="نسبة التوطين / السعودة (%)")
+    cr_number = fields.Char(string="Ø±Ù‚Ù… Ø§Ù„Ø³Ø¬Ù„ Ø§Ù„ØªØ¬Ø§Ø±ÙŠ", placeholder="1010XXXXXX")
+    gosi_number = fields.Char(string="Ø±Ù‚Ù… Ø§Ø´ØªØ±Ø§Ùƒ Ø§Ù„ØªØ£Ù…ÙŠÙ†Ø§Øª", placeholder="700XXXXXXX")
+    balady_license_no = fields.Char(string="Ø±Ù‚Ù… Ø±Ø®ØµØ© Ø¨Ù„Ø¯ÙŠ", placeholder="1445XXXXXXXX")
+    saudization_rate = fields.Float(string="Ù†Ø³Ø¨Ø© Ø§Ù„ØªÙˆØ·ÙŠÙ† / Ø§Ù„Ø³Ø¹ÙˆØ¯Ø© (%)")
 
     # National Address Fields
-    city = fields.Char(string="المدينة (City)", default="الرياض")
-    district = fields.Char(string="الحي (District)")
-    street = fields.Char(string="الشارع (Street)")
-    building_no = fields.Char(string="رقم المبنى (Building No)")
-    additional_no = fields.Char(string="الرقم الإضافي (Additional No)")
-    postal_code = fields.Char(string="الرمز البريدي (Postal Code)")
-    national_short_address = fields.Char(string="العنوان المختصر", placeholder="RRRD2934")
+    city = fields.Char(string="Ø§Ù„Ù…Ø¯ÙŠÙ†Ø© (City)", default="Ø§Ù„Ø±ÙŠØ§Ø¶")
+    district = fields.Char(string="Ø§Ù„Ø­ÙŠ (District)")
+    street = fields.Char(string="Ø§Ù„Ø´Ø§Ø±Ø¹ (Street)")
+    building_no = fields.Char(string="Ø±Ù‚Ù… Ø§Ù„Ù…Ø¨Ù†Ù‰ (Building No)")
+    additional_no = fields.Char(string="Ø§Ù„Ø±Ù‚Ù… Ø§Ù„Ø¥Ø¶Ø§ÙÙŠ (Additional No)")
+    postal_code = fields.Char(string="Ø§Ù„Ø±Ù…Ø² Ø§Ù„Ø¨Ø±ÙŠØ¯ÙŠ (Postal Code)")
+    national_short_address = fields.Char(string="Ø§Ù„Ø¹Ù†ÙˆØ§Ù† Ø§Ù„Ù…Ø®ØªØµØ±", placeholder="RRRD2934")
 
-    employee_count = fields.Integer(string="عدد الموظفين", default=5)
+    employee_count = fields.Integer(string="Ø¹Ø¯Ø¯ Ø§Ù„Ù…ÙˆØ¸ÙÙŠÙ†", default=5)
     document_scan_summary_html = fields.Html(string="Scan Summary", readonly=True)
-    recognized_documents_html = fields.Html(string="سجل الوثائق المصطادة", readonly=True)
+    recognized_documents_html = fields.Html(string="Ø³Ø¬Ù„ Ø§Ù„ÙˆØ«Ø§Ø¦Ù‚ Ø§Ù„Ù…ØµØ·Ø§Ø¯Ø©", readonly=True)
 
     # HR Smart Importer & Employee Document Hunter Fields
-    hr_roster_file = fields.Binary(string="كشف الموظفين (Excel / CSV / PDF)", attachment=True)
-    hr_roster_filename = fields.Char(string="اسم ملف كشف الموظفين")
+    hr_roster_file = fields.Binary(string="ÙƒØ´Ù Ø§Ù„Ù…ÙˆØ¸ÙÙŠÙ† (Excel / CSV / PDF)", attachment=True)
+    hr_roster_filename = fields.Char(string="Ø§Ø³Ù… Ù…Ù„Ù ÙƒØ´Ù Ø§Ù„Ù…ÙˆØ¸ÙÙŠÙ†")
     employee_document_attachment_ids = fields.Many2many(
         "ir.attachment",
         "nexus_journey_emp_att_rel",
         "journey_id",
         "attachment_id",
-        string="صور وثائق الموظفين (إقامات وجوازات متعددة)",
+        string="ØµÙˆØ± ÙˆØ«Ø§Ø¦Ù‚ Ø§Ù„Ù…ÙˆØ¸ÙÙŠÙ† (Ø¥Ù‚Ø§Ù…Ø§Øª ÙˆØ¬ÙˆØ§Ø²Ø§Øª Ù…ØªØ¹Ø¯Ø¯Ø©)",
     )
-    hr_scan_summary_html = fields.Html(string="ملخص استيراد وفحص الموظفين", readonly=True)
+    hr_scan_summary_html = fields.Html(string="Ù…Ù„Ø®Øµ Ø§Ø³ØªÙŠØ±Ø§Ø¯ ÙˆÙØ­Øµ Ø§Ù„Ù…ÙˆØ¸ÙÙŠÙ†", readonly=True)
 
     # Legacy fields for backward compatibility
-    cr_file = fields.Binary(string="السجل التجاري (CR)", attachment=True)
+    cr_file = fields.Binary(string="Ø§Ù„Ø³Ø¬Ù„ Ø§Ù„ØªØ¬Ø§Ø±ÙŠ (CR)", attachment=True)
     cr_filename = fields.Char(string="CR Filename")
-    vat_file = fields.Binary(string="الشهادة الضريبية (VAT)", attachment=True)
+    vat_file = fields.Binary(string="Ø§Ù„Ø´Ù‡Ø§Ø¯Ø© Ø§Ù„Ø¶Ø±ÙŠØ¨ÙŠØ© (VAT)", attachment=True)
     vat_filename = fields.Char(string="VAT Filename")
-    gosi_file = fields.Binary(string="شهادة التأمينات (GOSI)", attachment=True)
+    gosi_file = fields.Binary(string="Ø´Ù‡Ø§Ø¯Ø© Ø§Ù„ØªØ£Ù…ÙŠÙ†Ø§Øª (GOSI)", attachment=True)
     gosi_filename = fields.Char(string="GOSI Filename")
 
     # Structure & HR
@@ -385,7 +385,7 @@ class NexusSetupJourney(models.Model):
     def _compute_display_name(self):
         for journey in self:
             label = dict(journey._fields["stage"].selection).get(journey.stage, journey.stage)
-            journey.display_name = f"{journey.name} — {label} ({journey.progress}%)"
+            journey.display_name = f"{journey.name} â€” {label} ({journey.progress}%)"
 
     @api.depends("step_ids.state", "step_ids.required")
     def _compute_progress(self):
@@ -678,7 +678,7 @@ class NexusSetupJourney(models.Model):
     def action_open_document_hunter_wizard(self):
         """Open the AI Document Hunter Wizard."""
         return {
-            "name": "🎯 صياد واستخراج الوثائق بالذكاء الاصطناعي",
+            "name": "ðŸŽ¯ ØµÙŠØ§Ø¯ ÙˆØ§Ø³ØªØ®Ø±Ø§Ø¬ Ø§Ù„ÙˆØ«Ø§Ø¦Ù‚ Ø¨Ø§Ù„Ø°ÙƒØ§Ø¡ Ø§Ù„Ø§ØµØ·Ù†Ø§Ø¹ÙŠ",
             "type": "ir.actions.act_window",
             "res_model": "nexus.document.hunter.wizard",
             "view_mode": "form",
@@ -688,7 +688,7 @@ class NexusSetupJourney(models.Model):
     def action_open_ai_developer(self):
         """Open the AI Developer Staff Member."""
         return {
-            "name": "👨‍💻 مطور أودو ومستشار الأعمال الذكي",
+            "name": "ðŸ‘¨â€ðŸ’» Ù…Ø·ÙˆØ± Ø£ÙˆØ¯Ùˆ ÙˆÙ…Ø³ØªØ´Ø§Ø± Ø§Ù„Ø£Ø¹Ù…Ø§Ù„ Ø§Ù„Ø°ÙƒÙŠ",
             "type": "ir.actions.act_window",
             "res_model": "nexus.ai.developer.staff",
             "view_mode": "form",
@@ -721,15 +721,15 @@ class NexusSetupJourney(models.Model):
             "type": "ir.actions.client",
             "tag": "display_notification",
             "params": {
-                "title": _("🧹 تم مسح المدخلات"),
-                "message": _("تم تفريغ مربع الرفع وسجل الفحص بنجاح. يمكنك الآن سحب وإفلات ملفات جديدة."),
+                "title": _("ðŸ§¹ ØªÙ… Ù…Ø³Ø­ Ø§Ù„Ù…Ø¯Ø®Ù„Ø§Øª"),
+                "message": _("ØªÙ… ØªÙØ±ÙŠØº Ù…Ø±Ø¨Ø¹ Ø§Ù„Ø±ÙØ¹ ÙˆØ³Ø¬Ù„ Ø§Ù„ÙØ­Øµ Ø¨Ù†Ø¬Ø§Ø­. ÙŠÙ…ÙƒÙ†Ùƒ Ø§Ù„Ø¢Ù† Ø³Ø­Ø¨ ÙˆØ¥ÙÙ„Ø§Øª Ù…Ù„ÙØ§Øª Ø¬Ø¯ÙŠØ¯Ø©."),
                 "type": "info",
                 "sticky": False,
             },
         }
 
     def action_trigger_document_hunter(self):
-        """Batch Multi-Document AI Hunter — Scans and auto-classifies 1 to 100+ documents at once!"""
+        """Batch Multi-Document AI Hunter â€” Scans and auto-classifies 1 to 100+ documents at once!"""
         self.ensure_one()
         import base64
         import re
@@ -759,7 +759,7 @@ class NexusSetupJourney(models.Model):
                 files_to_process.append({"name": f_name or "document.pdf", "data": b_data, "attachment": False})
 
         if not files_to_process:
-            raise UserError(_("يرجى سحب أو رفع الوثائق الرسمية في مربع الرفع الموحد أولاً لبدء الفحص والصيد الآلي."))
+            raise UserError(_("ÙŠØ±Ø¬Ù‰ Ø³Ø­Ø¨ Ø£Ùˆ Ø±ÙØ¹ Ø§Ù„ÙˆØ«Ø§Ø¦Ù‚ Ø§Ù„Ø±Ø³Ù…ÙŠØ© ÙÙŠ Ù…Ø±Ø¨Ø¹ Ø§Ù„Ø±ÙØ¹ Ø§Ù„Ù…ÙˆØ­Ø¯ Ø£ÙˆÙ„Ø§Ù‹ Ù„Ø¨Ø¯Ø¡ Ø§Ù„ÙØ­Øµ ÙˆØ§Ù„ØµÙŠØ¯ Ø§Ù„Ø¢Ù„ÙŠ."))
 
         scanned_doc_obj = self.env["nexus.scanned.document"]
         processed_count = 0
@@ -777,14 +777,14 @@ class NexusSetupJourney(models.Model):
             full_lower = txt.lower()
 
             # 1. CR Number (10 digits starting with 1 to 5)
-            cr_m = re.search(r"(?:سجل\s*تجاري|رقم\s*السجل|cr\s*no|commercial\s*registration)[\s:–-]*([1-5]\d{9})", txt, re.I)
+            cr_m = re.search(r"(?:Ø³Ø¬Ù„\s*ØªØ¬Ø§Ø±ÙŠ|Ø±Ù‚Ù…\s*Ø§Ù„Ø³Ø¬Ù„|cr\s*no|commercial\s*registration)[\s:â€“-]*([1-5]\d{9})", txt, re.I)
             if not cr_m:
                 cr_m = re.search(r"\b([1-5]\d{9})\b", txt)
             if cr_m:
                 self.cr_number = cr_m.group(1)
 
             # 2. VAT Number (15 digits starting and ending with 3)
-            vat_m = re.search(r"(?:الرقم\s*الضريبي|ضريبة\s*القيمة\s*المضافة|رقم\s*التسجيل\s*الضريبي|vat\s*registration\s*number|tax\s*id)[\s:–-]*([3]\d{13}[3])", txt, re.I)
+            vat_m = re.search(r"(?:Ø§Ù„Ø±Ù‚Ù…\s*Ø§Ù„Ø¶Ø±ÙŠØ¨ÙŠ|Ø¶Ø±ÙŠØ¨Ø©\s*Ø§Ù„Ù‚ÙŠÙ…Ø©\s*Ø§Ù„Ù…Ø¶Ø§ÙØ©|Ø±Ù‚Ù…\s*Ø§Ù„ØªØ³Ø¬ÙŠÙ„\s*Ø§Ù„Ø¶Ø±ÙŠØ¨ÙŠ|vat\s*registration\s*number|tax\s*id)[\s:â€“-]*([3]\d{13}[3])", txt, re.I)
             if not vat_m:
                 vat_m = re.search(r"\b([3]\d{13}[3])\b", txt)
             if not vat_m:
@@ -793,45 +793,45 @@ class NexusSetupJourney(models.Model):
                 self.tax_id = vat_m.group(1)
 
             # 3. GOSI / Unified 700 Number
-            gosi_m = re.search(r"(?:رقم\s*الاشتراك|رقم\s*اشتراك\s*المنشأة|التأمينات\s*الاجتماعية|gosi\s*no)[\s:–-]*(\d{7,10})", txt, re.I)
+            gosi_m = re.search(r"(?:Ø±Ù‚Ù…\s*Ø§Ù„Ø§Ø´ØªØ±Ø§Ùƒ|Ø±Ù‚Ù…\s*Ø§Ø´ØªØ±Ø§Ùƒ\s*Ø§Ù„Ù…Ù†Ø´Ø£Ø©|Ø§Ù„ØªØ£Ù…ÙŠÙ†Ø§Øª\s*Ø§Ù„Ø§Ø¬ØªÙ…Ø§Ø¹ÙŠØ©|gosi\s*no)[\s:â€“-]*(\d{7,10})", txt, re.I)
             if gosi_m:
                 self.gosi_number = gosi_m.group(1)
             else:
-                u700_m = re.search(r"(?:الرقم\s*الوطني\s*الموحد|الرقم\s*الموحد)[\s:–-]*([7]\d{9})", txt, re.I)
+                u700_m = re.search(r"(?:Ø§Ù„Ø±Ù‚Ù…\s*Ø§Ù„ÙˆØ·Ù†ÙŠ\s*Ø§Ù„Ù…ÙˆØ­Ø¯|Ø§Ù„Ø±Ù‚Ù…\s*Ø§Ù„Ù…ÙˆØ­Ø¯)[\s:â€“-]*([7]\d{9})", txt, re.I)
                 if u700_m:
                     self.gosi_number = u700_m.group(1)
 
             # 4. Balady License No
-            balady_m = re.search(r"(?:رخصة\s*بلدية|رخصة\s*نشاط\s*تجاري|منصة\s*بلدي|بلدي|رقم\s*الرخصة)[\s:–-]*(\d{8,14})", txt, re.I)
+            balady_m = re.search(r"(?:Ø±Ø®ØµØ©\s*Ø¨Ù„Ø¯ÙŠØ©|Ø±Ø®ØµØ©\s*Ù†Ø´Ø§Ø·\s*ØªØ¬Ø§Ø±ÙŠ|Ù…Ù†ØµØ©\s*Ø¨Ù„Ø¯ÙŠ|Ø¨Ù„Ø¯ÙŠ|Ø±Ù‚Ù…\s*Ø§Ù„Ø±Ø®ØµØ©)[\s:â€“-]*(\d{8,14})", txt, re.I)
             if balady_m:
                 self.balady_license_no = balady_m.group(1)
 
             # 5. National Address Details (Building No, Postal Code, Additional No, District, Street, Short Address)
-            bm = re.search(r"(?:رقم\s*المبنى|building\s*no)[\s:–-]*(\d{4})", txt, re.I)
+            bm = re.search(r"(?:Ø±Ù‚Ù…\s*Ø§Ù„Ù…Ø¨Ù†Ù‰|building\s*no)[\s:â€“-]*(\d{4})", txt, re.I)
             if bm:
                 self.building_no = bm.group(1)
-            pm = re.search(r"(?:الرمز\s*البريدي|postal\s*code|zip)[\s:–-]*(\d{5})", txt, re.I)
+            pm = re.search(r"(?:Ø§Ù„Ø±Ù…Ø²\s*Ø§Ù„Ø¨Ø±ÙŠØ¯ÙŠ|postal\s*code|zip)[\s:â€“-]*(\d{5})", txt, re.I)
             if pm:
                 self.postal_code = pm.group(1)
-            am = re.search(r"(?:الرقم\s*الإضافي|الرقم\s*الفرعي|secondary\s*no|additional\s*no)[\s:–-]*(\d{4})", txt, re.I)
+            am = re.search(r"(?:Ø§Ù„Ø±Ù‚Ù…\s*Ø§Ù„Ø¥Ø¶Ø§ÙÙŠ|Ø§Ù„Ø±Ù‚Ù…\s*Ø§Ù„ÙØ±Ø¹ÙŠ|secondary\s*no|additional\s*no)[\s:â€“-]*(\d{4})", txt, re.I)
             if am:
                 self.additional_no = am.group(1)
-            dm = re.search(r"(?:الحي|district|حي)[\s:–-]*([^\n,]+)", txt, re.I)
+            dm = re.search(r"(?:Ø§Ù„Ø­ÙŠ|district|Ø­ÙŠ)[\s:â€“-]*([^\n,]+)", txt, re.I)
             if dm:
                 self.district = dm.group(1).strip()
-            sm = re.search(r"(?:الشارع|street|طريق)[\s:–-]*([^\n,]+)", txt, re.I)
+            sm = re.search(r"(?:Ø§Ù„Ø´Ø§Ø±Ø¹|street|Ø·Ø±ÙŠÙ‚)[\s:â€“-]*([^\n,]+)", txt, re.I)
             if sm:
                 self.street = sm.group(1).strip()
-            short_addr_m = re.search(r"(?:العنوان\s*المختصر|short\s*address)[\s:–-]*([A-Za-z]{4}\d{4})", txt, re.I)
+            short_addr_m = re.search(r"(?:Ø§Ù„Ø¹Ù†ÙˆØ§Ù†\s*Ø§Ù„Ù…Ø®ØªØµØ±|short\s*address)[\s:â€“-]*([A-Za-z]{4}\d{4})", txt, re.I)
             if short_addr_m:
                 self.national_short_address = short_addr_m.group(1).upper()
 
             # 6. Employee count & Saudization
-            emp_m = re.search(r"(?:المجموع|إجمالي\s*العاملين|عدد\s*المشتركين|total\s*employees)[\s:–-]*(\d+)", txt, re.I)
+            emp_m = re.search(r"(?:Ø§Ù„Ù…Ø¬Ù…ÙˆØ¹|Ø¥Ø¬Ù…Ø§Ù„ÙŠ\s*Ø§Ù„Ø¹Ø§Ù…Ù„ÙŠÙ†|Ø¹Ø¯Ø¯\s*Ø§Ù„Ù…Ø´ØªØ±ÙƒÙŠÙ†|total\s*employees)[\s:â€“-]*(\d+)", txt, re.I)
             if emp_m:
                 self.employee_count = int(emp_m.group(1))
 
-            saudi_emp_m = re.search(r"(?:عدد\s*المشتركين\s*السعوديين|سعوديين)[\s:–-]*(\d+)", txt, re.I)
+            saudi_emp_m = re.search(r"(?:Ø¹Ø¯Ø¯\s*Ø§Ù„Ù…Ø´ØªØ±ÙƒÙŠÙ†\s*Ø§Ù„Ø³Ø¹ÙˆØ¯ÙŠÙŠÙ†|Ø³Ø¹ÙˆØ¯ÙŠÙŠÙ†)[\s:â€“-]*(\d+)", txt, re.I)
             if saudi_emp_m and self.employee_count:
                 saudi_cnt = int(saudi_emp_m.group(1))
                 self.saudization_rate = round((saudi_cnt / self.employee_count) * 100.0, 1)
@@ -839,8 +839,8 @@ class NexusSetupJourney(models.Model):
             # 7. Extract Exact Company Name
             for line in txt.splitlines():
                 line = line.strip()
-                if any(kw in line for kw in ["شركة", "مؤسسة", "فرع شركة", "مجموعة", "مصنع"]):
-                    clean = re.sub(r"(?:تشهد\s*الغرفة\s*بأن|تشهد\s*المؤسسة\s*بأن|بأن|اسم\s*المنشأة|اسم\s*الشركة|اسم\s*المؤسسة|الاسم\s*التجاري\s*للشركة|الاسم\s*التجاري|اسم\s*المكلف|الاسم)[\s:–-]*", "", line).strip()
+                if any(kw in line for kw in ["Ø´Ø±ÙƒØ©", "Ù…Ø¤Ø³Ø³Ø©", "ÙØ±Ø¹ Ø´Ø±ÙƒØ©", "Ù…Ø¬Ù…ÙˆØ¹Ø©", "Ù…ØµÙ†Ø¹"]):
+                    clean = re.sub(r"(?:ØªØ´Ù‡Ø¯\s*Ø§Ù„ØºØ±ÙØ©\s*Ø¨Ø£Ù†|ØªØ´Ù‡Ø¯\s*Ø§Ù„Ù…Ø¤Ø³Ø³Ø©\s*Ø¨Ø£Ù†|Ø¨Ø£Ù†|Ø§Ø³Ù…\s*Ø§Ù„Ù…Ù†Ø´Ø£Ø©|Ø§Ø³Ù…\s*Ø§Ù„Ø´Ø±ÙƒØ©|Ø§Ø³Ù…\s*Ø§Ù„Ù…Ø¤Ø³Ø³Ø©|Ø§Ù„Ø§Ø³Ù…\s*Ø§Ù„ØªØ¬Ø§Ø±ÙŠ\s*Ù„Ù„Ø´Ø±ÙƒØ©|Ø§Ù„Ø§Ø³Ù…\s*Ø§Ù„ØªØ¬Ø§Ø±ÙŠ|Ø§Ø³Ù…\s*Ø§Ù„Ù…ÙƒÙ„Ù|Ø§Ù„Ø§Ø³Ù…)[\s:â€“-]*", "", line).strip()
                     # Clean punctuation and brackets
                     clean = re.sub(r"^[^\w\u0600-\u06FF]+|[^\w\u0600-\u06FF]+$", "", clean).strip()
                     if 5 < len(clean) < 100:
@@ -848,60 +848,60 @@ class NexusSetupJourney(models.Model):
                         break
 
             # 8. Industry Domain
-            if any(w in full_lower for w in ["تقنية", "معلومات", "برمجيات", "تحليل النظم", "software", "it"]):
+            if any(w in full_lower for w in ["ØªÙ‚Ù†ÙŠØ©", "Ù…Ø¹Ù„ÙˆÙ…Ø§Øª", "Ø¨Ø±Ù…Ø¬ÙŠØ§Øª", "ØªØ­Ù„ÙŠÙ„ Ø§Ù„Ù†Ø¸Ù…", "software", "it"]):
                 self.industry_domain = "services"
-            elif any(w in full_lower for w in ["مطعم", "كافيه", "مقهى", "أغذية", "وجبات", "restaurant"]):
+            elif any(w in full_lower for w in ["Ù…Ø·Ø¹Ù…", "ÙƒØ§ÙÙŠÙ‡", "Ù…Ù‚Ù‡Ù‰", "Ø£ØºØ°ÙŠØ©", "ÙˆØ¬Ø¨Ø§Øª", "restaurant"]):
                 self.industry_domain = "restaurant"
-            elif any(w in full_lower for w in ["تصنيع", "مصنع", "صناعي", "manufacturing"]):
+            elif any(w in full_lower for w in ["ØªØµÙ†ÙŠØ¹", "Ù…ØµÙ†Ø¹", "ØµÙ†Ø§Ø¹ÙŠ", "manufacturing"]):
                 self.industry_domain = "manufacturing"
-            elif any(w in full_lower for w in ["مقاولات", "بناء", "تشييد", "عقود", "construction"]):
+            elif any(w in full_lower for w in ["Ù…Ù‚Ø§ÙˆÙ„Ø§Øª", "Ø¨Ù†Ø§Ø¡", "ØªØ´ÙŠÙŠØ¯", "Ø¹Ù‚ÙˆØ¯", "construction"]):
                 self.industry_domain = "construction"
-            elif any(w in full_lower for w in ["محطة", "وقود", "بنزين", "fuel"]):
+            elif any(w in full_lower for w in ["Ù…Ø­Ø·Ø©", "ÙˆÙ‚ÙˆØ¯", "Ø¨Ù†Ø²ÙŠÙ†", "fuel"]):
                 self.industry_domain = "fuel_station"
-            elif any(w in full_lower for w in ["عقار", "عقارات", "real estate"]):
+            elif any(w in full_lower for w in ["Ø¹Ù‚Ø§Ø±", "Ø¹Ù‚Ø§Ø±Ø§Øª", "real estate"]):
                 self.industry_domain = "real_estate"
 
-            for c in ["الرياض", "جدة", "الدمام", "مكة", "المدينة", "الخبر", "القصيم", "تبوك", "أبها"]:
+            for c in ["Ø§Ù„Ø±ÙŠØ§Ø¶", "Ø¬Ø¯Ø©", "Ø§Ù„Ø¯Ù…Ø§Ù…", "Ù…ÙƒØ©", "Ø§Ù„Ù…Ø¯ÙŠÙ†Ø©", "Ø§Ù„Ø®Ø¨Ø±", "Ø§Ù„Ù‚ØµÙŠÙ…", "ØªØ¨ÙˆÙƒ", "Ø£Ø¨Ù‡Ø§"]:
                 if c in txt:
                     self.city = c
                     break
 
             # Classify
             doc_type = "other"
-            doc_label = "📄 وثيقة أعمال عامة"
+            doc_label = "ðŸ“„ ÙˆØ«ÙŠÙ‚Ø© Ø£Ø¹Ù…Ø§Ù„ Ø¹Ø§Ù…Ø©"
             summary_info = []
 
-            if "سجل تجاري" in txt or "وزارة التجارة" in txt or (cr_m and "رأس المال" in txt):
+            if "Ø³Ø¬Ù„ ØªØ¬Ø§Ø±ÙŠ" in txt or "ÙˆØ²Ø§Ø±Ø© Ø§Ù„ØªØ¬Ø§Ø±Ø©" in txt or (cr_m and "Ø±Ø£Ø³ Ø§Ù„Ù…Ø§Ù„" in txt):
                 doc_type = "cr"
-                doc_label = "📑 السجل التجاري"
+                doc_label = "ðŸ“‘ Ø§Ù„Ø³Ø¬Ù„ Ø§Ù„ØªØ¬Ø§Ø±ÙŠ"
                 if cr_m:
-                    summary_info.append(f"رقم السجل: {cr_m.group(1)}")
-            elif "الزكاة والضريبة والجمارك" in txt or "zatca" in full_lower or (vat_m and ("ضريبة القيمة المضافة" in txt or "شهادة تسجيل" in txt)):
+                    summary_info.append(f"Ø±Ù‚Ù… Ø§Ù„Ø³Ø¬Ù„: {cr_m.group(1)}")
+            elif "Ø§Ù„Ø²ÙƒØ§Ø© ÙˆØ§Ù„Ø¶Ø±ÙŠØ¨Ø© ÙˆØ§Ù„Ø¬Ù…Ø§Ø±Ùƒ" in txt or "zatca" in full_lower or (vat_m and ("Ø¶Ø±ÙŠØ¨Ø© Ø§Ù„Ù‚ÙŠÙ…Ø© Ø§Ù„Ù…Ø¶Ø§ÙØ©" in txt or "Ø´Ù‡Ø§Ø¯Ø© ØªØ³Ø¬ÙŠÙ„" in txt)):
                 doc_type = "vat"
-                doc_label = "🧾 شهادة ضريبة القيمة المضافة"
+                doc_label = "ðŸ§¾ Ø´Ù‡Ø§Ø¯Ø© Ø¶Ø±ÙŠØ¨Ø© Ø§Ù„Ù‚ÙŠÙ…Ø© Ø§Ù„Ù…Ø¶Ø§ÙØ©"
                 if vat_m:
-                    summary_info.append(f"الرقم الضريبي: {vat_m.group(1)}")
-            elif "العنوان الوطني" in txt or "national address" in full_lower or "سبل" in txt or (bm and pm):
+                    summary_info.append(f"Ø§Ù„Ø±Ù‚Ù… Ø§Ù„Ø¶Ø±ÙŠØ¨ÙŠ: {vat_m.group(1)}")
+            elif "Ø§Ù„Ø¹Ù†ÙˆØ§Ù† Ø§Ù„ÙˆØ·Ù†ÙŠ" in txt or "national address" in full_lower or "Ø³Ø¨Ù„" in txt or (bm and pm):
                 doc_type = "national_address"
-                doc_label = "📍 شهادة العنوان الوطني"
+                doc_label = "ðŸ“ Ø´Ù‡Ø§Ø¯Ø© Ø§Ù„Ø¹Ù†ÙˆØ§Ù† Ø§Ù„ÙˆØ·Ù†ÙŠ"
                 if bm and pm:
-                    summary_info.append(f"مبنى {bm.group(1)} - بريد {pm.group(1)}")
-            elif "التأمينات الاجتماعية" in txt or "gosi" in full_lower:
+                    summary_info.append(f"Ù…Ø¨Ù†Ù‰ {bm.group(1)} - Ø¨Ø±ÙŠØ¯ {pm.group(1)}")
+            elif "Ø§Ù„ØªØ£Ù…ÙŠÙ†Ø§Øª Ø§Ù„Ø§Ø¬ØªÙ…Ø§Ø¹ÙŠØ©" in txt or "gosi" in full_lower:
                 doc_type = "gosi"
-                doc_label = "🛡️ شهادة التأمينات الاجتماعية"
+                doc_label = "ðŸ›¡ï¸ Ø´Ù‡Ø§Ø¯Ø© Ø§Ù„ØªØ£Ù…ÙŠÙ†Ø§Øª Ø§Ù„Ø§Ø¬ØªÙ…Ø§Ø¹ÙŠØ©"
                 if gosi_m:
-                    summary_info.append(f"رقم المنشأة: {gosi_m.group(1)}")
-            elif "بلدي" in txt or "رخصة النشاط التجاري" in txt or balady_m:
+                    summary_info.append(f"Ø±Ù‚Ù… Ø§Ù„Ù…Ù†Ø´Ø£Ø©: {gosi_m.group(1)}")
+            elif "Ø¨Ù„Ø¯ÙŠ" in txt or "Ø±Ø®ØµØ© Ø§Ù„Ù†Ø´Ø§Ø· Ø§Ù„ØªØ¬Ø§Ø±ÙŠ" in txt or balady_m:
                 doc_type = "balady"
-                doc_label = "🏢 رخصة بلدي"
+                doc_label = "ðŸ¢ Ø±Ø®ØµØ© Ø¨Ù„Ø¯ÙŠ"
                 if balady_m:
-                    summary_info.append(f"رقم الرخصة: {balady_m.group(1)}")
-            elif "نطاقات" in txt or "شهادة السعودة" in txt or "وزارة الموارد البشرية" in txt:
+                    summary_info.append(f"Ø±Ù‚Ù… Ø§Ù„Ø±Ø®ØµØ©: {balady_m.group(1)}")
+            elif "Ù†Ø·Ø§Ù‚Ø§Øª" in txt or "Ø´Ù‡Ø§Ø¯Ø© Ø§Ù„Ø³Ø¹ÙˆØ¯Ø©" in txt or "ÙˆØ²Ø§Ø±Ø© Ø§Ù„Ù…ÙˆØ§Ø±Ø¯ Ø§Ù„Ø¨Ø´Ø±ÙŠØ©" in txt:
                 doc_type = "nitaqat"
-                doc_label = "👥 شهادة السعودة ونطاقات"
-            elif "الغرفة التجارية" in txt or "اشتراك الغرفة" in txt:
+                doc_label = "ðŸ‘¥ Ø´Ù‡Ø§Ø¯Ø© Ø§Ù„Ø³Ø¹ÙˆØ¯Ø© ÙˆÙ†Ø·Ø§Ù‚Ø§Øª"
+            elif "Ø§Ù„ØºØ±ÙØ© Ø§Ù„ØªØ¬Ø§Ø±ÙŠØ©" in txt or "Ø§Ø´ØªØ±Ø§Ùƒ Ø§Ù„ØºØ±ÙØ©" in txt:
                 doc_type = "chamber"
-                doc_label = "🏛️ شهادة الغرفة التجارية"
+                doc_label = "ðŸ›ï¸ Ø´Ù‡Ø§Ø¯Ø© Ø§Ù„ØºØ±ÙØ© Ø§Ù„ØªØ¬Ø§Ø±ÙŠØ©"
 
             # Create or update Scanned Document Record
             scanned_doc_obj.create({
@@ -919,28 +919,28 @@ class NexusSetupJourney(models.Model):
         # Build Interactive Dashboard of Extracted Data
         badges = []
         if self.cr_number:
-            badges.append(f'<span class="badge bg-success p-2 me-2 mb-1" style="font-size:13px;">📑 السجل: {self.cr_number}</span>')
+            badges.append(f'<span class="badge bg-success p-2 me-2 mb-1" style="font-size:13px;">ðŸ“‘ Ø§Ù„Ø³Ø¬Ù„: {self.cr_number}</span>')
         if self.tax_id:
-            badges.append(f'<span class="badge bg-success p-2 me-2 mb-1" style="font-size:13px;">🧾 الضريبة: {self.tax_id}</span>')
+            badges.append(f'<span class="badge bg-success p-2 me-2 mb-1" style="font-size:13px;">ðŸ§¾ Ø§Ù„Ø¶Ø±ÙŠØ¨Ø©: {self.tax_id}</span>')
         if self.gosi_number:
-            badges.append(f'<span class="badge bg-success p-2 me-2 mb-1" style="font-size:13px;">🛡️ التأمينات: {self.gosi_number}</span>')
+            badges.append(f'<span class="badge bg-success p-2 me-2 mb-1" style="font-size:13px;">ðŸ›¡ï¸ Ø§Ù„ØªØ£Ù…ÙŠÙ†Ø§Øª: {self.gosi_number}</span>')
         if self.balady_license_no:
-            badges.append(f'<span class="badge bg-success p-2 me-2 mb-1" style="font-size:13px;">🏢 رخصة بلدي: {self.balady_license_no}</span>')
+            badges.append(f'<span class="badge bg-success p-2 me-2 mb-1" style="font-size:13px;">ðŸ¢ Ø±Ø®ØµØ© Ø¨Ù„Ø¯ÙŠ: {self.balady_license_no}</span>')
         if self.building_no or self.district:
-            addr_str = f"{self.city or ''} - {self.district or ''} - مبنى {self.building_no or ''}"
-            badges.append(f'<span class="badge bg-info p-2 me-2 mb-1" style="font-size:13px;">📍 العنوان الوطني: {addr_str}</span>')
+            addr_str = f"{self.city or ''} - {self.district or ''} - Ù…Ø¨Ù†Ù‰ {self.building_no or ''}"
+            badges.append(f'<span class="badge bg-info p-2 me-2 mb-1" style="font-size:13px;">ðŸ“ Ø§Ù„Ø¹Ù†ÙˆØ§Ù† Ø§Ù„ÙˆØ·Ù†ÙŠ: {addr_str}</span>')
         if self.saudization_rate:
-            badges.append(f'<span class="badge bg-primary p-2 me-2 mb-1" style="font-size:13px;">👥 نسبة التوطين: {self.saudization_rate}%</span>')
+            badges.append(f'<span class="badge bg-primary p-2 me-2 mb-1" style="font-size:13px;">ðŸ‘¥ Ù†Ø³Ø¨Ø© Ø§Ù„ØªÙˆØ·ÙŠÙ†: {self.saudization_rate}%</span>')
 
         self.document_scan_summary_html = f"""
             <div class="alert alert-success border-0 shadow-sm p-3 mb-3" style="border-radius: 10px; background-color: #E8F5E9;">
                 <div class="d-flex justify-content-between align-items-center mb-2">
                     <strong class="text-success" style="font-size: 16px;">
-                        🎯 تم بنجاح فحص وصيد بيانات ({processed_count}) وثيقة دفعة واحدة!
+                        ðŸŽ¯ ØªÙ… Ø¨Ù†Ø¬Ø§Ø­ ÙØ­Øµ ÙˆØµÙŠØ¯ Ø¨ÙŠØ§Ù†Ø§Øª ({processed_count}) ÙˆØ«ÙŠÙ‚Ø© Ø¯ÙØ¹Ø© ÙˆØ§Ø­Ø¯Ø©!
                     </strong>
-                    <span class="badge bg-success py-1 px-2">{processed_count} ملفات معالجة</span>
+                    <span class="badge bg-success py-1 px-2">{processed_count} Ù…Ù„ÙØ§Øª Ù…Ø¹Ø§Ù„Ø¬Ø©</span>
                 </div>
-                <p class="text-dark small mb-2">قام الذكاء الاصطناعي بتصنيف جميع الملفات وتحديث سجل المنشأة:</p>
+                <p class="text-dark small mb-2">Ù‚Ø§Ù… Ø§Ù„Ø°ÙƒØ§Ø¡ Ø§Ù„Ø§ØµØ·Ù†Ø§Ø¹ÙŠ Ø¨ØªØµÙ†ÙŠÙ Ø¬Ù…ÙŠØ¹ Ø§Ù„Ù…Ù„ÙØ§Øª ÙˆØªØ­Ø¯ÙŠØ« Ø³Ø¬Ù„ Ø§Ù„Ù…Ù†Ø´Ø£Ø©:</p>
                 <div class="d-flex flex-wrap mt-1">
                     {' '.join(badges)}
                 </div>
@@ -973,8 +973,8 @@ class NexusSetupJourney(models.Model):
             "type": "ir.actions.client",
             "tag": "display_notification",
             "params": {
-                "title": _("🎯 تم فحص وصيد الدفعة بنجاح!"),
-                "message": _("تمت معالجة وتصنيف %d وثيقة رسمية واستخراج كافة البيانات بنجاح.") % processed_count,
+                "title": _("ðŸŽ¯ ØªÙ… ÙØ­Øµ ÙˆØµÙŠØ¯ Ø§Ù„Ø¯ÙØ¹Ø© Ø¨Ù†Ø¬Ø§Ø­!"),
+                "message": _("ØªÙ…Øª Ù…Ø¹Ø§Ù„Ø¬Ø© ÙˆØªØµÙ†ÙŠÙ %d ÙˆØ«ÙŠÙ‚Ø© Ø±Ø³Ù…ÙŠØ© ÙˆØ§Ø³ØªØ®Ø±Ø§Ø¬ ÙƒØ§ÙØ© Ø§Ù„Ø¨ÙŠØ§Ù†Ø§Øª Ø¨Ù†Ø¬Ø§Ø­.") % processed_count,
                 "type": "success",
                 "sticky": False,
             },
@@ -983,7 +983,7 @@ class NexusSetupJourney(models.Model):
     def action_open_universal_migrator(self):
         """Open the Universal Enterprise Migrator for SAP / Oracle / Microsoft / SQL / Excel."""
         return {
-            "name": "📦 المستورد والمهجر الذكي الشامل (SAP / Oracle / Microsoft / SQL)",
+            "name": "ðŸ“¦ Ø§Ù„Ù…Ø³ØªÙˆØ±Ø¯ ÙˆØ§Ù„Ù…Ù‡Ø¬Ø± Ø§Ù„Ø°ÙƒÙŠ Ø§Ù„Ø´Ø§Ù…Ù„ (SAP / Oracle / Microsoft / SQL)",
             "type": "ir.actions.act_window",
             "res_model": "nexus.universal.migrator",
             "view_mode": "form",
@@ -1001,8 +1001,8 @@ class NexusSetupJourney(models.Model):
             "type": "ir.actions.client",
             "tag": "display_notification",
             "params": {
-                "title": _("🧹 تم مسح مدخلات الموظفين"),
-                "message": _("تم تفريغ مرفقات الهويات وكشوف الموظفين بنجاح."),
+                "title": _("ðŸ§¹ ØªÙ… Ù…Ø³Ø­ Ù…Ø¯Ø®Ù„Ø§Øª Ø§Ù„Ù…ÙˆØ¸ÙÙŠÙ†"),
+                "message": _("ØªÙ… ØªÙØ±ÙŠØº Ù…Ø±ÙÙ‚Ø§Øª Ø§Ù„Ù‡ÙˆÙŠØ§Øª ÙˆÙƒØ´ÙˆÙ Ø§Ù„Ù…ÙˆØ¸ÙÙŠÙ† Ø¨Ù†Ø¬Ø§Ø­."),
                 "type": "info",
                 "sticky": False,
             },
@@ -1016,7 +1016,7 @@ class NexusSetupJourney(models.Model):
 
         attachments = self.employee_document_attachment_ids
         if not attachments:
-            raise UserError(_("يرجى سحب أو رفع صور أو ملفات PDF لإقامات وجوازات الموظفين أولاً."))
+            raise UserError(_("ÙŠØ±Ø¬Ù‰ Ø³Ø­Ø¨ Ø£Ùˆ Ø±ÙØ¹ ØµÙˆØ± Ø£Ùˆ Ù…Ù„ÙØ§Øª PDF Ù„Ø¥Ù‚Ø§Ù…Ø§Øª ÙˆØ¬ÙˆØ§Ø²Ø§Øª Ø§Ù„Ù…ÙˆØ¸ÙÙŠÙ† Ø£ÙˆÙ„Ø§Ù‹."))
 
         Employee = self.env["hr.employee"]
         Job = self.env["hr.job"]
@@ -1033,32 +1033,32 @@ class NexusSetupJourney(models.Model):
                 continue
 
             # 1. Iqama / National ID (10 digits starting with 1 or 2)
-            iq_m = re.search(r"(?:رقم\s*الإقامة|رقم\s*الهوية|iqama\s*no|id\s*no)[\s:–-]*([12]\d{9})", txt, re.I)
+            iq_m = re.search(r"(?:Ø±Ù‚Ù…\s*Ø§Ù„Ø¥Ù‚Ø§Ù…Ø©|Ø±Ù‚Ù…\s*Ø§Ù„Ù‡ÙˆÙŠØ©|iqama\s*no|id\s*no)[\s:â€“-]*([12]\d{9})", txt, re.I)
             if not iq_m:
                 iq_m = re.search(r"\b([12]\d{9})\b", txt)
             iqama_no = iq_m.group(1) if iq_m else False
 
             # 2. Passport Number & MRZ
-            pass_m = re.search(r"(?:passport\s*no|رقم\s*الجواز)[\s:–-]*([A-Za-z0-9]{7,10})", txt, re.I)
+            pass_m = re.search(r"(?:passport\s*no|Ø±Ù‚Ù…\s*Ø§Ù„Ø¬ÙˆØ§Ø²)[\s:â€“-]*([A-Za-z0-9]{7,10})", txt, re.I)
             passport_no = pass_m.group(1).upper() if pass_m else False
 
             # 3. Full Name
             emp_name = None
-            name_m = re.search(r"(?:الاسم|اسم\s*المقيم|اسم\s*المواطن|name|full\s*name)[\s:–-]*([^\n]+)", txt, re.I)
+            name_m = re.search(r"(?:Ø§Ù„Ø§Ø³Ù…|Ø§Ø³Ù…\s*Ø§Ù„Ù…Ù‚ÙŠÙ…|Ø§Ø³Ù…\s*Ø§Ù„Ù…ÙˆØ§Ø·Ù†|name|full\s*name)[\s:â€“-]*([^\n]+)", txt, re.I)
             if name_m:
                 emp_name = name_m.group(1).strip()
             else:
                 for line in txt.splitlines():
                     clean_l = line.strip()
-                    if 3 < len(clean_l.split()) <= 6 and not any(kw in clean_l for kw in ["المملكة", "وزارة", "الإقامة", "الجوازات", "تاريخ"]):
+                    if 3 < len(clean_l.split()) <= 6 and not any(kw in clean_l for kw in ["Ø§Ù„Ù…Ù…Ù„ÙƒØ©", "ÙˆØ²Ø§Ø±Ø©", "Ø§Ù„Ø¥Ù‚Ø§Ù…Ø©", "Ø§Ù„Ø¬ÙˆØ§Ø²Ø§Øª", "ØªØ§Ø±ÙŠØ®"]):
                         emp_name = clean_l
                         break
             if not emp_name:
-                emp_name = f"موظف جديد ({att.name})"
+                emp_name = f"Ù…ÙˆØ¸Ù Ø¬Ø¯ÙŠØ¯ ({att.name})"
 
-            # 4. Job Position / Profession (المهنة)
+            # 4. Job Position / Profession (Ø§Ù„Ù…Ù‡Ù†Ø©)
             job_title = None
-            job_m = re.search(r"(?:المهنة|المسمى\s*الوظيفي|الوظيفة|occupation|job\s*title)[\s:–-]*([^\n,]+)", txt, re.I)
+            job_m = re.search(r"(?:Ø§Ù„Ù…Ù‡Ù†Ø©|Ø§Ù„Ù…Ø³Ù…Ù‰\s*Ø§Ù„ÙˆØ¸ÙŠÙÙŠ|Ø§Ù„ÙˆØ¸ÙŠÙØ©|occupation|job\s*title)[\s:â€“-]*([^\n,]+)", txt, re.I)
             if job_m:
                 job_title = job_m.group(1).strip()
 
@@ -1098,7 +1098,7 @@ class NexusSetupJourney(models.Model):
             created_employees.append(emp_rec)
             created_badges.append(
                 f'<span class="badge bg-success p-2 me-2 mb-2" style="font-size:13px;">'
-                f'👤 {emp_rec.name} | هوية: {iqama_no or passport_no or "معتمد"} | وظيفة: {job_title or "عام"}'
+                f'ðŸ‘¤ {emp_rec.name} | Ù‡ÙˆÙŠØ©: {iqama_no or passport_no or "Ù…Ø¹ØªÙ…Ø¯"} | ÙˆØ¸ÙŠÙØ©: {job_title or "Ø¹Ø§Ù…"}'
                 f'</span>'
             )
 
@@ -1110,7 +1110,7 @@ class NexusSetupJourney(models.Model):
         count = len(created_employees)
         self.hr_scan_summary_html = f"""
             <div class="alert alert-success border-0 shadow-sm p-3 mb-3" style="border-radius: 10px; background-color: #E8F5E9;">
-                <h6 class="text-success font-weight-bold mb-2">🎯 تم صيد وتأسيس ({count}) موظفاً من وثائق الإقامات والجوازات بنجاح:</h6>
+                <h6 class="text-success font-weight-bold mb-2">ðŸŽ¯ ØªÙ… ØµÙŠØ¯ ÙˆØªØ£Ø³ÙŠØ³ ({count}) Ù…ÙˆØ¸ÙØ§Ù‹ Ù…Ù† ÙˆØ«Ø§Ø¦Ù‚ Ø§Ù„Ø¥Ù‚Ø§Ù…Ø§Øª ÙˆØ§Ù„Ø¬ÙˆØ§Ø²Ø§Øª Ø¨Ù†Ø¬Ø§Ø­:</h6>
                 <div class="d-flex flex-wrap mt-2">
                     {' '.join(created_badges)}
                 </div>
@@ -1121,15 +1121,15 @@ class NexusSetupJourney(models.Model):
             "type": "ir.actions.client",
             "tag": "display_notification",
             "params": {
-                "title": _("🎯 تم استخراج وتأسيس الموظفين بنجاح!"),
-                "message": _("تمت معالجة وثائق الهويات وتأسيس %d موظفاً في النظام.") % count,
+                "title": _("ðŸŽ¯ ØªÙ… Ø§Ø³ØªØ®Ø±Ø§Ø¬ ÙˆØªØ£Ø³ÙŠØ³ Ø§Ù„Ù…ÙˆØ¸ÙÙŠÙ† Ø¨Ù†Ø¬Ø§Ø­!"),
+                "message": _("ØªÙ…Øª Ù…Ø¹Ø§Ù„Ø¬Ø© ÙˆØ«Ø§Ø¦Ù‚ Ø§Ù„Ù‡ÙˆÙŠØ§Øª ÙˆØªØ£Ø³ÙŠØ³ %d Ù…ÙˆØ¸ÙØ§Ù‹ ÙÙŠ Ø§Ù„Ù†Ø¸Ø§Ù….") % count,
                 "type": "success",
                 "sticky": False,
             },
         }
 
     def action_import_employee_roster(self):
-        """Smart Roster Importer — Parses Excel (.xlsx), CSV, or text roster and bulk-provisions employees."""
+        """Smart Roster Importer â€” Parses Excel (.xlsx), CSV, or text roster and bulk-provisions employees."""
         self.ensure_one()
         import base64
         import csv
@@ -1137,12 +1137,12 @@ class NexusSetupJourney(models.Model):
         import re
 
         if not self.hr_roster_file:
-            raise UserError(_("يرجى إرفاق ملف كشف الموظفين (Excel .xlsx أو CSV أو PDF) أولاً."))
+            raise UserError(_("ÙŠØ±Ø¬Ù‰ Ø¥Ø±ÙØ§Ù‚ Ù…Ù„Ù ÙƒØ´Ù Ø§Ù„Ù…ÙˆØ¸ÙÙŠÙ† (Excel .xlsx Ø£Ùˆ CSV Ø£Ùˆ PDF) Ø£ÙˆÙ„Ø§Ù‹."))
 
         try:
             raw_bytes = base64.b64decode(self.hr_roster_file)
         except Exception:
-            raise UserError(_("تعذر قراءة ملف كشف الموظفين."))
+            raise UserError(_("ØªØ¹Ø°Ø± Ù‚Ø±Ø§Ø¡Ø© Ù…Ù„Ù ÙƒØ´Ù Ø§Ù„Ù…ÙˆØ¸ÙÙŠÙ†."))
 
         Employee = self.env["hr.employee"]
         Department = self.env["hr.department"]
@@ -1186,7 +1186,7 @@ class NexusSetupJourney(models.Model):
                 pass
 
         if not imported_rows:
-            raise UserError(_("تعذر قراءة أسطر الموظفين من الملف. يرجى التأكد من أن الملف بصيغة Excel أو CSV يحتوي على أعمدة الأسماء والهويات."))
+            raise UserError(_("ØªØ¹Ø°Ø± Ù‚Ø±Ø§Ø¡Ø© Ø£Ø³Ø·Ø± Ø§Ù„Ù…ÙˆØ¸ÙÙŠÙ† Ù…Ù† Ø§Ù„Ù…Ù„Ù. ÙŠØ±Ø¬Ù‰ Ø§Ù„ØªØ£ÙƒØ¯ Ù…Ù† Ø£Ù† Ø§Ù„Ù…Ù„Ù Ø¨ØµÙŠØºØ© Excel Ø£Ùˆ CSV ÙŠØ­ØªÙˆÙŠ Ø¹Ù„Ù‰ Ø£Ø¹Ù…Ø¯Ø© Ø§Ù„Ø£Ø³Ù…Ø§Ø¡ ÙˆØ§Ù„Ù‡ÙˆÙŠØ§Øª."))
 
         created_emps = []
         created_badges = []
@@ -1202,16 +1202,16 @@ class NexusSetupJourney(models.Model):
             for k, val in row.items():
                 k_lower = k.lower()
                 val_clean = _normalize_arabic_digits(val)
-                if any(w in k_lower for w in ["الاسم", "اسم الموظف", "name", "employee name"]):
+                if any(w in k_lower for w in ["Ø§Ù„Ø§Ø³Ù…", "Ø§Ø³Ù… Ø§Ù„Ù…ÙˆØ¸Ù", "name", "employee name"]):
                     name = val
-                elif any(w in k_lower for w in ["الإقامة", "الهوية", "iqama", "id", "national_id"]):
+                elif any(w in k_lower for w in ["Ø§Ù„Ø¥Ù‚Ø§Ù…Ø©", "Ø§Ù„Ù‡ÙˆÙŠØ©", "iqama", "id", "national_id"]):
                     m = re.search(r"([12]\d{9})", val_clean)
                     iqama = m.group(1) if m else val_clean
-                elif any(w in k_lower for w in ["المهنة", "الوظيفة", "المسمى", "job", "position", "title"]):
+                elif any(w in k_lower for w in ["Ø§Ù„Ù…Ù‡Ù†Ø©", "Ø§Ù„ÙˆØ¸ÙŠÙØ©", "Ø§Ù„Ù…Ø³Ù…Ù‰", "job", "position", "title"]):
                     job = val
-                elif any(w in k_lower for w in ["القسم", "الإدارة", "department", "dept"]):
+                elif any(w in k_lower for w in ["Ø§Ù„Ù‚Ø³Ù…", "Ø§Ù„Ø¥Ø¯Ø§Ø±Ø©", "department", "dept"]):
                     dept = val
-                elif any(w in k_lower for w in ["الراتب", "الأساسي", "salary", "wage", "basic"]):
+                elif any(w in k_lower for w in ["Ø§Ù„Ø±Ø§ØªØ¨", "Ø§Ù„Ø£Ø³Ø§Ø³ÙŠ", "salary", "wage", "basic"]):
                     try:
                         salary = float(re.sub(r"[^\d.]", "", val_clean))
                     except Exception:
@@ -1266,7 +1266,7 @@ class NexusSetupJourney(models.Model):
             if Contract and salary > 0:
                 existing_contract = Contract.search([("employee_id", "=", emp_rec.id), ("state", "=", "open")], limit=1)
                 contract_vals = {
-                    "name": f"عقد عمل - {emp_rec.name}",
+                    "name": f"Ø¹Ù‚Ø¯ Ø¹Ù…Ù„ - {emp_rec.name}",
                     "employee_id": emp_rec.id,
                     "company_id": self.company_id.id,
                     "wage": salary,
@@ -1280,7 +1280,7 @@ class NexusSetupJourney(models.Model):
             created_emps.append(emp_rec)
             created_badges.append(
                 f'<span class="badge bg-success p-2 me-2 mb-2" style="font-size:13px;">'
-                f'👤 {emp_rec.name} | هوية: {iqama or "معتمد"} | قسم: {dept or "عام"} | راتب: {salary:,.0f} ريال'
+                f'ðŸ‘¤ {emp_rec.name} | Ù‡ÙˆÙŠØ©: {iqama or "Ù…Ø¹ØªÙ…Ø¯"} | Ù‚Ø³Ù…: {dept or "Ø¹Ø§Ù…"} | Ø±Ø§ØªØ¨: {salary:,.0f} Ø±ÙŠØ§Ù„'
                 f'</span>'
             )
 
@@ -1291,7 +1291,7 @@ class NexusSetupJourney(models.Model):
         count = len(created_emps)
         self.hr_scan_summary_html = f"""
             <div class="alert alert-success border-0 shadow-sm p-3 mb-3" style="border-radius: 10px; background-color: #E8F5E9;">
-                <h6 class="text-success font-weight-bold mb-2">📊 تم استيراد وتأسيس ({count}) موظفاً مع عقود الرواتب (WPS) بنجاح:</h6>
+                <h6 class="text-success font-weight-bold mb-2">ðŸ“Š ØªÙ… Ø§Ø³ØªÙŠØ±Ø§Ø¯ ÙˆØªØ£Ø³ÙŠØ³ ({count}) Ù…ÙˆØ¸ÙØ§Ù‹ Ù…Ø¹ Ø¹Ù‚ÙˆØ¯ Ø§Ù„Ø±ÙˆØ§ØªØ¨ (WPS) Ø¨Ù†Ø¬Ø§Ø­:</h6>
                 <div class="d-flex flex-wrap mt-2">
                     {' '.join(created_badges)}
                 </div>
@@ -1302,8 +1302,8 @@ class NexusSetupJourney(models.Model):
             "type": "ir.actions.client",
             "tag": "display_notification",
             "params": {
-                "title": _("📊 تم استيراد كشف الموظفين بنجاح!"),
-                "message": _("تمت معالجة الكشف وتأسيس %d موظفاً مع مسيرات الرواتب لحماية الأجور.") % count,
+                "title": _("ðŸ“Š ØªÙ… Ø§Ø³ØªÙŠØ±Ø§Ø¯ ÙƒØ´Ù Ø§Ù„Ù…ÙˆØ¸ÙÙŠÙ† Ø¨Ù†Ø¬Ø§Ø­!"),
+                "message": _("ØªÙ…Øª Ù…Ø¹Ø§Ù„Ø¬Ø© Ø§Ù„ÙƒØ´Ù ÙˆØªØ£Ø³ÙŠØ³ %d Ù…ÙˆØ¸ÙØ§Ù‹ Ù…Ø¹ Ù…Ø³ÙŠØ±Ø§Øª Ø§Ù„Ø±ÙˆØ§ØªØ¨ Ù„Ø­Ù…Ø§ÙŠØ© Ø§Ù„Ø£Ø¬ÙˆØ±.") % count,
                 "type": "success",
                 "sticky": False,
             },

@@ -23,12 +23,11 @@
         <field name="path">ai_enterprise_copilot/static/src/scss/finance_dashboard.scss</field>
     </record>
 
-    <!-- ════════════════ Chart.js Library (CDN) ════════════════ -->
-    <template id="nexus_finance_chartjs_assets" inherit_id="web.assets_backend">
-        <xpath expr="." position="inside">
-            <script type="text/javascript"
-                    src="/ai_enterprise_copilot/static/lib/chart.umd.js"/>
-        </xpath>
-    </template>
+    <!-- ════════════════ Chart.js Library ════════════════ -->
+    <record id="nexus_finance_chartjs_asset" model="ir.asset">
+        <field name="name">Nexus Finance Chart.js</field>
+        <field name="bundle">web.assets_backend</field>
+        <field name="path">ai_enterprise_copilot/static/lib/chart.umd.js</field>
+    </record>
 
 </odoo>

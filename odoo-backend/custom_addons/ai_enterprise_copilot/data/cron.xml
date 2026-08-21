@@ -49,7 +49,7 @@
     <!-- Nexus Finance: periodic retry of failed sync-queue items -->
     <record id="nexus_sync_queue_drain_cron" model="ir.cron">
         <field name="name">Nexus Finance: Drain Sync Queue</field>
-        <field name="model_id" ref="model_nexus_sync_queue"/>
+        <field name="model_id" ref="odoo_erpnext_hybrid_sync.model_nexus_sync_queue"/>
         <field name="state">code</field>
         <field name="code">model._cron_drain()</field>
         <field name="interval_number">2</field>

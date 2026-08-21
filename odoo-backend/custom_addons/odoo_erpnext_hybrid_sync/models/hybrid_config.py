@@ -1,4 +1,4 @@
-"""Hybrid ERP Sync configuration model."""
+﻿"""Hybrid ERP Sync configuration model."""
 import logging
 from odoo import models, fields, api, _
 
@@ -35,12 +35,10 @@ class HybridConfig(models.Model):
     erpnext_api_key = fields.Char(
         string="Hybrid Ledger API Key",
         help="Hybrid ledger API key for token-based authentication.",
-        password=True,
     )
     erpnext_api_secret = fields.Char(
         string="Hybrid Ledger API Secret",
         help="Hybrid ledger API secret for token-based authentication.",
-        password=True,
     )
 
     n8n_url = fields.Char(
@@ -50,7 +48,6 @@ class HybridConfig(models.Model):
     n8n_webhook_key = fields.Char(
         string="n8n Webhook Key / Token",
         help="Optional bearer token used by n8n webhooks.",
-        password=True,
     )
 
     _sql_constraints = [
@@ -73,3 +70,4 @@ class HybridConfig(models.Model):
             company_id = company.id if hasattr(company, "id") else int(company)
             domain.append(("company_id", "=", company_id))
         return self.search(domain, limit=1)
+

@@ -18,7 +18,6 @@ class ResConfigSettings(models.TransientModel):
     saas_cloudflare_api_token = fields.Char(
         string="Cloudflare API Token",
         config_parameter="nexus_saas.cloudflare_api_token",
-        password=True,
         help="Cloudflare API token with Zone:Read and DNS:Edit permissions.",
     )
     saas_cloudflare_zone_id = fields.Char(
@@ -34,7 +33,6 @@ class ResConfigSettings(models.TransientModel):
     saas_db_provisioner_api_key = fields.Char(
         string="DB Provisioner API Key",
         config_parameter="nexus_saas.db_provisioner_api_key",
-        password=True,
         help="Shared secret the external saas-db-provisioner service sends "
         "in the 'X-Provisioner-Api-Key' header when polling for pending "
         "jobs and reporting results.",

@@ -1,4 +1,4 @@
-"""Nexus Smart Onboarding Wizard — المعالج الذكي للتأهيل.
+﻿"""Nexus Smart Onboarding Wizard â€” Ø§Ù„Ù…Ø¹Ø§Ù„Ø¬ Ø§Ù„Ø°ÙƒÙŠ Ù„Ù„ØªØ£Ù‡ÙŠÙ„.
 
 A multi-step intelligent onboarding engine that asks 20+ business-profiling
 questions, scores the readiness, and auto-configures the Nexus Command Center
@@ -15,7 +15,7 @@ from odoo.exceptions import UserError, ValidationError
 _logger = logging.getLogger(__name__)
 
 # ---------------------------------------------------------------------------
-# Constants — industry presets
+# Constants â€” industry presets
 # ---------------------------------------------------------------------------
 
 INDUSTRY_PRESETS = {
@@ -23,7 +23,7 @@ INDUSTRY_PRESETS = {
         "coa_template": "retail",
         "suggested_modules": ["point_of_sale", "stock", "account_accountant"],
         "default_categories": [
-            "ملابس", "إلكترونيات", "مواد غذائية", "أدوات منزلية",
+            "Ù…Ù„Ø§Ø¨Ø³", "Ø¥Ù„ÙƒØªØ±ÙˆÙ†ÙŠØ§Øª", "Ù…ÙˆØ§Ø¯ ØºØ°Ø§Ø¦ÙŠØ©", "Ø£Ø¯ÙˆØ§Øª Ù…Ù†Ø²Ù„ÙŠØ©",
         ],
         "payment_methods": ["cash", "card", "bank"],
     },
@@ -31,7 +31,7 @@ INDUSTRY_PRESETS = {
         "coa_template": "restaurant",
         "suggested_modules": ["point_of_sale", "stock", "nexus_restaurant_costing"],
         "default_categories": [
-            "مشروبات", "مقبلات", "أطباق رئيسية", "حلويات",
+            "Ù…Ø´Ø±ÙˆØ¨Ø§Øª", "Ù…Ù‚Ø¨Ù„Ø§Øª", "Ø£Ø·Ø¨Ø§Ù‚ Ø±Ø¦ÙŠØ³ÙŠØ©", "Ø­Ù„ÙˆÙŠØ§Øª",
         ],
         "payment_methods": ["cash", "card"],
     },
@@ -39,7 +39,7 @@ INDUSTRY_PRESETS = {
         "coa_template": "manufacturing",
         "suggested_modules": ["stock", "mrp", "account_accountant", "purchase"],
         "default_categories": [
-            "مواد خام", "منتجات نصف مصنعة", "منتجات تامة", "مستهلكات",
+            "Ù…ÙˆØ§Ø¯ Ø®Ø§Ù…", "Ù…Ù†ØªØ¬Ø§Øª Ù†ØµÙ Ù…ØµÙ†Ø¹Ø©", "Ù…Ù†ØªØ¬Ø§Øª ØªØ§Ù…Ø©", "Ù…Ø³ØªÙ‡Ù„ÙƒØ§Øª",
         ],
         "payment_methods": ["bank", "card"],
     },
@@ -47,44 +47,44 @@ INDUSTRY_PRESETS = {
         "coa_template": "construction",
         "suggested_modules": ["project", "nexus_contracting", "stock", "account_accountant"],
         "default_categories": [
-            "مواد بناء", "معدات", "مقاولي باطن", "استشاريين",
+            "Ù…ÙˆØ§Ø¯ Ø¨Ù†Ø§Ø¡", "Ù…Ø¹Ø¯Ø§Øª", "Ù…Ù‚Ø§ÙˆÙ„ÙŠ Ø¨Ø§Ø·Ù†", "Ø§Ø³ØªØ´Ø§Ø±ÙŠÙŠÙ†",
         ],
         "payment_methods": ["bank", "card"],
     },
     "services": {
         "coa_template": "services",
         "suggested_modules": ["account_accountant"],
-        "default_categories": ["خدمات استشارية", "خدمات تقنية", "خدمات دعم"],
+        "default_categories": ["Ø®Ø¯Ù…Ø§Øª Ø§Ø³ØªØ´Ø§Ø±ÙŠØ©", "Ø®Ø¯Ù…Ø§Øª ØªÙ‚Ù†ÙŠØ©", "Ø®Ø¯Ù…Ø§Øª Ø¯Ø¹Ù…"],
         "payment_methods": ["bank", "card"],
     },
     "healthcare": {
         "coa_template": "services",
         "suggested_modules": ["stock", "account_accountant"],
-        "default_categories": ["أدوية", "مستلزمات طبية", "خدمات طبية", "أجهزة"],
+        "default_categories": ["Ø£Ø¯ÙˆÙŠØ©", "Ù…Ø³ØªÙ„Ø²Ù…Ø§Øª Ø·Ø¨ÙŠØ©", "Ø®Ø¯Ù…Ø§Øª Ø·Ø¨ÙŠØ©", "Ø£Ø¬Ù‡Ø²Ø©"],
         "payment_methods": ["cash", "card", "bank"],
     },
     "education": {
         "coa_template": "services",
         "suggested_modules": ["account_accountant"],
-        "default_categories": ["رسوم دراسية", "كتب", "أنشطة", "مواصلات"],
+        "default_categories": ["Ø±Ø³ÙˆÙ… Ø¯Ø±Ø§Ø³ÙŠØ©", "ÙƒØªØ¨", "Ø£Ù†Ø´Ø·Ø©", "Ù…ÙˆØ§ØµÙ„Ø§Øª"],
         "payment_methods": ["bank", "card"],
     },
     "logistics": {
         "coa_template": "services",
         "suggested_modules": ["stock", "fleet", "account_accountant"],
-        "default_categories": ["نقل بري", "نقل جوي", "تخزين", "تخليص جمركي"],
+        "default_categories": ["Ù†Ù‚Ù„ Ø¨Ø±ÙŠ", "Ù†Ù‚Ù„ Ø¬ÙˆÙŠ", "ØªØ®Ø²ÙŠÙ†", "ØªØ®Ù„ÙŠØµ Ø¬Ù…Ø±ÙƒÙŠ"],
         "payment_methods": ["bank"],
     },
     "fuel_station": {
         "coa_template": "retail",
         "suggested_modules": ["point_of_sale", "nexus_fuel_station", "stock"],
-        "default_categories": ["وقود", "زيوت", "متجر", "خدمات"],
+        "default_categories": ["ÙˆÙ‚ÙˆØ¯", "Ø²ÙŠÙˆØª", "Ù…ØªØ¬Ø±", "Ø®Ø¯Ù…Ø§Øª"],
         "payment_methods": ["cash", "card"],
     },
     "real_estate": {
         "coa_template": "services",
         "suggested_modules": ["nexus_real_estate", "account_accountant"],
-        "default_categories": ["إيجارات", "صيانة", "إدارة أملاك"],
+        "default_categories": ["Ø¥ÙŠØ¬Ø§Ø±Ø§Øª", "ØµÙŠØ§Ù†Ø©", "Ø¥Ø¯Ø§Ø±Ø© Ø£Ù…Ù„Ø§Ùƒ"],
         "payment_methods": ["bank", "card"],
     },
 }
@@ -106,7 +106,7 @@ class NexusOnboardingWizard(models.TransientModel):
     _description = "Nexus Smart Onboarding Wizard"
     _order = "id desc"
 
-    # ── Step tracking ──
+    # â”€â”€ Step tracking â”€â”€
     current_step = fields.Selection(
         [
             ("welcome", "Welcome"),
@@ -157,11 +157,11 @@ class NexusOnboardingWizard(models.TransientModel):
     @api.depends("current_step")
     def _compute_step_progress_html(self):
         steps_info = [
-            ("business_profile", "1. ملف الشركة 🏢"),
-            ("operations", "2. العمليات والمبيعات 🛒"),
-            ("financial", "3. الضرائب والمالية 💰"),
-            ("advanced", "4. الميزات الإضافية ⚙️"),
-            ("review", "5. المراجعة والإطلاق 🚀"),
+            ("business_profile", "1. Ù…Ù„Ù Ø§Ù„Ø´Ø±ÙƒØ© ðŸ¢"),
+            ("operations", "2. Ø§Ù„Ø¹Ù…Ù„ÙŠØ§Øª ÙˆØ§Ù„Ù…Ø¨ÙŠØ¹Ø§Øª ðŸ›’"),
+            ("financial", "3. Ø§Ù„Ø¶Ø±Ø§Ø¦Ø¨ ÙˆØ§Ù„Ù…Ø§Ù„ÙŠØ© ðŸ’°"),
+            ("advanced", "4. Ø§Ù„Ù…ÙŠØ²Ø§Øª Ø§Ù„Ø¥Ø¶Ø§ÙÙŠØ© âš™ï¸"),
+            ("review", "5. Ø§Ù„Ù…Ø±Ø§Ø¬Ø¹Ø© ÙˆØ§Ù„Ø¥Ø·Ù„Ø§Ù‚ ðŸš€"),
         ]
         step_keys = [s[0] for s in steps_info]
         for wiz in self:
@@ -172,9 +172,9 @@ class NexusOnboardingWizard(models.TransientModel):
             badges = []
             for idx, (key, label) in enumerate(steps_info):
                 if idx < curr_idx:
-                    badges.append(f'<span class="badge bg-success py-2 px-3 me-1 mb-1" style="font-size: 13px; font-weight: normal;">✅ {label}</span>')
+                    badges.append(f'<span class="badge bg-success py-2 px-3 me-1 mb-1" style="font-size: 13px; font-weight: normal;">âœ… {label}</span>')
                 elif idx == curr_idx:
-                    badges.append(f'<span class="badge bg-primary py-2 px-3 me-1 mb-1" style="font-size: 14px; font-weight: bold; box-shadow: 0 2px 4px rgba(0,0,0,0.15);">👉 {label}</span>')
+                    badges.append(f'<span class="badge bg-primary py-2 px-3 me-1 mb-1" style="font-size: 14px; font-weight: bold; box-shadow: 0 2px 4px rgba(0,0,0,0.15);">ðŸ‘‰ {label}</span>')
                 else:
                     badges.append(f'<span class="badge bg-light text-muted py-2 px-3 me-1 mb-1" style="font-size: 13px; border: 1px solid #dee2e6; font-weight: normal;">{label}</span>')
             
@@ -190,15 +190,15 @@ class NexusOnboardingWizard(models.TransientModel):
                 </div>
             """
 
-    # ═══════════════════ STEP 1 — Business Profile ═══════════════════
+    # â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• STEP 1 â€” Business Profile â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
     document_file = fields.Binary(
-        string="سحب وإفلات السجل التجاري أو الشهادة الضريبية (Auto-Fill Document)",
+        string="Ø³Ø­Ø¨ ÙˆØ¥ÙÙ„Ø§Øª Ø§Ù„Ø³Ø¬Ù„ Ø§Ù„ØªØ¬Ø§Ø±ÙŠ Ø£Ùˆ Ø§Ù„Ø´Ù‡Ø§Ø¯Ø© Ø§Ù„Ø¶Ø±ÙŠØ¨ÙŠØ© (Auto-Fill Document)",
         attachment=True,
     )
     document_filename = fields.Char(string="Document Name")
-    cr_number = fields.Char(string="Commercial Registration / رقم السجل التجاري", placeholder="1010XXXXXX")
-    gosi_number = fields.Char(string="GOSI Number / رقم التأمينات", placeholder="700XXXXXXX")
-    city = fields.Char(string="City / المدينة", default="الرياض")
+    cr_number = fields.Char(string="Commercial Registration / Ø±Ù‚Ù… Ø§Ù„Ø³Ø¬Ù„ Ø§Ù„ØªØ¬Ø§Ø±ÙŠ", placeholder="1010XXXXXX")
+    gosi_number = fields.Char(string="GOSI Number / Ø±Ù‚Ù… Ø§Ù„ØªØ£Ù…ÙŠÙ†Ø§Øª", placeholder="700XXXXXXX")
+    city = fields.Char(string="City / Ø§Ù„Ù…Ø¯ÙŠÙ†Ø©", default="Ø§Ù„Ø±ÙŠØ§Ø¶")
 
     business_name = fields.Char(
         string="Company Name",
@@ -206,203 +206,203 @@ class NexusOnboardingWizard(models.TransientModel):
         readonly=False,
     )
     business_name_ar = fields.Char(
-        string="اسم الشركة بالعربية",
+        string="Ø§Ø³Ù… Ø§Ù„Ø´Ø±ÙƒØ© Ø¨Ø§Ù„Ø¹Ø±Ø¨ÙŠØ©",
     )
     company_type = fields.Selection(
         [
-            ("limited", "شركة ذات مسؤولية محدودة (LLC)"),
-            ("sole", "مؤسسة فردية"),
-            ("partnership", "شركة تضامن"),
-            ("joint_stock", "شركة مساهمة"),
-            ("nonprofit", "جمعية غير ربحية"),
-            ("branch", "فرع شركة أجنبية"),
+            ("limited", "Ø´Ø±ÙƒØ© Ø°Ø§Øª Ù…Ø³Ø¤ÙˆÙ„ÙŠØ© Ù…Ø­Ø¯ÙˆØ¯Ø© (LLC)"),
+            ("sole", "Ù…Ø¤Ø³Ø³Ø© ÙØ±Ø¯ÙŠØ©"),
+            ("partnership", "Ø´Ø±ÙƒØ© ØªØ¶Ø§Ù…Ù†"),
+            ("joint_stock", "Ø´Ø±ÙƒØ© Ù…Ø³Ø§Ù‡Ù…Ø©"),
+            ("nonprofit", "Ø¬Ù…Ø¹ÙŠØ© ØºÙŠØ± Ø±Ø¨Ø­ÙŠØ©"),
+            ("branch", "ÙØ±Ø¹ Ø´Ø±ÙƒØ© Ø£Ø¬Ù†Ø¨ÙŠØ©"),
         ],
-        string="Company Type / نوع الشركة",
+        string="Company Type / Ù†ÙˆØ¹ Ø§Ù„Ø´Ø±ÙƒØ©",
         required=True,
         default="limited",
     )
     industry_sector = fields.Selection(
         [
-            ("retail", "تجارة التجزئة / Retail"),
-            ("restaurant", "مطاعم / F&B"),
-            ("manufacturing", "تصنيع / Manufacturing"),
-            ("construction", "مقاولات / Construction"),
-            ("services", "خدمات / Services"),
-            ("healthcare", "رعاية صحية / Healthcare"),
-            ("education", "تعليم / Education"),
-            ("logistics", "نقل ولوجستيات / Logistics"),
-            ("fuel_station", "محطات وقود / Fuel Station"),
-            ("real_estate", "عقارات / Real Estate"),
-            ("other", "أخرى / Other"),
+            ("retail", "ØªØ¬Ø§Ø±Ø© Ø§Ù„ØªØ¬Ø²Ø¦Ø© / Retail"),
+            ("restaurant", "Ù…Ø·Ø§Ø¹Ù… / F&B"),
+            ("manufacturing", "ØªØµÙ†ÙŠØ¹ / Manufacturing"),
+            ("construction", "Ù…Ù‚Ø§ÙˆÙ„Ø§Øª / Construction"),
+            ("services", "Ø®Ø¯Ù…Ø§Øª / Services"),
+            ("healthcare", "Ø±Ø¹Ø§ÙŠØ© ØµØ­ÙŠØ© / Healthcare"),
+            ("education", "ØªØ¹Ù„ÙŠÙ… / Education"),
+            ("logistics", "Ù†Ù‚Ù„ ÙˆÙ„ÙˆØ¬Ø³ØªÙŠØ§Øª / Logistics"),
+            ("fuel_station", "Ù…Ø­Ø·Ø§Øª ÙˆÙ‚ÙˆØ¯ / Fuel Station"),
+            ("real_estate", "Ø¹Ù‚Ø§Ø±Ø§Øª / Real Estate"),
+            ("other", "Ø£Ø®Ø±Ù‰ / Other"),
         ],
-        string="Industry / النشاط",
+        string="Industry / Ø§Ù„Ù†Ø´Ø§Ø·",
         required=True,
         default="retail",
     )
     company_size = fields.Selection(
         [
-            ("micro", "متناهية الصغر (١-١٠ موظفين)"),
-            ("small", "صغيرة (١١-٥٠ موظفاً)"),
-            ("medium", "متوسطة (٥١-٢٥٠ موظفاً)"),
-            ("large", "كبيرة (أكثر من ٢٥٠ موظفاً)"),
+            ("micro", "Ù…ØªÙ†Ø§Ù‡ÙŠØ© Ø§Ù„ØµØºØ± (Ù¡-Ù¡Ù  Ù…ÙˆØ¸ÙÙŠÙ†)"),
+            ("small", "ØµØºÙŠØ±Ø© (Ù¡Ù¡-Ù¥Ù  Ù…ÙˆØ¸ÙØ§Ù‹)"),
+            ("medium", "Ù…ØªÙˆØ³Ø·Ø© (Ù¥Ù¡-Ù¢Ù¥Ù  Ù…ÙˆØ¸ÙØ§Ù‹)"),
+            ("large", "ÙƒØ¨ÙŠØ±Ø© (Ø£ÙƒØ«Ø± Ù…Ù† Ù¢Ù¥Ù  Ù…ÙˆØ¸ÙØ§Ù‹)"),
         ],
-        string="Company Size / حجم الشركة",
+        string="Company Size / Ø­Ø¬Ù… Ø§Ù„Ø´Ø±ÙƒØ©",
         required=True,
         default="small",
     )
     employee_count = fields.Integer(
-        string="Number of Employees / عدد الموظفين",
+        string="Number of Employees / Ø¹Ø¯Ø¯ Ø§Ù„Ù…ÙˆØ¸ÙÙŠÙ†",
         default=5,
     )
 
-    # ═══════════════════ STEP 2 — Operations ═══════════════════
+    # â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• STEP 2 â€” Operations â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
     has_pos = fields.Boolean(
-        string="Do you have Point of Sale? / هل لديك نقاط بيع؟",
+        string="Do you have Point of Sale? / Ù‡Ù„ Ù„Ø¯ÙŠÙƒ Ù†Ù‚Ø§Ø· Ø¨ÙŠØ¹ØŸ",
         default=False,
     )
     pos_count = fields.Integer(
-        string="Number of POS Terminals / عدد نقاط البيع",
+        string="Number of POS Terminals / Ø¹Ø¯Ø¯ Ù†Ù‚Ø§Ø· Ø§Ù„Ø¨ÙŠØ¹",
         default=1,
     )
     has_online_sales = fields.Boolean(
-        string="Do you sell online? / هل تبيع عبر الإنترنت؟",
+        string="Do you sell online? / Ù‡Ù„ ØªØ¨ÙŠØ¹ Ø¹Ø¨Ø± Ø§Ù„Ø¥Ù†ØªØ±Ù†ØªØŸ",
         default=False,
     )
     has_warehouses = fields.Boolean(
-        string="Do you manage warehouses? / هل تدير مستودعات؟",
+        string="Do you manage warehouses? / Ù‡Ù„ ØªØ¯ÙŠØ± Ù…Ø³ØªÙˆØ¯Ø¹Ø§ØªØŸ",
         default=False,
     )
     warehouse_count = fields.Integer(
-        string="Number of Warehouses / عدد المستودعات",
+        string="Number of Warehouses / Ø¹Ø¯Ø¯ Ø§Ù„Ù…Ø³ØªÙˆØ¯Ø¹Ø§Øª",
         default=1,
     )
     has_multi_branch = fields.Boolean(
-        string="Multiple branches? / فروع متعددة؟",
+        string="Multiple branches? / ÙØ±ÙˆØ¹ Ù…ØªØ¹Ø¯Ø¯Ø©ØŸ",
         default=False,
     )
     branch_count = fields.Integer(
-        string="Number of Branches / عدد الفروع",
+        string="Number of Branches / Ø¹Ø¯Ø¯ Ø§Ù„ÙØ±ÙˆØ¹",
         default=1,
     )
     sells_products = fields.Boolean(
-        string="Sells physical products? / تبيع منتجات ملموسة؟",
+        string="Sells physical products? / ØªØ¨ÙŠØ¹ Ù…Ù†ØªØ¬Ø§Øª Ù…Ù„Ù…ÙˆØ³Ø©ØŸ",
         default=True,
     )
     sells_services = fields.Boolean(
-        string="Sells services? / تبيع خدمات؟",
+        string="Sells services? / ØªØ¨ÙŠØ¹ Ø®Ø¯Ù…Ø§ØªØŸ",
         default=False,
     )
 
-    # ═══════════════════ STEP 3 — Financial ═══════════════════
+    # â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• STEP 3 â€” Financial â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
     vat_registered = fields.Boolean(
-        string="VAT Registered? / مسجل في ضريبة القيمة المضافة؟",
+        string="VAT Registered? / Ù…Ø³Ø¬Ù„ ÙÙŠ Ø¶Ø±ÙŠØ¨Ø© Ø§Ù„Ù‚ÙŠÙ…Ø© Ø§Ù„Ù…Ø¶Ø§ÙØ©ØŸ",
         default=False,
     )
     vat_rate = fields.Float(
-        string="VAT Rate (%) / نسبة الضريبة",
+        string="VAT Rate (%) / Ù†Ø³Ø¨Ø© Ø§Ù„Ø¶Ø±ÙŠØ¨Ø©",
         default=15.0,
         digits=(5, 2),
     )
     vat_number = fields.Char(
-        string="Tax ID / الرقم الضريبي",
+        string="Tax ID / Ø§Ù„Ø±Ù‚Ù… Ø§Ù„Ø¶Ø±ÙŠØ¨ÙŠ",
     )
     fiscal_year_start = fields.Selection(
         [
-            ("1", "1 يناير"),
-            ("4", "1 أبريل"),
-            ("7", "1 يوليو"),
-            ("10", "1 أكتوبر"),
+            ("1", "1 ÙŠÙ†Ø§ÙŠØ±"),
+            ("4", "1 Ø£Ø¨Ø±ÙŠÙ„"),
+            ("7", "1 ÙŠÙˆÙ„ÙŠÙˆ"),
+            ("10", "1 Ø£ÙƒØªÙˆØ¨Ø±"),
         ],
-        string="Fiscal Year Start / بداية السنة المالية",
+        string="Fiscal Year Start / Ø¨Ø¯Ø§ÙŠØ© Ø§Ù„Ø³Ù†Ø© Ø§Ù„Ù…Ø§Ù„ÙŠØ©",
         default="1",
     )
     accounting_standard = fields.Selection(
         [
-            ("ifrs", "IFRS — المعايير الدولية"),
-            ("local", "معايير محلية"),
+            ("ifrs", "IFRS â€” Ø§Ù„Ù…Ø¹Ø§ÙŠÙŠØ± Ø§Ù„Ø¯ÙˆÙ„ÙŠØ©"),
+            ("local", "Ù…Ø¹Ø§ÙŠÙŠØ± Ù…Ø­Ù„ÙŠØ©"),
             ("gaap", "US GAAP"),
         ],
-        string="Accounting Standard / المعيار المحاسبي",
+        string="Accounting Standard / Ø§Ù„Ù…Ø¹ÙŠØ§Ø± Ø§Ù„Ù…Ø­Ø§Ø³Ø¨ÙŠ",
         default="ifrs",
     )
     has_multi_currency = fields.Boolean(
-        string="Multi-currency? / عملات متعددة؟",
+        string="Multi-currency? / Ø¹Ù…Ù„Ø§Øª Ù…ØªØ¹Ø¯Ø¯Ø©ØŸ",
         default=False,
     )
     zatca_required = fields.Boolean(
-        string="ZATCA Compliance? / متطلبات الفوترة الإلكترونية؟",
+        string="ZATCA Compliance? / Ù…ØªØ·Ù„Ø¨Ø§Øª Ø§Ù„ÙÙˆØªØ±Ø© Ø§Ù„Ø¥Ù„ÙƒØªØ±ÙˆÙ†ÙŠØ©ØŸ",
         default=False,
         help="Enable Saudi ZATCA Phase 2 e-invoicing compliance.",
     )
     bank_account_count = fields.Integer(
-        string="Number of Bank Accounts / عدد الحسابات البنكية",
+        string="Number of Bank Accounts / Ø¹Ø¯Ø¯ Ø§Ù„Ø­Ø³Ø§Ø¨Ø§Øª Ø§Ù„Ø¨Ù†ÙƒÙŠØ©",
         default=1,
     )
     cash_register_count = fields.Integer(
-        string="Number of Cash Registers / عدد الخزائن النقدية",
+        string="Number of Cash Registers / Ø¹Ø¯Ø¯ Ø§Ù„Ø®Ø²Ø§Ø¦Ù† Ø§Ù„Ù†Ù‚Ø¯ÙŠØ©",
         default=0,
     )
 
-    # ═══════════════════ STEP 4 — Advanced ═══════════════════
+    # â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• STEP 4 â€” Advanced â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
     needs_projects = fields.Boolean(
-        string="Project/Contract Management? / إدارة مشاريع وعقود؟",
+        string="Project/Contract Management? / Ø¥Ø¯Ø§Ø±Ø© Ù…Ø´Ø§Ø±ÙŠØ¹ ÙˆØ¹Ù‚ÙˆØ¯ØŸ",
         default=False,
     )
     needs_assets = fields.Boolean(
-        string="Fixed Asset Management? / إدارة أصول ثابتة؟",
+        string="Fixed Asset Management? / Ø¥Ø¯Ø§Ø±Ø© Ø£ØµÙˆÙ„ Ø«Ø§Ø¨ØªØ©ØŸ",
         default=False,
     )
     needs_manufacturing = fields.Boolean(
-        string="Manufacturing/Production? / تصنيع وإنتاج؟",
+        string="Manufacturing/Production? / ØªØµÙ†ÙŠØ¹ ÙˆØ¥Ù†ØªØ§Ø¬ØŸ",
         default=False,
     )
     needs_hr = fields.Boolean(
-        string="HR & Payroll? / موارد بشرية ورواتب؟",
+        string="HR & Payroll? / Ù…ÙˆØ§Ø±Ø¯ Ø¨Ø´Ø±ÙŠØ© ÙˆØ±ÙˆØ§ØªØ¨ØŸ",
         default=False,
     )
     needs_fleet = fields.Boolean(
-        string="Fleet Management? / إدارة أسطول؟",
+        string="Fleet Management? / Ø¥Ø¯Ø§Ø±Ø© Ø£Ø³Ø·ÙˆÙ„ØŸ",
         default=False,
     )
 
     expected_monthly_transactions = fields.Selection(
         [
-            ("low", "أقل من ١٠٠"),
-            ("medium", "١٠٠ - ١٠٠٠"),
-            ("high", "أكثر من ١٠٠٠"),
+            ("low", "Ø£Ù‚Ù„ Ù…Ù† Ù¡Ù Ù "),
+            ("medium", "Ù¡Ù Ù  - Ù¡Ù Ù Ù "),
+            ("high", "Ø£ÙƒØ«Ø± Ù…Ù† Ù¡Ù Ù Ù "),
         ],
-        string="Expected Monthly Transactions / عدد الحركات الشهرية المتوقعة",
+        string="Expected Monthly Transactions / Ø¹Ø¯Ø¯ Ø§Ù„Ø­Ø±ÙƒØ§Øª Ø§Ù„Ø´Ù‡Ø±ÙŠØ© Ø§Ù„Ù…ØªÙˆÙ‚Ø¹Ø©",
         default="low",
     )
     has_existing_data = fields.Boolean(
-        string="Migrating existing data? / هل لديك بيانات سابقة للترحيل؟",
+        string="Migrating existing data? / Ù‡Ù„ Ù„Ø¯ÙŠÙƒ Ø¨ÙŠØ§Ù†Ø§Øª Ø³Ø§Ø¨Ù‚Ø© Ù„Ù„ØªØ±Ø­ÙŠÙ„ØŸ",
         default=False,
     )
     contact_phone = fields.Char(
-        string="Contact Phone / هاتف التواصل",
+        string="Contact Phone / Ù‡Ø§ØªÙ Ø§Ù„ØªÙˆØ§ØµÙ„",
     )
     onboarding_notes = fields.Text(
-        string="Additional Notes / ملاحظات إضافية",
+        string="Additional Notes / Ù…Ù„Ø§Ø­Ø¸Ø§Øª Ø¥Ø¶Ø§ÙÙŠØ©",
     )
 
-    # ═══════════════════ STEP 5 — Review ═══════════════════
+    # â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• STEP 5 â€” Review â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
     readiness_score = fields.Integer(
-        string="Readiness Score / درجة الجاهزية",
+        string="Readiness Score / Ø¯Ø±Ø¬Ø© Ø§Ù„Ø¬Ø§Ù‡Ø²ÙŠØ©",
         compute="_compute_readiness_score",
         store=False,
     )
     configuration_summary = fields.Text(
-        string="Configuration Summary / ملخص الإعدادات",
+        string="Configuration Summary / Ù…Ù„Ø®Øµ Ø§Ù„Ø¥Ø¹Ø¯Ø§Ø¯Ø§Øª",
         compute="_compute_configuration_summary",
         store=False,
     )
     selected_modules = fields.Text(
-        string="Suggested Modules / الموديولات المقترحة",
+        string="Suggested Modules / Ø§Ù„Ù…ÙˆØ¯ÙŠÙˆÙ„Ø§Øª Ø§Ù„Ù…Ù‚ØªØ±Ø­Ø©",
         compute="_compute_selected_modules",
         store=False,
     )
 
-    # ── Navigation ──
+    # â”€â”€ Navigation â”€â”€
     def action_step_forward(self):
         """Unified step-forward method that validates the active step and moves forward."""
         self.ensure_one()
@@ -450,7 +450,7 @@ class NexusOnboardingWizard(models.TransientModel):
         """Auto-extract and fill wizard fields from uploaded business document."""
         self.ensure_one()
         if not self.document_file:
-            raise UserError(_("يرجى إرفاق ملف السجل التجاري أو الشهادة الضريبية أولاً."))
+            raise UserError(_("ÙŠØ±Ø¬Ù‰ Ø¥Ø±ÙØ§Ù‚ Ù…Ù„Ù Ø§Ù„Ø³Ø¬Ù„ Ø§Ù„ØªØ¬Ø§Ø±ÙŠ Ø£Ùˆ Ø§Ù„Ø´Ù‡Ø§Ø¯Ø© Ø§Ù„Ø¶Ø±ÙŠØ¨ÙŠØ© Ø£ÙˆÙ„Ø§Ù‹."))
         
         import base64
         import re
@@ -462,14 +462,14 @@ class NexusOnboardingWizard(models.TransientModel):
             pass
 
         # 1. CR
-        cr_m = re.search(r"(?:سجل\s*تجاري|رقم\s*السجل|cr\s*no|commercial\s*reg)[\s:–-]*([1-7]\d{9})", txt, re.I)
+        cr_m = re.search(r"(?:Ø³Ø¬Ù„\s*ØªØ¬Ø§Ø±ÙŠ|Ø±Ù‚Ù…\s*Ø§Ù„Ø³Ø¬Ù„|cr\s*no|commercial\s*reg)[\s:â€“-]*([1-7]\d{9})", txt, re.I)
         if not cr_m:
             cr_m = re.search(r"\b([1-7]\d{9})\b", txt)
         if cr_m:
             self.cr_number = cr_m.group(1)
 
         # 2. VAT
-        vat_m = re.search(r"(?:الرقم\s*الضريبي|ضريبة\s*القيمة\s*المضافة|vat\s*no|tax\s*id)[\s:–-]*([3]\d{13}[3])", txt, re.I)
+        vat_m = re.search(r"(?:Ø§Ù„Ø±Ù‚Ù…\s*Ø§Ù„Ø¶Ø±ÙŠØ¨ÙŠ|Ø¶Ø±ÙŠØ¨Ø©\s*Ø§Ù„Ù‚ÙŠÙ…Ø©\s*Ø§Ù„Ù…Ø¶Ø§ÙØ©|vat\s*no|tax\s*id)[\s:â€“-]*([3]\d{13}[3])", txt, re.I)
         if not vat_m:
             vat_m = re.search(r"\b([3]\d{13}[3])\b", txt)
         if not vat_m:
@@ -481,15 +481,15 @@ class NexusOnboardingWizard(models.TransientModel):
             self.zatca_required = True
 
         # 3. GOSI
-        gosi_m = re.search(r"(?:رقم\s*الاشتراك|رقم\s*المنشأة|التأمينات\s*الاجتماعية|gosi\s*no)[\s:–-]*(\d{7,10})", txt, re.I)
+        gosi_m = re.search(r"(?:Ø±Ù‚Ù…\s*Ø§Ù„Ø§Ø´ØªØ±Ø§Ùƒ|Ø±Ù‚Ù…\s*Ø§Ù„Ù…Ù†Ø´Ø£Ø©|Ø§Ù„ØªØ£Ù…ÙŠÙ†Ø§Øª\s*Ø§Ù„Ø§Ø¬ØªÙ…Ø§Ø¹ÙŠØ©|gosi\s*no)[\s:â€“-]*(\d{7,10})", txt, re.I)
         if gosi_m:
             self.gosi_number = gosi_m.group(1)
 
         # 4. Company Name
         for line in txt.splitlines():
             line = line.strip()
-            if any(kw in line for kw in ["شركة", "مؤسسة", "فرع شركة", "مجموعة", "مصنع"]):
-                clean = re.sub(r"(?:اسم المنشأة|اسم الشركة|اسم المؤسسة|الاسم التجاري)[\s:–-]*", "", line).strip()
+            if any(kw in line for kw in ["Ø´Ø±ÙƒØ©", "Ù…Ø¤Ø³Ø³Ø©", "ÙØ±Ø¹ Ø´Ø±ÙƒØ©", "Ù…Ø¬Ù…ÙˆØ¹Ø©", "Ù…ØµÙ†Ø¹"]):
+                clean = re.sub(r"(?:Ø§Ø³Ù… Ø§Ù„Ù…Ù†Ø´Ø£Ø©|Ø§Ø³Ù… Ø§Ù„Ø´Ø±ÙƒØ©|Ø§Ø³Ù… Ø§Ù„Ù…Ø¤Ø³Ø³Ø©|Ø§Ù„Ø§Ø³Ù… Ø§Ù„ØªØ¬Ø§Ø±ÙŠ)[\s:â€“-]*", "", line).strip()
                 if 3 < len(clean) < 80:
                     self.business_name = clean
                     self.business_name_ar = clean
@@ -497,25 +497,25 @@ class NexusOnboardingWizard(models.TransientModel):
 
         # 5. Industry
         full_lower = txt.lower()
-        if any(w in full_lower for w in ["مطعم", "كافيه", "مقهى", "أغذية", "وجبات", "restaurant"]):
+        if any(w in full_lower for w in ["Ù…Ø·Ø¹Ù…", "ÙƒØ§ÙÙŠÙ‡", "Ù…Ù‚Ù‡Ù‰", "Ø£ØºØ°ÙŠØ©", "ÙˆØ¬Ø¨Ø§Øª", "restaurant"]):
             self.industry_sector = "restaurant"
             self.has_pos = True
             self.pos_count = 1
-        elif any(w in full_lower for w in ["تصنيع", "مصنع", "صناعي", "manufacturing"]):
+        elif any(w in full_lower for w in ["ØªØµÙ†ÙŠØ¹", "Ù…ØµÙ†Ø¹", "ØµÙ†Ø§Ø¹ÙŠ", "manufacturing"]):
             self.industry_sector = "manufacturing"
             self.needs_manufacturing = True
             self.has_warehouses = True
-        elif any(w in full_lower for w in ["مقاولات", "بناء", "تشييد", "عقود", "construction"]):
+        elif any(w in full_lower for w in ["Ù…Ù‚Ø§ÙˆÙ„Ø§Øª", "Ø¨Ù†Ø§Ø¡", "ØªØ´ÙŠÙŠØ¯", "Ø¹Ù‚ÙˆØ¯", "construction"]):
             self.industry_sector = "construction"
             self.needs_projects = True
-        elif any(w in full_lower for w in ["محطة", "وقود", "بنزين", "fuel"]):
+        elif any(w in full_lower for w in ["Ù…Ø­Ø·Ø©", "ÙˆÙ‚ÙˆØ¯", "Ø¨Ù†Ø²ÙŠÙ†", "fuel"]):
             self.industry_sector = "fuel_station"
             self.has_pos = True
-        elif any(w in full_lower for w in ["عقار", "عقارات", "real estate"]):
+        elif any(w in full_lower for w in ["Ø¹Ù‚Ø§Ø±", "Ø¹Ù‚Ø§Ø±Ø§Øª", "real estate"]):
             self.industry_sector = "real_estate"
 
         # 6. City
-        for c in ["الرياض", "جدة", "الدمام", "مكة", "المدينة", "الخبر", "القصيم", "تبوك", "أبها"]:
+        for c in ["Ø§Ù„Ø±ÙŠØ§Ø¶", "Ø¬Ø¯Ø©", "Ø§Ù„Ø¯Ù…Ø§Ù…", "Ù…ÙƒØ©", "Ø§Ù„Ù…Ø¯ÙŠÙ†Ø©", "Ø§Ù„Ø®Ø¨Ø±", "Ø§Ù„Ù‚ØµÙŠÙ…", "ØªØ¨ÙˆÙƒ", "Ø£Ø¨Ù‡Ø§"]:
             if c in txt:
                 self.city = c
                 break
@@ -524,15 +524,15 @@ class NexusOnboardingWizard(models.TransientModel):
             "type": "ir.actions.client",
             "tag": "display_notification",
             "params": {
-                "title": _("🎯 تم استخراج بيانات الوثيقة بنجاح!"),
-                "message": _("تم ملء اسم الشركة والرقم الضريبي والنشاط تلقائياً بناءً على الوثيقة المرفوعة."),
+                "title": _("ðŸŽ¯ ØªÙ… Ø§Ø³ØªØ®Ø±Ø§Ø¬ Ø¨ÙŠØ§Ù†Ø§Øª Ø§Ù„ÙˆØ«ÙŠÙ‚Ø© Ø¨Ù†Ø¬Ø§Ø­!"),
+                "message": _("ØªÙ… Ù…Ù„Ø¡ Ø§Ø³Ù… Ø§Ù„Ø´Ø±ÙƒØ© ÙˆØ§Ù„Ø±Ù‚Ù… Ø§Ù„Ø¶Ø±ÙŠØ¨ÙŠ ÙˆØ§Ù„Ù†Ø´Ø§Ø· ØªÙ„Ù‚Ø§Ø¦ÙŠØ§Ù‹ Ø¨Ù†Ø§Ø¡Ù‹ Ø¹Ù„Ù‰ Ø§Ù„ÙˆØ«ÙŠÙ‚Ø© Ø§Ù„Ù…Ø±ÙÙˆØ¹Ø©."),
                 "type": "success",
                 "sticky": False,
                 "next": self._reopen(),
             },
         }
 
-    # ── Step validation ──
+    # â”€â”€ Step validation â”€â”€
     def action_validate_business_profile(self):
         self.ensure_one()
         if not self.business_name:
@@ -555,7 +555,7 @@ class NexusOnboardingWizard(models.TransientModel):
             raise UserError(_("Please enter the tax registration number."))
         return self.action_next_step()
 
-    # ── Computes for Review step ──
+    # â”€â”€ Computes for Review step â”€â”€
     @api.depends(
         "industry_sector", "company_size", "has_pos", "vat_registered",
         "has_warehouses", "has_multi_branch",
@@ -617,21 +617,21 @@ class NexusOnboardingWizard(models.TransientModel):
                 f"Industry: {dict(wiz._fields['industry_sector'].selection).get(wiz.industry_sector, '')}",
                 f"Size: {dict(wiz._fields['company_size'].selection).get(wiz.company_size, '')} ({wiz.employee_count} employees)",
                 "",
-                "── Operations ──",
+                "â”€â”€ Operations â”€â”€",
                 f"POS: {'Yes' if wiz.has_pos else 'No'} ({wiz.pos_count} terminal(s))",
                 f"Warehouses: {'Yes' if wiz.has_warehouses else 'No'} ({wiz.warehouse_count})",
                 f"Multi-branch: {'Yes' if wiz.has_multi_branch else 'No'} ({wiz.branch_count})",
                 f"Products: {'Yes' if wiz.sells_products else 'No'} | Services: {'Yes' if wiz.sells_services else 'No'}",
                 "",
-                "── Financial ──",
-                f"VAT: {'Yes — ' + str(wiz.vat_rate) + '%' if wiz.vat_registered else 'No'}",
+                "â”€â”€ Financial â”€â”€",
+                f"VAT: {'Yes â€” ' + str(wiz.vat_rate) + '%' if wiz.vat_registered else 'No'}",
                 f"ZATCA: {'Yes' if wiz.zatca_required else 'No'}",
                 f"Accounting: {dict(wiz._fields['accounting_standard'].selection).get(wiz.accounting_standard, '')}",
                 f"Multi-currency: {'Yes' if wiz.has_multi_currency else 'No'}",
                 f"Banks: {wiz.bank_account_count} | Cash Registers: {wiz.cash_register_count}",
                 f"Monthly Transactions: {dict(wiz._fields['expected_monthly_transactions'].selection).get(wiz.expected_monthly_transactions, '')}",
                 "",
-                "── Advanced ──",
+                "â”€â”€ Advanced â”€â”€",
                 f"Projects: {'Yes' if wiz.needs_projects else 'No'}",
                 f"Assets: {'Yes' if wiz.needs_assets else 'No'}",
                 f"Manufacturing: {'Yes' if wiz.needs_manufacturing else 'No'}",
@@ -639,16 +639,16 @@ class NexusOnboardingWizard(models.TransientModel):
             ]
             wiz.configuration_summary = "\n".join(lines)
 
-    # ════════════════════════════════════════════════════════════════
-    # AUTO-CONFIGURATION ENGINE — Apply
-    # ════════════════════════════════════════════════════════════════
+    # â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+    # AUTO-CONFIGURATION ENGINE â€” Apply
+    # â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
 
     def action_apply_and_start(self):
         """Execute the auto-configuration based on the wizard answers.
 
         This is the engine that transforms business answers into real
         Odoo configuration, creating warehouses, journals, taxes,
-        payment methods, and launching the setup journey — all in one
+        payment methods, and launching the setup journey â€” all in one
         atomic transaction.
         """
         self.ensure_one()
@@ -671,7 +671,7 @@ class NexusOnboardingWizard(models.TransientModel):
                 "fiscalyear_last_month": str(12),
             })
 
-        # 3. Chart of Accounts — install template
+        # 3. Chart of Accounts â€” install template
         presets = INDUSTRY_PRESETS.get(self.industry_sector, {})
         coa_template = presets.get("coa_template", "generic")
         try:
@@ -806,15 +806,15 @@ class NexusOnboardingWizard(models.TransientModel):
         # 11. Departments (based on company size)
         dept_candidates = []
         if self.employee_count >= 10:
-            dept_candidates = ["إدارة", "مالية", "مبيعات", "عمليات"]
+            dept_candidates = ["Ø¥Ø¯Ø§Ø±Ø©", "Ù…Ø§Ù„ÙŠØ©", "Ù…Ø¨ÙŠØ¹Ø§Øª", "Ø¹Ù…Ù„ÙŠØ§Øª"]
         elif self.employee_count >= 5:
-            dept_candidates = ["إدارة", "مالية"]
+            dept_candidates = ["Ø¥Ø¯Ø§Ø±Ø©", "Ù…Ø§Ù„ÙŠØ©"]
         if self.needs_hr:
-            dept_candidates.append("موارد بشرية")
+            dept_candidates.append("Ù…ÙˆØ§Ø±Ø¯ Ø¨Ø´Ø±ÙŠØ©")
         if self.needs_manufacturing:
-            dept_candidates.append("إنتاج")
+            dept_candidates.append("Ø¥Ù†ØªØ§Ø¬")
         if self.needs_projects:
-            dept_candidates.append("مشاريع")
+            dept_candidates.append("Ù…Ø´Ø§Ø±ÙŠØ¹")
 
         for dept_name in dept_candidates:
             existing = self.env["hr.department"].search_count([
@@ -885,9 +885,9 @@ class NexusOnboardingWizard(models.TransientModel):
             "context": self.env.context,
         }
 
-    # ════════════════════════════════════════════════════════════════
-    # JUMP START — create wizard directly from Command Center
-    # ════════════════════════════════════════════════════════════════
+    # â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+    # JUMP START â€” create wizard directly from Command Center
+    # â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
 
     @api.model
     def jump_start(self, company=None):

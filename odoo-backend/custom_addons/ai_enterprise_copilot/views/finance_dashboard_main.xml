@@ -70,11 +70,15 @@
     </template>
 
     <!-- ════════════════ Dashboard JS Initializer ════════════════ -->
-    <template id="nexus_finance_dashboard_assets_main" inherit_id="web.assets_backend" name="Nexus Finance Dashboard JS">
-        <xpath expr="." position="inside">
-            <script type="module" src="/ai_enterprise_copilot/static/src/js/finance_dashboard.js"/>
-            <link rel="stylesheet" type="text/scss" href="/ai_enterprise_copilot/static/src/scss/finance_dashboard.scss"/>
-        </xpath>
-    </template>
+    <record id="nexus_finance_dashboard_js_main" model="ir.asset">
+        <field name="name">Nexus Finance Dashboard JS Main</field>
+        <field name="bundle">web.assets_backend</field>
+        <field name="path">ai_enterprise_copilot/static/src/js/finance_dashboard.js</field>
+    </record>
+    <record id="nexus_finance_dashboard_scss_main" model="ir.asset">
+        <field name="name">Nexus Finance Dashboard SCSS Main</field>
+        <field name="bundle">web.assets_backend</field>
+        <field name="path">ai_enterprise_copilot/static/src/scss/finance_dashboard.scss</field>
+    </record>
 
 </odoo>

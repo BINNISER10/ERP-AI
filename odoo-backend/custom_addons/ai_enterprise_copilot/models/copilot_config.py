@@ -1,4 +1,4 @@
-"""Central configuration for the AI Enterprise Copilot."""
+﻿"""Central configuration for the AI Enterprise Copilot."""
 import logging
 from odoo import models, fields, api, _
 
@@ -47,13 +47,11 @@ class CopilotConfig(models.Model):
         related="hybrid_config_id.erpnext_api_key",
         readonly=False,
         string="ERPNext API Key",
-        password=True,
     )
     erpnext_api_secret = fields.Char(
         related="hybrid_config_id.erpnext_api_secret",
         readonly=False,
         string="ERPNext API Secret",
-        password=True,
     )
     n8n_url = fields.Char(
         related="hybrid_config_id.n8n_url",
@@ -64,7 +62,6 @@ class CopilotConfig(models.Model):
         related="hybrid_config_id.n8n_webhook_key",
         readonly=False,
         string="n8n Webhook Key",
-        password=True,
     )
 
     # Nexus Core (Command Center) sync endpoint.
@@ -75,7 +72,6 @@ class CopilotConfig(models.Model):
     nexus_core_api_key = fields.Char(
         string="Nexus Core API Key",
         help="Bearer token or API key for Nexus Core authentication.",
-        password=True,
     )
 
     # LLM / AI settings.
@@ -93,7 +89,6 @@ class CopilotConfig(models.Model):
     llm_api_key = fields.Char(
         string="LLM API Key",
         help="API key for the selected LLM provider.",
-        password=True,
     )
     llm_model = fields.Char(
         string="LLM Model",
@@ -112,7 +107,6 @@ class CopilotConfig(models.Model):
         "configured on that container, otherwise every AI-assisted feature "
         "(BOM advisor, chart-of-accounts mapping, developer consult, ...) "
         "will be rejected with 401 Unauthorized.",
-        password=True,
     )
 
     # DevOps monitoring.
@@ -145,3 +139,4 @@ class CopilotConfig(models.Model):
             company_id = company.id if hasattr(company, "id") else int(company)
             domain.append(("company_id", "=", company_id))
         return self.search(domain, limit=1)
+

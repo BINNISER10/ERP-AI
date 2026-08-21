@@ -79,7 +79,6 @@ class NexusUSACHPayment(models.TransientModel):
         compute="_compute_account_number",
         inverse="_inverse_account_number",
         store=False,
-        password=True,
     )
     account_number_enc = fields.Char(
         string="Account Number (Encrypted)",

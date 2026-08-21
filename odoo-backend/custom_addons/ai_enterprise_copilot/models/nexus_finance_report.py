@@ -124,8 +124,8 @@ class NexusFinanceReport(models.TransientModel):
         string="نتيجة التقرير / Report Output",
         readonly=True,
         sanitize=True,
-        sanitize_tags={"a", "abbr", "b", "bdo", "big", "blockquote", "br", "cite", "code", "dd", "div", "dl", "dt", "em", "font", "h1", "h2", "h3", "h4", "h5", "h6", "hr", "i", "img", "kbd", "li", "ol", "p", "pre", "s", "small", "span", "strong", "sub", "sup", "table", "tbody", "td", "tfoot", "th", "thead", "tr", "tt", "u", "ul", "var"},
-        sanitize_attributes={"style", "class", "id", "title", "href", "src", "alt", "width", "height", "colspan", "rowspan"},
+        sanitize_tags=True,
+        sanitize_attributes=True,
     )
     error_message = fields.Text(
         string="رسالة الخطأ / Error Message",

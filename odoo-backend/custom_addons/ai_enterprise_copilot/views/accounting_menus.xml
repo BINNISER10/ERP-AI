@@ -14,15 +14,15 @@
         <value eval="{'active': False}"/>
     </function>
     <function model="ir.ui.menu" name="write">
-        <value eval="[ref('account.menu_account_report')]"/>
+        <value eval="[ref('account.menu_finance_reports')]"/>
         <value eval="{'active': False}"/>
     </function>
     <function model="ir.ui.menu" name="write">
-        <value eval="[ref('account.menu_finance_receivable')]"/>
+        <value eval="[ref('account.menu_finance_receivables')]"/>
         <value eval="{'active': False}"/>
     </function>
     <function model="ir.ui.menu" name="write">
-        <value eval="[ref('account.menu_finance_payable')]"/>
+        <value eval="[ref('account.menu_finance_payables')]"/>
         <value eval="{'active': False}"/>
     </function>
     <function model="ir.ui.menu" name="write">
@@ -31,10 +31,6 @@
     </function>
     <function model="ir.ui.menu" name="write">
         <value eval="[ref('account.menu_finance_entries')]"/>
-        <value eval="{'active': False}"/>
-    </function>
-    <function model="ir.ui.menu" name="write">
-        <value eval="[ref('account.menu_finance_management')]"/>
         <value eval="{'active': False}"/>
     </function>
 

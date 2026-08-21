@@ -12,11 +12,9 @@ class ResConfigSettings(models.TransientModel):
     saas_stripe_secret_key = fields.Char(
         string="Stripe Secret Key",
         config_parameter="nexus_saas_billing.stripe_secret_key",
-        password=True,
     )
     saas_stripe_webhook_secret = fields.Char(
         string="Stripe Webhook Secret",
         config_parameter="nexus_saas_billing.stripe_webhook_secret",
-        password=True,
         help="Used to verify Stripe webhook signatures.",
     )

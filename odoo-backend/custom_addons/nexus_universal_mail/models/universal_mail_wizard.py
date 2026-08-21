@@ -1,4 +1,4 @@
-# -*- coding: utf-8 -*-
+﻿# -*- coding: utf-8 -*-
 from odoo import api, fields, models, _
 from odoo.exceptions import UserError
 
@@ -8,7 +8,7 @@ PROVIDERS = [
     ('apple', 'Apple iCloud (@icloud.com / @me.com)'),
     ('yahoo', 'Yahoo Mail (@yahoo.com)'),
     ('zoho', 'Zoho Mail'),
-    ('custom', 'Custom Company Email (بريد خاص للشركة / cPanel / Webmail)'),
+    ('custom', 'Custom Company Email (Ø¨Ø±ÙŠØ¯ Ø®Ø§Øµ Ù„Ù„Ø´Ø±ÙƒØ© / cPanel / Webmail)'),
 ]
 
 PROVIDER_CONFIGS = {
@@ -21,7 +21,7 @@ PROVIDER_CONFIGS = {
         'imap_port': 993,
         'imap_ssl': True,
         'name_ar': 'Google Gmail / Workspace',
-        'guide_ar': 'افتح حساب Google ⬅️ الأمان ⬅️ التحقق بخطوتين ⬅️ كلمات مرور التطبيقات (App Passwords) وأنشئ رمزاً من 16 حرفاً.',
+        'guide_ar': 'Ø§ÙØªØ­ Ø­Ø³Ø§Ø¨ Google â¬…ï¸ Ø§Ù„Ø£Ù…Ø§Ù† â¬…ï¸ Ø§Ù„ØªØ­Ù‚Ù‚ Ø¨Ø®Ø·ÙˆØªÙŠÙ† â¬…ï¸ ÙƒÙ„Ù…Ø§Øª Ù…Ø±ÙˆØ± Ø§Ù„ØªØ·Ø¨ÙŠÙ‚Ø§Øª (App Passwords) ÙˆØ£Ù†Ø´Ø¦ Ø±Ù…Ø²Ø§Ù‹ Ù…Ù† 16 Ø­Ø±ÙØ§Ù‹.',
     },
     'microsoft': {
         'url': 'https://account.live.com/proofs/AppPassword',
@@ -32,7 +32,7 @@ PROVIDER_CONFIGS = {
         'imap_port': 993,
         'imap_ssl': True,
         'name_ar': 'Microsoft Outlook / Hotmail / Office 365',
-        'guide_ar': 'افتح حساب Microsoft ⬅️ الأمان المتقدم ⬅️ كلمات مرور التطبيقات (App Passwords) وأنشئ كلمة مرور جديدة.',
+        'guide_ar': 'Ø§ÙØªØ­ Ø­Ø³Ø§Ø¨ Microsoft â¬…ï¸ Ø§Ù„Ø£Ù…Ø§Ù† Ø§Ù„Ù…ØªÙ‚Ø¯Ù… â¬…ï¸ ÙƒÙ„Ù…Ø§Øª Ù…Ø±ÙˆØ± Ø§Ù„ØªØ·Ø¨ÙŠÙ‚Ø§Øª (App Passwords) ÙˆØ£Ù†Ø´Ø¦ ÙƒÙ„Ù…Ø© Ù…Ø±ÙˆØ± Ø¬Ø¯ÙŠØ¯Ø©.',
     },
     'apple': {
         'url': 'https://appleid.apple.com/account/manage/section/security',
@@ -43,7 +43,7 @@ PROVIDER_CONFIGS = {
         'imap_port': 993,
         'imap_ssl': True,
         'name_ar': 'Apple iCloud',
-        'guide_ar': 'افتح Apple ID ⬅️ تسجيل الدخول والأمان ⬅️ كلمات المرور الخاصة بالتطبيقات (App-Specific Passwords).',
+        'guide_ar': 'Ø§ÙØªØ­ Apple ID â¬…ï¸ ØªØ³Ø¬ÙŠÙ„ Ø§Ù„Ø¯Ø®ÙˆÙ„ ÙˆØ§Ù„Ø£Ù…Ø§Ù† â¬…ï¸ ÙƒÙ„Ù…Ø§Øª Ø§Ù„Ù…Ø±ÙˆØ± Ø§Ù„Ø®Ø§ØµØ© Ø¨Ø§Ù„ØªØ·Ø¨ÙŠÙ‚Ø§Øª (App-Specific Passwords).',
     },
     'yahoo': {
         'url': 'https://login.yahoo.com/account/security',
@@ -54,7 +54,7 @@ PROVIDER_CONFIGS = {
         'imap_port': 993,
         'imap_ssl': True,
         'name_ar': 'Yahoo Mail',
-        'guide_ar': 'افتح أمان حساب Yahoo ⬅️ إنشاء كلمة مرور التطبيق (Generate app password).',
+        'guide_ar': 'Ø§ÙØªØ­ Ø£Ù…Ø§Ù† Ø­Ø³Ø§Ø¨ Yahoo â¬…ï¸ Ø¥Ù†Ø´Ø§Ø¡ ÙƒÙ„Ù…Ø© Ù…Ø±ÙˆØ± Ø§Ù„ØªØ·Ø¨ÙŠÙ‚ (Generate app password).',
     },
     'zoho': {
         'url': 'https://accounts.zoho.com/home#security/app_passwords',
@@ -65,7 +65,7 @@ PROVIDER_CONFIGS = {
         'imap_port': 993,
         'imap_ssl': True,
         'name_ar': 'Zoho Mail',
-        'guide_ar': 'افتح حساب Zoho ⬅️ الأمان ⬅️ كلمات مرور خاصة بالتطبيقات (Application-Specific Passwords).',
+        'guide_ar': 'Ø§ÙØªØ­ Ø­Ø³Ø§Ø¨ Zoho â¬…ï¸ Ø§Ù„Ø£Ù…Ø§Ù† â¬…ï¸ ÙƒÙ„Ù…Ø§Øª Ù…Ø±ÙˆØ± Ø®Ø§ØµØ© Ø¨Ø§Ù„ØªØ·Ø¨ÙŠÙ‚Ø§Øª (Application-Specific Passwords).',
     },
     'custom': {
         'url': '',
@@ -75,8 +75,8 @@ PROVIDER_CONFIGS = {
         'imap_host': '',
         'imap_port': 993,
         'imap_ssl': True,
-        'name_ar': 'بريد خاص بالشركة',
-        'guide_ar': 'أدخل عنوان بريدك المؤسسي وكلمة المرور، وسيقوم النظام بضبط الإعدادات تلقائياً أو يمكنك تخصيصها.',
+        'name_ar': 'Ø¨Ø±ÙŠØ¯ Ø®Ø§Øµ Ø¨Ø§Ù„Ø´Ø±ÙƒØ©',
+        'guide_ar': 'Ø£Ø¯Ø®Ù„ Ø¹Ù†ÙˆØ§Ù† Ø¨Ø±ÙŠØ¯Ùƒ Ø§Ù„Ù…Ø¤Ø³Ø³ÙŠ ÙˆÙƒÙ„Ù…Ø© Ø§Ù„Ù…Ø±ÙˆØ±ØŒ ÙˆØ³ÙŠÙ‚ÙˆÙ… Ø§Ù„Ù†Ø¸Ø§Ù… Ø¨Ø¶Ø¨Ø· Ø§Ù„Ø¥Ø¹Ø¯Ø§Ø¯Ø§Øª ØªÙ„Ù‚Ø§Ø¦ÙŠØ§Ù‹ Ø£Ùˆ ÙŠÙ…ÙƒÙ†Ùƒ ØªØ®ØµÙŠØµÙ‡Ø§.',
     },
 }
 
@@ -87,19 +87,18 @@ class NexusUniversalMailWizard(models.TransientModel):
 
     provider = fields.Selection(
         selection=PROVIDERS,
-        string='Email Provider / مزود البريد',
+        string='Email Provider / Ù…Ø²ÙˆØ¯ Ø§Ù„Ø¨Ø±ÙŠØ¯',
         default='google',
         required=True,
     )
     email_address = fields.Char(
-        string='Email Address / البريد الإلكتروني',
+        string='Email Address / Ø§Ù„Ø¨Ø±ÙŠØ¯ Ø§Ù„Ø¥Ù„ÙƒØªØ±ÙˆÙ†ÙŠ',
         required=True,
         placeholder='e.g. user@gmail.com, info@company.com',
     )
     app_password = fields.Char(
-        string='App Password / كلمة مرور التطبيق',
+        string='App Password / ÙƒÙ„Ù…Ø© Ù…Ø±ÙˆØ± Ø§Ù„ØªØ·Ø¨ÙŠÙ‚',
         required=True,
-        placeholder='16-character App Password (e.g. abcd efgh ijkl mnop)',
     )
     app_password_url = fields.Char(
         string='App Password Link',
@@ -128,15 +127,15 @@ class NexusUniversalMailWizard(models.TransientModel):
     imap_ssl = fields.Boolean(string='IMAP SSL/TLS', default=True)
 
     setup_outgoing = fields.Boolean(
-        string='Setup Outgoing Mail (إرسال الفواتير والإشعارات - SMTP)',
+        string='Setup Outgoing Mail (Ø¥Ø±Ø³Ø§Ù„ Ø§Ù„ÙÙˆØ§ØªÙŠØ± ÙˆØ§Ù„Ø¥Ø´Ø¹Ø§Ø±Ø§Øª - SMTP)',
         default=True,
     )
     setup_incoming = fields.Boolean(
-        string='Setup Incoming Mail (استقبال الردود والتذاكر - IMAP)',
+        string='Setup Incoming Mail (Ø§Ø³ØªÙ‚Ø¨Ø§Ù„ Ø§Ù„Ø±Ø¯ÙˆØ¯ ÙˆØ§Ù„ØªØ°Ø§ÙƒØ± - IMAP)',
         default=True,
     )
     send_test_email = fields.Boolean(
-        string='Send Verification Test Email (إرسال بريد تجريبي للتأكيد)',
+        string='Send Verification Test Email (Ø¥Ø±Ø³Ø§Ù„ Ø¨Ø±ÙŠØ¯ ØªØ¬Ø±ÙŠØ¨ÙŠ Ù„Ù„ØªØ£ÙƒÙŠØ¯)',
         default=True,
     )
     test_recipient = fields.Char(
@@ -169,9 +168,9 @@ class NexusUniversalMailWizard(models.TransientModel):
             if cfg['url']:
                 record.guide_html = f"""
                 <div class="alert alert-info py-2 px-3 my-1" style="border-radius: 8px;">
-                    <strong>الخطوة 1:</strong> اضغط على زر 
+                    <strong>Ø§Ù„Ø®Ø·ÙˆØ© 1:</strong> Ø§Ø¶ØºØ· Ø¹Ù„Ù‰ Ø²Ø± 
                     <a href="{cfg['url']}" target="_blank" class="btn btn-sm btn-primary ms-2 me-2" style="font-weight: bold;">
-                        🔗 فتح صفحة استخراج كلمة المرور ({cfg['name_ar']})
+                        ðŸ”— ÙØªØ­ ØµÙØ­Ø© Ø§Ø³ØªØ®Ø±Ø§Ø¬ ÙƒÙ„Ù…Ø© Ø§Ù„Ù…Ø±ÙˆØ± ({cfg['name_ar']})
                     </a>
                     <br/>
                     <small class="text-muted">{cfg['guide_ar']}</small>
@@ -180,7 +179,7 @@ class NexusUniversalMailWizard(models.TransientModel):
             else:
                 record.guide_html = f"""
                 <div class="alert alert-secondary py-2 px-3 my-1" style="border-radius: 8px;">
-                    <strong>إعداد البريد المخصص:</strong> {cfg['guide_ar']}
+                    <strong>Ø¥Ø¹Ø¯Ø§Ø¯ Ø§Ù„Ø¨Ø±ÙŠØ¯ Ø§Ù„Ù…Ø®ØµØµ:</strong> {cfg['guide_ar']}
                 </div>
                 """
 
@@ -206,9 +205,9 @@ class NexusUniversalMailWizard(models.TransientModel):
         password = raw_pass.replace(' ', '').replace('\t', '')
 
         if not email or '@' not in email:
-            raise UserError(_('يرجى إدخال عنوان بريد إلكتروني صحيح.'))
+            raise UserError(_('ÙŠØ±Ø¬Ù‰ Ø¥Ø¯Ø®Ø§Ù„ Ø¹Ù†ÙˆØ§Ù† Ø¨Ø±ÙŠØ¯ Ø¥Ù„ÙƒØªØ±ÙˆÙ†ÙŠ ØµØ­ÙŠØ­.'))
         if not password:
-            raise UserError(_('يرجى إدخال كلمة مرور التطبيق (App Password).'))
+            raise UserError(_('ÙŠØ±Ø¬Ù‰ Ø¥Ø¯Ø®Ø§Ù„ ÙƒÙ„Ù…Ø© Ù…Ø±ÙˆØ± Ø§Ù„ØªØ·Ø¨ÙŠÙ‚ (App Password).'))
 
         smtp_server_obj = self.env['ir.mail_server']
         fetchmail_server_obj = self.env['fetchmail.server']
@@ -240,9 +239,9 @@ class NexusUniversalMailWizard(models.TransientModel):
             # Test Outgoing
             try:
                 mail_server.test_smtp_connection()
-                results.append('✅ البريد الصادر (SMTP): تم الاتصال والتحقق بنجاح.')
+                results.append('âœ… Ø§Ù„Ø¨Ø±ÙŠØ¯ Ø§Ù„ØµØ§Ø¯Ø± (SMTP): ØªÙ… Ø§Ù„Ø§ØªØµØ§Ù„ ÙˆØ§Ù„ØªØ­Ù‚Ù‚ Ø¨Ù†Ø¬Ø§Ø­.')
             except Exception as e:
-                raise UserError(_('فشل اختبار البريد الصادر (SMTP):\n%s') % str(e))
+                raise UserError(_('ÙØ´Ù„ Ø§Ø®ØªØ¨Ø§Ø± Ø§Ù„Ø¨Ø±ÙŠØ¯ Ø§Ù„ØµØ§Ø¯Ø± (SMTP):\n%s') % str(e))
 
             # Set default from parameter
             self.env['ir.config_parameter'].sudo().set_param('mail.default.from', email)
@@ -269,22 +268,22 @@ class NexusUniversalMailWizard(models.TransientModel):
             # Test Incoming
             try:
                 fetchmail_server.button_confirm_login()
-                results.append('✅ البريد الوارد (IMAP): تم التحقق والربط بنجاح.')
+                results.append('âœ… Ø§Ù„Ø¨Ø±ÙŠØ¯ Ø§Ù„ÙˆØ§Ø±Ø¯ (IMAP): ØªÙ… Ø§Ù„ØªØ­Ù‚Ù‚ ÙˆØ§Ù„Ø±Ø¨Ø· Ø¨Ù†Ø¬Ø§Ø­.')
             except Exception as e:
                 # We report as warning or message without breaking outgoing if outgoing worked
-                results.append(f'⚠️ تنبيه في البريد الوارد: {str(e)}')
+                results.append(f'âš ï¸ ØªÙ†Ø¨ÙŠÙ‡ ÙÙŠ Ø§Ù„Ø¨Ø±ÙŠØ¯ Ø§Ù„ÙˆØ§Ø±Ø¯: {str(e)}')
 
         # 3. Optional verification email
         if self.send_test_email and mail_server:
             recipient = (self.test_recipient or email).strip()
             try:
                 test_mail = self.env['mail.mail'].create({
-                    'subject': _('تأكيد ربط البريد بنجاح - Nexus Enterprise Engine'),
+                    'subject': _('ØªØ£ÙƒÙŠØ¯ Ø±Ø¨Ø· Ø§Ù„Ø¨Ø±ÙŠØ¯ Ø¨Ù†Ø¬Ø§Ø­ - Nexus Enterprise Engine'),
                     'body_html': f"""
                         <div style="font-family: Arial, sans-serif; padding: 20px; color: #2C3E50;">
-                            <h2 style="color: #0B3D2E;">تهانينا! تم ربط البريد الإلكتروني بنجاح</h2>
-                            <p>تم إعداد بريدك <b>{email}</b> بنجاح للعمل مع نظام <b>Nexus Enterprise Engine</b>.</p>
-                            <p>المزود: <b>{dict(PROVIDERS).get(self.provider)}</b></p>
+                            <h2 style="color: #0B3D2E;">ØªÙ‡Ø§Ù†ÙŠÙ†Ø§! ØªÙ… Ø±Ø¨Ø· Ø§Ù„Ø¨Ø±ÙŠØ¯ Ø§Ù„Ø¥Ù„ÙƒØªØ±ÙˆÙ†ÙŠ Ø¨Ù†Ø¬Ø§Ø­</h2>
+                            <p>ØªÙ… Ø¥Ø¹Ø¯Ø§Ø¯ Ø¨Ø±ÙŠØ¯Ùƒ <b>{email}</b> Ø¨Ù†Ø¬Ø§Ø­ Ù„Ù„Ø¹Ù…Ù„ Ù…Ø¹ Ù†Ø¸Ø§Ù… <b>Nexus Enterprise Engine</b>.</p>
+                            <p>Ø§Ù„Ù…Ø²ÙˆØ¯: <b>{dict(PROVIDERS).get(self.provider)}</b></p>
                             <hr style="border: 0; border-top: 1px solid #E2E8F0;"/>
                             <small style="color: #718096;">Nexus Enterprise Engine Automated Mailer</small>
                         </div>
@@ -295,16 +294,16 @@ class NexusUniversalMailWizard(models.TransientModel):
                     'auto_delete': False,
                 })
                 test_mail.send()
-                results.append(f'📩 تم إرسال رسالة بريد تجريبية للتأكيد إلى: {recipient}')
+                results.append(f'ðŸ“© ØªÙ… Ø¥Ø±Ø³Ø§Ù„ Ø±Ø³Ø§Ù„Ø© Ø¨Ø±ÙŠØ¯ ØªØ¬Ø±ÙŠØ¨ÙŠØ© Ù„Ù„ØªØ£ÙƒÙŠØ¯ Ø¥Ù„Ù‰: {recipient}')
             except Exception as e:
-                results.append(f'⚠️ لم يتم إرسال الإيميل التجريبي: {str(e)}')
+                results.append(f'âš ï¸ Ù„Ù… ÙŠØªÙ… Ø¥Ø±Ø³Ø§Ù„ Ø§Ù„Ø¥ÙŠÙ…ÙŠÙ„ Ø§Ù„ØªØ¬Ø±ÙŠØ¨ÙŠ: {str(e)}')
 
         summary = '\n'.join(results)
         return {
             'type': 'ir.actions.client',
             'tag': 'display_notification',
             'params': {
-                'title': _('نجح ربط البريد الإلكتروني!'),
+                'title': _('Ù†Ø¬Ø­ Ø±Ø¨Ø· Ø§Ù„Ø¨Ø±ÙŠØ¯ Ø§Ù„Ø¥Ù„ÙƒØªØ±ÙˆÙ†ÙŠ!'),
                 'message': summary,
                 'type': 'success',
                 'sticky': True,
