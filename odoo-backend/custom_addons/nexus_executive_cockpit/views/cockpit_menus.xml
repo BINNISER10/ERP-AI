@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="action_nexus_cockpit_url" model="ir.actions.act_url">
+        <field name="name">Executive Cockpit</field>
+        <field name="url">/nexus/cockpit</field>
+        <field name="target">self</field>
+    </record>
+
+    <menuitem id="menu_nexus_cockpit_root"
+              name="Executive Cockpit"
+              action="action_nexus_cockpit_url"
+              sequence="3"
+              web_icon="fa fa-tachometer,none"/>
+</odoo>

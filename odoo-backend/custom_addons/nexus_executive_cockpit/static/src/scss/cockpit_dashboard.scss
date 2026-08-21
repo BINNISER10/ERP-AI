@@ -1,0 +1,83 @@
+.nexus-cockpit {
+    padding: 24px;
+    font-family: inherit;
+
+    .nexus-cockpit-header {
+        margin-bottom: 20px;
+        h2 {
+            color: #0B3D2E;
+            font-weight: 700;
+        }
+    }
+
+    .nexus-cockpit-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+        gap: 16px;
+    }
+
+    .nexus-cockpit-card {
+        background: #fff;
+        border-radius: 10px;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+        padding: 16px;
+        cursor: grab;
+        transition: box-shadow 0.15s ease;
+
+        &:hover {
+            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.12);
+        }
+
+        .nexus-cockpit-card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-weight: 600;
+            color: #0B3D2E;
+            margin-bottom: 12px;
+
+            .nexus-cockpit-drag-handle {
+                color: #aaa;
+                cursor: grab;
+            }
+        }
+
+        .nexus-cockpit-kpi-value {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: #0B3D2E;
+        }
+    }
+
+    .nexus-cockpit-alert-high {
+        border-left: 4px solid #D32F2F;
+    }
+    .nexus-cockpit-alert-medium {
+        border-left: 4px solid #F9A825;
+    }
+
+    .nexus-chart-container {
+        position: relative;
+        height: 220px;
+    }
+
+    .nexus-cockpit-risk-badge {
+        padding: 6px 12px;
+        border-radius: 6px;
+        font-weight: 600;
+        margin-bottom: 10px;
+        font-size: 0.85rem;
+    }
+    .nexus-cockpit-risk-low {
+        background: #E8F5E9;
+        color: #2E7D32;
+    }
+    .nexus-cockpit-risk-medium {
+        background: #FFF3E0;
+        color: #E65100;
+    }
+    .nexus-cockpit-risk-high {
+        background: #FFEBEE;
+        color: #C62828;
+    }
+}

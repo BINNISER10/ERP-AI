@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <template id="cockpit_dashboard_template" name="Executive AI Cockpit">
+        <t t-call="web.layout">
+            <t t-set="head">
+                <script type="text/javascript" src="/ai_enterprise_copilot/static/lib/chart.umd.js"/>
+                <script type="module" src="/nexus_executive_cockpit/static/src/js/cockpit_dashboard.js"/>
+                <link rel="stylesheet" type="text/scss" href="/nexus_executive_cockpit/static/src/scss/cockpit_dashboard.scss"/>
+            </t>
+            <div class="nexus-cockpit" id="nexus-cockpit-root">
+                <div class="nexus-cockpit-header">
+                    <h2><i class="fa fa-tachometer"/> لوحة القيادة الاستراتيجية / Executive Cockpit</h2>
+                    <p class="text-muted mb-0">رؤى لحظية وتنبؤية لدعم قرارات الإدارة العليا</p>
+                </div>
+                <div id="nexus-cockpit-widgets" class="nexus-cockpit-grid"/>
+            </div>
+        </t>
+    </template>
+</odoo>

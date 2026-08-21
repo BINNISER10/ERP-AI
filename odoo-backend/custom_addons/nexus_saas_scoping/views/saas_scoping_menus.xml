@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <menuitem id="menu_nexus_saas_scoping_requests"
+              name="Scoping Requests"
+              action="action_nexus_saas_scoping_request"
+              parent="nexus_saas_tenant.menu_nexus_saas_root"
+              sequence="15"/>
+    <menuitem id="menu_nexus_saas_sectors"
+              name="Sectors"
+              action="action_nexus_saas_sector"
+              parent="nexus_saas_tenant.menu_nexus_saas_root"
+              sequence="16"/>
+</odoo>

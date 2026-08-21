@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="seq_nexus_saas_scoping_request" model="ir.sequence">
+        <field name="name">SaaS Scoping Request</field>
+        <field name="code">nexus.saas.scoping.request</field>
+        <field name="prefix">SCOPE-</field>
+        <field name="padding">4</field>
+        <field name="company_id" eval="False"/>
+    </record>
+
+    <record id="sector_fuel_station" model="nexus.saas.sector">
+        <field name="name">محطة وقود + كافيه وسوبرماركت</field>
+        <field name="code">fuel_station</field>
+        <field name="sequence">10</field>
+        <field name="module_technical_names">point_of_sale,nexus_fuel_station,stock,account_accountant,nexus_zatca_compliance</field>
+        <field name="base_resource_tier">large</field>
+        <field name="base_price_monthly">1500.0</field>
+        <field name="price_per_branch">800.0</field>
+        <field name="price_per_pos">150.0</field>
+        <field name="price_per_warehouse">100.0</field>
+        <field name="price_per_employee_block">50.0</field>
+        <field name="iot_surcharge">400.0</field>
+    </record>
+
+    <record id="sector_restaurant" model="nexus.saas.sector">
+        <field name="name">مطاعم وكافيهات</field>
+        <field name="code">restaurant</field>
+        <field name="sequence">20</field>
+        <field name="module_technical_names">point_of_sale,stock,nexus_restaurant_costing</field>
+        <field name="base_resource_tier">medium</field>
+        <field name="base_price_monthly">800.0</field>
+        <field name="price_per_branch">500.0</field>
+        <field name="price_per_pos">120.0</field>
+        <field name="price_per_warehouse">80.0</field>
+        <field name="price_per_employee_block">40.0</field>
+        <field name="iot_surcharge">250.0</field>
+    </record>
+
+    <record id="sector_retail" model="nexus.saas.sector">
+        <field name="name">تجزئة وسوبرماركت</field>
+        <field name="code">retail</field>
+        <field name="sequence">30</field>
+        <field name="module_technical_names">point_of_sale,stock,account_accountant</field>
+        <field name="base_resource_tier">medium</field>
+        <field name="base_price_monthly">700.0</field>
+        <field name="price_per_branch">450.0</field>
+        <field name="price_per_pos">120.0</field>
+        <field name="price_per_warehouse">80.0</field>
+        <field name="price_per_employee_block">40.0</field>
+    </record>
+
+    <record id="sector_manufacturing" model="nexus.saas.sector">
+        <field name="name">تصنيع وورش</field>
+        <field name="code">manufacturing</field>
+        <field name="sequence">40</field>
+        <field name="module_technical_names">stock,mrp,purchase,account_accountant</field>
+        <field name="base_resource_tier">medium</field>
+        <field name="base_price_monthly">900.0</field>
+        <field name="price_per_branch">600.0</field>
+        <field name="price_per_warehouse">120.0</field>
+        <field name="price_per_employee_block">50.0</field>
+        <field name="manufacturing_surcharge">700.0</field>
+    </record>
+
+    <record id="sector_contracting" model="nexus.saas.sector">
+        <field name="name">مقاولات وتطوير عقاري</field>
+        <field name="code">contracting</field>
+        <field name="sequence">50</field>
+        <field name="module_technical_names">project,nexus_contracting,hr,account_accountant</field>
+        <field name="base_resource_tier">medium</field>
+        <field name="base_price_monthly">1000.0</field>
+        <field name="price_per_branch">700.0</field>
+        <field name="price_per_employee_block">60.0</field>
+    </record>
+</odoo>

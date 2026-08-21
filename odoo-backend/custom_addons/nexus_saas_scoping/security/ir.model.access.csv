@@ -1,0 +1,4 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_nexus_saas_sector_user,nexus.saas.sector.user,model_nexus_saas_sector,base.group_user,1,0,0,0
+access_nexus_saas_sector_manager,nexus.saas.sector.manager,model_nexus_saas_sector,base.group_system,1,1,1,1
+access_nexus_saas_scoping_request_manager,nexus.saas.scoping.request.manager,model_nexus_saas_scoping_request,base.group_system,1,1,1,1

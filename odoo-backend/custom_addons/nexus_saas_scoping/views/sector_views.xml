@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_nexus_saas_sector_list" model="ir.ui.view">
+        <field name="name">nexus.saas.sector.list</field>
+        <field name="model">nexus.saas.sector</field>
+        <field name="arch" type="xml">
+            <list>
+                <field name="sequence" widget="handle"/>
+                <field name="name"/>
+                <field name="code"/>
+                <field name="base_resource_tier"/>
+                <field name="base_price_monthly"/>
+                <field name="active"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="view_nexus_saas_sector_form" model="ir.ui.view">
+        <field name="name">nexus.saas.sector.form</field>
+        <field name="model">nexus.saas.sector</field>
+        <field name="arch" type="xml">
+            <form string="SaaS Sector">
+                <sheet>
+                    <group>
+                        <field name="name"/>
+                        <field name="code"/>
+                        <field name="active"/>
+                        <field name="base_resource_tier"/>
+                        <field name="module_technical_names"/>
+                        <field name="description"/>
+                    </group>
+                    <group string="Pricing">
+                        <field name="base_price_monthly"/>
+                        <field name="price_per_branch"/>
+                        <field name="price_per_pos"/>
+                        <field name="price_per_warehouse"/>
+                        <field name="price_per_employee_block"/>
+                        <field name="manufacturing_surcharge"/>
+                        <field name="iot_surcharge"/>
+                        <field name="ecommerce_surcharge"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_nexus_saas_sector" model="ir.actions.act_window">
+        <field name="name">SaaS Sectors</field>
+        <field name="res_model">nexus.saas.sector</field>
+        <field name="view_mode">list,form</field>
+    </record>
+</odoo>
