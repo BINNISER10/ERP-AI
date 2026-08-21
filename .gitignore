@@ -1,5 +1,10 @@
 # Environment and secrets
 .env
+
+# forecourt-bridge local runtime (secrets + durable queue, never commit)
+forecourt-bridge/config.yaml
+forecourt-bridge/data/
+forecourt-bridge/.venv/
 *.key
 *.pem
 *.crt

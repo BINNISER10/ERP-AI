@@ -1,0 +1,47 @@
+# Nexus Forecourt Bridge — configuration
+#
+# Copy this file to config.yaml and fill in the real values for your site.
+# This service runs on a small industrial PC / gateway physically next to
+# the RS-485 bus at the fuel station, NOT inside Odoo.
+
+odoo:
+  # Base URL of the Odoo instance (must be reachable from the station).
+  base_url: "https://erp.example.com"
+  # API key of the matching fuel.forecourt.device record in Odoo
+  # (Fuel Station > Forecourt Controllers > select device > API Key).
+  api_key: "REPLACE_WITH_DEVICE_API_KEY"
+  # Timeout per push, seconds.
+  request_timeout: 10
+  # How often to flush the local queue to Odoo, seconds.
+  push_interval_seconds: 5
+  # Max readings sent per HTTP push.
+  batch_size: 50
+
+serial:
+  # Protocol adapter to use. "lanfeng" once Phase-1 field capture confirms
+  # the exact byte-level Lanfeng frame; "simulator" for dry-run testing
+  # without hardware.
+  protocol: "simulator"
+  port: "COM3"       # e.g. "COM3" on Windows, "/dev/ttyUSB0" on Linux
+  baudrate: 9600
+  bytesize: 8
+  parity: "N"
+  stopbits: 1
+  timeout: 1.0
+
+queue:
+  # Local SQLite file used as a durable, crash-safe queue. Readings are
+  # only deleted once Odoo has confirmed receipt (HTTP 200 + accepted).
+  db_path: "./data/forecourt_queue.sqlite3"
+
+# Maps a physical nozzle's controller-reported address to the SAME
+# string configured on the matching fuel.pump.nozzle.controller_address
+# field in Odoo. Fill this in during Phase 2 field commissioning.
+nozzle_map:
+  # example:
+  # "P01-N01": "P01-N01"
+  # "P01-N02": "P01-N02"
+
+logging:
+  level: "INFO"
+  file: "./data/bridge.log"
