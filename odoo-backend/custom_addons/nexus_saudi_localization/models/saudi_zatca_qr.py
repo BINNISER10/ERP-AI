@@ -27,13 +27,21 @@ _logger = logging.getLogger(__name__)
 
 
 # ZATCA tag numbers (1-based). Order is significant.
-_TAGS = [
+# Tags 1-6 are mandatory for every invoice (Phase 1 & 2).
+# Tags 7-9 (cryptographic stamp) only apply once CSID onboarding is
+# complete and the invoice was actually ECDSA-signed (Phase 2).
+_BASE_TAGS = [
     ("seller_name", 1),
     ("vat_number", 2),
     ("invoice_timestamp", 3),
     ("invoice_total_with_vat", 4),
     ("vat_amount", 5),
     ("xml_hash", 6),
+]
+_SIGNATURE_TAGS = [
+    ("signature", 7),
+    ("public_key", 8),
+    ("certificate_signature", 9),
 ]
 
 
@@ -73,24 +81,32 @@ class NexusSaudiZatcaQR(models.TransientModel):
         return True
 
     @api.model
-    def compute_for_invoice(self, move_id):
-        """Return the TLV payload for an invoice without persisting it."""
+    def compute_for_invoice(self, move_id, invoice_hash=None, signing_chain=None):
+        """Return the TLV payload for an invoice without persisting it.
+
+        :param invoice_hash: pre-computed Base64 SHA-256 hash to embed as
+            tag 6, so callers that already hashed the exact signed XML
+            (e.g. ``nexus.saudi.einvoice``) don't get a mismatched hash
+            from re-serializing the move here.
+        :param signing_chain: dict from ``zatca.signer.build_signing_chain``
+            — when provided, tags 7-9 (cryptographic stamp) are appended.
+        """
         move = self.env["account.move"].browse(move_id)
         if not move.exists():
             return ""
-        return self._build_tlv(move)
+        return self._build_tlv(move, invoice_hash=invoice_hash, signing_chain=signing_chain)
 
     # ─────────────────────────────────────────────────────────────────
     # Internal builders
     # ─────────────────────────────────────────────────────────────────
-    def _build_tlv(self, move):
+    def _build_tlv(self, move, invoice_hash=None, signing_chain=None):
         """Compose the standard TLV stream and base64-encode it."""
         seller = move.company_id.display_name or ""
         vat = (move.company_id.vat or "").replace(" ", "")
         ts = self._format_timestamp(move.invoice_date)
         total = "%0.2f" % (move.amount_total or 0.0)
         vat_amount = "%0.2f" % (move.amount_tax or 0.0)
-        xml_hash = self._invoice_hash(move)
+        xml_hash = invoice_hash or self._invoice_hash(move)
 
         fields_ = {
             "seller_name": seller,
@@ -100,9 +116,17 @@ class NexusSaudiZatcaQR(models.TransientModel):
             "vat_amount": vat_amount,
             "xml_hash": xml_hash,
         }
+        tags = list(_BASE_TAGS)
+        if signing_chain:
+            fields_.update({
+                "signature": signing_chain.get("signature", ""),
+                "public_key": signing_chain.get("public_key", ""),
+                "certificate_signature": signing_chain.get("certificate_signature", ""),
+            })
+            tags += _SIGNATURE_TAGS
 
         tlv_bytes = bytearray()
-        for key, tag in _TAGS:
+        for key, tag in tags:
             value = fields_[key].encode("utf-8") if fields_[key] else b""
             tlv_bytes.append(tag & 0xFF)
             tlv_bytes.append(len(value) & 0xFF)

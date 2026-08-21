@@ -47,6 +47,8 @@
                 <sheet>
                     <group>
                         <field name="invoice_id"/>
+                        <field name="invoice_uuid" readonly="1"/>
+                        <field name="is_cryptographically_signed" readonly="1"/>
                     </group>
                     <group string="XML (UBL 2.1)">
                         <field name="xml_payload" readonly="1" widget="text"/>
