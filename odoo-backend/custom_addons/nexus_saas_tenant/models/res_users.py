@@ -23,6 +23,8 @@ class ResUsers(models.Model):
 
     @api.model_create_multi
     def create(self, vals_list):
+        skip_quota = self.env.context.get("skip_saas_quota_check")
+        pending_by_tenant = {}
         for vals in vals_list:
             tenant_id = vals.get("saas_tenant_id")
             company_id = vals.get("company_id")
@@ -35,6 +37,13 @@ class ResUsers(models.Model):
                 company = self.env["res.company"].browse(company_id)
                 if company.saas_tenant_id:
                     vals["saas_tenant_id"] = company.saas_tenant_id.id
+                    tenant_id = company.saas_tenant_id.id
+
+            if tenant_id and not skip_quota:
+                tenant = self.env["nexus.saas.tenant"].browse(tenant_id)
+                extra = pending_by_tenant.get(tenant.id, 0)
+                tenant.check_user_quota(extra=extra)
+                pending_by_tenant[tenant.id] = extra + 1
         return super().create(vals_list)
 
     def write(self, vals):

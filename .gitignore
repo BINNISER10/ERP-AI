@@ -5,6 +5,11 @@
 forecourt-bridge/config.yaml
 forecourt-bridge/data/
 forecourt-bridge/.venv/
+
+# saas-db-provisioner local runtime (Postgres admin creds, never commit)
+saas-db-provisioner/config.yaml
+saas-db-provisioner/data/
+saas-db-provisioner/.venv/
 *.key
 *.pem
 *.crt

@@ -27,6 +27,7 @@ class SaaSTenant(models.Model):
     state = fields.Selection(
         [
             ("draft", "Draft"),
+            ("provisioning", "Provisioning Database"),
             ("active", "Active"),
             ("suspended", "Suspended"),
             ("cancelled", "Cancelled"),
@@ -34,6 +35,35 @@ class SaaSTenant(models.Model):
         default="draft",
         required=True,
         tracking=True,
+    )
+    isolation_mode = fields.Selection(
+        [
+            ("shared", "Shared Database"),
+            ("dedicated_db", "Dedicated Database"),
+        ],
+        string="Isolation Mode",
+        default="shared",
+        required=True,
+        tracking=True,
+        help=(
+            "'Shared' — this tenant's companies/users live in the same "
+            "database as the control plane (default, matches Ocean Seven's "
+            "single-cluster multi-company setup).\n"
+            "'Dedicated Database' — a fully separate, physically isolated "
+            "Odoo database is provisioned for this tenant. Requires a plan "
+            "with 'Allows Dedicated Database' enabled."
+        ),
+    )
+    dedicated_db_name = fields.Char(
+        string="Dedicated Database Name",
+        readonly=True,
+        copy=False,
+        help="Physical Postgres database name for dedicated_db tenants. "
+        "Matches the tenant code so Odoo's own dbfilter (dbfilter = ^%d$) "
+        "routes <code>.<base_domain> straight to it.",
+    )
+    provision_request_ids = fields.One2many(
+        "nexus.saas.db.provision.request", "tenant_id", string="Provisioning Requests"
     )
 
     # Contact / ownership
@@ -151,6 +181,18 @@ class SaaSTenant(models.Model):
                         "Tenant code must be a valid subdomain: lowercase letters, numbers, "
                         "and hyphens only; cannot start or end with a hyphen."
                     )
+                )
+
+    @api.constrains("isolation_mode", "plan_id")
+    def _check_isolation_mode(self):
+        for tenant in self:
+            if tenant.isolation_mode == "dedicated_db" and not tenant.plan_id.allows_dedicated_db:
+                raise ValidationError(
+                    _(
+                        "Plan '%(plan)s' does not allow dedicated-database isolation. "
+                        "Choose a plan with 'Allows Dedicated Database' enabled first."
+                    )
+                    % {"plan": tenant.plan_id.name}
                 )
 
     @api.constrains("custom_domain")
@@ -294,35 +336,51 @@ class SaaSTenant(models.Model):
                 % {"tenant": self.name, "metric": metric, "limit": limit}
             )
 
-    def check_user_quota(self):
+    def check_user_quota(self, extra=0):
+        self.ensure_one()
         self._check_quota(
-            _("users"), self._count_users(), self.max_users
+            _("users"), self._count_users() + extra, self.max_users
         )
 
-    def check_company_quota(self):
+    def check_company_quota(self, extra=0):
+        self.ensure_one()
         self._check_quota(
-            _("companies"), self._count_companies(), self.max_companies
+            _("companies"), self._count_companies() + extra, self.max_companies
         )
 
-    def check_product_quota(self):
+    def check_product_quota(self, extra=0):
+        self.ensure_one()
         self._check_quota(
-            _("products"), self._count_products(), self.max_products
+            _("products"), self._count_products() + extra, self.max_products
         )
 
-    def check_invoice_quota(self):
+    def check_invoice_quota(self, extra=0):
+        self.ensure_one()
         self._check_quota(
             _("monthly invoices"),
-            self._count_invoices_this_month(),
+            self._count_invoices_this_month() + extra,
             self.max_invoices_monthly,
         )
 
     # ── Provisioning ──────────────────────────────────────────────────
 
     @api.model
-    def provision_tenant(self, name, code, email, plan_id=None, create_user=True):
-        """Create a new tenant with a primary company and an admin user.
+    def provision_tenant(self, name, code, email, plan_id=None, create_user=True, isolation_mode="shared"):
+        """Create a new tenant.
 
-        This is the core self-service signup path.
+        For ``isolation_mode='shared'`` (default), this is the core
+        self-service signup path: a primary company + admin user are
+        created right here, in the same database as the control plane
+        (matches Ocean Seven's single-cluster multi-company setup).
+
+        For ``isolation_mode='dedicated_db'``, NO company/user is created
+        in this database. Instead, a lightweight control-plane tenant
+        record is created in 'provisioning' state and a
+        ``nexus.saas.db.provision.request`` is enqueued for the external,
+        privileged ``saas-db-provisioner`` service to physically create a
+        separate Odoo database. The tenant becomes 'active' only once
+        that service calls back (see
+        ``controllers/db_provisioner_gateway.py``).
         """
         if self.search([("code", "=", code)], limit=1):
             raise UserError(_("Tenant code '%s' is already taken.") % code)
@@ -331,8 +389,21 @@ class SaaSTenant(models.Model):
         if not plan:
             raise UserError(_("No default SaaS plan is configured."))
 
+        if isolation_mode == "dedicated_db" and not plan.allows_dedicated_db:
+            raise UserError(
+                _(
+                    "Plan '%(plan)s' does not allow dedicated-database isolation."
+                )
+                % {"plan": plan.name}
+            )
+
         # Run as superuser so provisioning always succeeds regardless of caller.
         env = self.sudo().env
+
+        if isolation_mode == "dedicated_db":
+            return env["nexus.saas.tenant"]._provision_dedicated_tenant(
+                name=name, code=code, email=email, plan=plan
+            )
 
         # Create primary company
         company_vals = {
@@ -376,3 +447,61 @@ class SaaSTenant(models.Model):
             tenant.write({"owner_user_id": user.id})
 
         return tenant
+
+    def _provision_dedicated_tenant(self, name, code, email, plan):
+        """Create the control-plane record + enqueue the DB creation job."""
+        DbProvisionRequest = self.env["nexus.saas.db.provision.request"]
+
+        tenant = self.create({
+            "name": name,
+            "code": code,
+            "email": email,
+            "plan_id": plan.id,
+            "isolation_mode": "dedicated_db",
+            "dedicated_db_name": code,
+            "trial_end_date": fields.Date.add(fields.Date.today(), days=plan.trial_days),
+            "state": "provisioning",
+        })
+
+        default_modules = self.env["ir.config_parameter"].sudo().get_param(
+            "nexus_saas.dedicated_db_default_modules",
+            "base,nexus_base_security,nexus_saas_tenant",
+        )
+
+        DbProvisionRequest.create({
+            "tenant_id": tenant.id,
+            "request_type": "create",
+            "target_db_name": code,
+            "modules": default_modules,
+            "admin_name": name,
+            "admin_email": email,
+            "admin_password": DbProvisionRequest._generate_password(),
+        })
+
+        return tenant
+
+    def action_provision_dedicated_db_retry(self):
+        """Re-queue a 'create' request for a dedicated_db tenant stuck in error."""
+        self.ensure_one()
+        if self.isolation_mode != "dedicated_db":
+            raise UserError(_("This tenant is not in 'Dedicated Database' isolation mode."))
+        failed = self.provision_request_ids.filtered(
+            lambda r: r.request_type == "create" and r.state == "error"
+        )
+        if not failed:
+            raise UserError(_("No failed provisioning request to retry."))
+        failed.action_retry()
+        self.write({"state": "provisioning"})
+
+    def _on_dedicated_db_provisioned(self, request, success, message=""):
+        """Called by the db-provisioner HTTP gateway once a job completes."""
+        self.ensure_one()
+        if success:
+            self.write({"state": "active", "dedicated_db_name": request.target_db_name})
+            self.message_post(
+                body=_("Dedicated database '%s' provisioned successfully.") % request.target_db_name
+            )
+        else:
+            self.message_post(
+                body=_("Dedicated database provisioning failed: %s") % message
+            )

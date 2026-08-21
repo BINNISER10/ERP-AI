@@ -24,6 +24,7 @@
         "views/usage_views.xml",
         "views/res_config_settings_views.xml",
         "views/saas_menus.xml",
+        "views/db_provision_request_views.xml",
     ],
     "post_init_hook": "_post_init_hook",
     "installable": True,

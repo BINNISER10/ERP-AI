@@ -54,6 +54,7 @@
                         <field name="has_multi_location"/>
                         <field name="has_priority_support"/>
                         <field name="has_white_label"/>
+                        <field name="allows_dedicated_db"/>
                     </group>
                     <group string="Stripe Mapping">
                         <field name="stripe_price_id_monthly"/>

@@ -53,6 +53,16 @@ class SaaSPlan(models.Model):
     has_multi_location = fields.Boolean(string="Multi Location", default=False)
     has_priority_support = fields.Boolean(string="Priority Support", default=False)
     has_white_label = fields.Boolean(string="White-Label", default=False)
+    allows_dedicated_db = fields.Boolean(
+        string="Allows Dedicated Database",
+        default=False,
+        help=(
+            "Enterprise-tier flag. When enabled, tenants on this plan may "
+            "opt into physical database-per-tenant isolation instead of "
+            "sharing a database with other tenants (see "
+            "nexus.saas.tenant.isolation_mode)."
+        ),
+    )
 
     stripe_price_id_monthly = fields.Char(string="Stripe Monthly Price ID")
     stripe_price_id_yearly = fields.Char(string="Stripe Yearly Price ID")

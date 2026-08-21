@@ -9,3 +9,4 @@ access_nexus_saas_usage_metric_user,nexus.saas.usage.metric.user,model_nexus_saa
 access_nexus_saas_usage_metric_manager,nexus.saas.usage.metric.manager,model_nexus_saas_usage_metric,base.group_system,1,1,1,1
 access_nexus_saas_usage_record_user,nexus.saas.usage.record.user,model_nexus_saas_usage_record,base.group_user,1,0,0,0
 access_nexus_saas_usage_record_manager,nexus.saas.usage.record.manager,model_nexus_saas_usage_record,base.group_system,1,1,1,1
+access_nexus_saas_db_provision_request_manager,nexus.saas.db.provision.request.manager,model_nexus_saas_db_provision_request,base.group_system,1,1,1,1

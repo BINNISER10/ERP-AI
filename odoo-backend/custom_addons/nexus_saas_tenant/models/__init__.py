@@ -1,5 +1,6 @@
 from . import (
     plan,
+    db_provision,
     tenant,
     subscription,
     usage,
@@ -7,4 +8,6 @@ from . import (
     res_users,
     res_config_settings,
     cloudflare_dns,
+    product_template,
+    account_move,
 )

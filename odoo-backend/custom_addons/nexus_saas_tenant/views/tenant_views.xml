@@ -24,9 +24,10 @@
             <form>
                 <header>
                     <button name="action_activate" string="Activate" type="object" invisible="state != 'draft'" class="oe_highlight"/>
+                    <button name="action_provision_dedicated_db_retry" string="Retry Provisioning" type="object" invisible="state != 'provisioning'"/>
                     <button name="action_suspend" string="Suspend" type="object" invisible="state != 'active'"/>
                     <button name="action_cancel" string="Cancel" type="object" invisible="state in ('cancelled',)"/>
-                    <field name="state" widget="statusbar" statusbar_visible="draft,active,suspended,cancelled"/>
+                    <field name="state" widget="statusbar" statusbar_visible="draft,provisioning,active,suspended,cancelled"/>
                 </header>
                 <sheet>
                     <div class="oe_title">
@@ -37,23 +38,37 @@
                             <field name="code"/>
                             <field name="email"/>
                             <field name="plan_id"/>
+                            <field name="isolation_mode"/>
+                            <field name="dedicated_db_name" invisible="isolation_mode != 'dedicated_db'" readonly="1"/>
                             <field name="is_trial" readonly="1"/>
                             <field name="trial_end_date"/>
                         </group>
                         <group>
                             <field name="custom_domain"/>
                             <field name="subdomain" readonly="1"/>
-                            <field name="primary_company_id"/>
-                            <field name="owner_user_id"/>
+                            <field name="primary_company_id" invisible="isolation_mode == 'dedicated_db'"/>
+                            <field name="owner_user_id" invisible="isolation_mode == 'dedicated_db'"/>
                             <field name="stripe_customer_id"/>
                         </group>
                     </group>
                     <notebook>
-                        <page string="Companies">
+                        <page string="Companies" invisible="isolation_mode == 'dedicated_db'">
                             <field name="company_ids"/>
                         </page>
-                        <page string="Users">
+                        <page string="Users" invisible="isolation_mode == 'dedicated_db'">
                             <field name="user_ids"/>
+                        </page>
+                        <page string="Provisioning" invisible="isolation_mode != 'dedicated_db'">
+                            <field name="provision_request_ids">
+                                <list decoration-danger="state == 'error'" decoration-success="state == 'done'">
+                                    <field name="request_type"/>
+                                    <field name="target_db_name"/>
+                                    <field name="state"/>
+                                    <field name="requested_at"/>
+                                    <field name="completed_at"/>
+                                    <field name="error_message"/>
+                                </list>
+                            </field>
                         </page>
                         <page string="Quotas">
                             <group>

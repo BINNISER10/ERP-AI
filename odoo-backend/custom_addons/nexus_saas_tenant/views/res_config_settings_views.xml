@@ -26,6 +26,14 @@
                             <field name="saas_cloudflare_cname_target"/>
                         </setting>
                     </block>
+                    <block title="Dedicated Database Provisioning" name="nexus_saas_db_provisioner">
+                        <setting help="Shared secret sent by the external saas-db-provisioner service" string="Provisioner API Key">
+                            <field name="saas_db_provisioner_api_key" password="True"/>
+                        </setting>
+                        <setting help="Comma-separated module list installed on every new dedicated tenant database" string="Default Modules">
+                            <field name="saas_dedicated_db_default_modules"/>
+                        </setting>
+                    </block>
                 </div>
             </xpath>
         </field>

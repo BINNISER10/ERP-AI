@@ -1,0 +1,35 @@
+# Nexus SaaS DB Provisioner — configuration
+#
+# This service runs with PRIVILEGED access (Postgres superuser/createdb
+# rights + the Odoo binary on the same host/cluster). It must NEVER run
+# inside the regular Odoo web worker process — that's exactly why this
+# is a separate service polling Odoo over HTTP instead of a module.
+
+odoo:
+  base_url: "https://erp.example.com"
+  # Value of Settings > SaaS > "DB Provisioner API Key" in nexus_saas_tenant.
+  api_key: "REPLACE_WITH_PROVISIONER_API_KEY"
+  poll_interval_seconds: 15
+  request_timeout: 30
+
+postgres:
+  host: "localhost"
+  port: 5432
+  # Must be a role with CREATEDB privilege.
+  admin_user: "odoo"
+  admin_password: "REPLACE_WITH_POSTGRES_PASSWORD"
+  # Optional: clone from a pre-baked template DB (with base modules
+  # already installed) instead of running -i on every tenant — much
+  # faster. Leave empty to always run a full `-i` install.
+  template_db: ""
+
+odoo_bin:
+  # Path to odoo-bin (or `python -m odoo`) on this host.
+  path: "/opt/odoo/odoo-bin"
+  addons_path: "/opt/odoo/addons,/opt/odoo/custom_addons"
+  # Extra CLI args appended to every provisioning run, e.g. workers/limits.
+  extra_args: []
+
+logging:
+  level: "INFO"
+  file: "./data/provisioner.log"
