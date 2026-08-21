@@ -7,8 +7,6 @@
         <field name="code">model._cron_aggregate_daily()</field>
         <field name="interval_number">1</field>
         <field name="interval_type">days</field>
-        <field name="numbercall">-1</field>
-        <field name="doall" eval="False"/>
         <field name="active" eval="True"/>
     </record>
 
@@ -19,8 +17,6 @@
         <field name="code">model._cron_check_subscriptions()</field>
         <field name="interval_number">1</field>
         <field name="interval_type">days</field>
-        <field name="numbercall">-1</field>
-        <field name="doall" eval="False"/>
         <field name="active" eval="True"/>
     </record>
 
@@ -31,8 +27,6 @@
         <field name="code">model._cron_trial_expiry()</field>
         <field name="interval_number">1</field>
         <field name="interval_type">days</field>
-        <field name="numbercall">-1</field>
-        <field name="doall" eval="False"/>
         <field name="active" eval="True"/>
     </record>
 </odoo>

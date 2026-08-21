@@ -5,7 +5,7 @@
         <field name="model">nexus.saas.subscription</field>
         <field name="inherit_id" ref="nexus_saas_tenant.view_nexus_saas_subscription_form"/>
         <field name="arch" type="xml">
-            <xpath expr="//group[@string='Stripe']" position="replace">
+            <xpath expr="//group[@name='stripe']" position="replace">
                 <group string="Stripe Billing">
                     <field name="stripe_customer_id"/>
                     <field name="stripe_subscription_id"/>

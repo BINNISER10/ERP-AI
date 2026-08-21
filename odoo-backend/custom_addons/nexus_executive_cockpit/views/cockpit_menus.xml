@@ -9,6 +9,5 @@
     <menuitem id="menu_nexus_cockpit_root"
               name="Executive Cockpit"
               action="action_nexus_cockpit_url"
-              sequence="3"
-              web_icon="fa fa-tachometer,none"/>
+              sequence="3"/>
 </odoo>

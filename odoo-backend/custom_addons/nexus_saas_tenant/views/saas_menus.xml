@@ -3,8 +3,7 @@
     <menuitem
         id="menu_nexus_saas_root"
         name="SaaS Platform"
-        sequence="5"
-        web_icon="fa fa-cloud,none"/>
+        sequence="5"/>
 
     <menuitem
         id="menu_nexus_saas_tenants"

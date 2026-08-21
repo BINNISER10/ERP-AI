@@ -28,6 +28,5 @@ def post_init_hook(env):
             _logger.info("Set config parameter %s from environment.", key)
 
 
-def _post_init_hook(cr, registry):
-    env = api.Environment(cr, SUPERUSER_ID, {})
+def _post_init_hook(env):
     post_init_hook(env)

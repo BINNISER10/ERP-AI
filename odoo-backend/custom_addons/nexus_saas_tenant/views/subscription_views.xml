@@ -38,7 +38,7 @@
                             <field name="is_paid" readonly="1"/>
                         </group>
                     </group>
-                    <group string="Stripe" groups="base.group_system">
+                    <group name="stripe" string="Stripe" groups="base.group_system">
                         <field name="stripe_customer_id"/>
                         <field name="stripe_subscription_id"/>
                         <field name="stripe_price_id"/>

@@ -5,7 +5,7 @@
         <field name="model">res.config.settings</field>
         <field name="inherit_id" ref="base.res_config_settings_view_form"/>
         <field name="arch" type="xml">
-            <xpath expr="//div[@name='integration']/.." position="inside">
+            <xpath expr="//form" position="inside">
                 <div name="saas_settings">
                     <block title="Nexus SaaS" name="nexus_saas_settings">
                         <setting help="Base domain used for new tenant subdomains, e.g. nexus-engine.app">
