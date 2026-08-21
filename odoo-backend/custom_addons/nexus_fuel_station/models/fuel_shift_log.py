@@ -20,17 +20,36 @@ class FuelShiftLog(models.Model):
         required=True,
         default=fields.Datetime.now,
     )
+    nozzle_id = fields.Many2one(
+        "fuel.pump.nozzle",
+        string="Nozzle",
+        required=True,
+        ondelete="restrict",
+    )
     pump_id = fields.Many2one(
         "fuel.pump",
         string="Fuel Pump",
-        required=True,
-        ondelete="restrict",
+        related="nozzle_id.pump_id",
+        store=True,
+        readonly=True,
     )
     user_id = fields.Many2one(
         "res.users",
         string="Attendant",
-        required=True,
         default=lambda self: self.env.user,
+    )
+    source = fields.Selection(
+        [("manual", "Manual Entry"), ("forecourt", "Forecourt Controller")],
+        string="Source",
+        default="manual",
+        required=True,
+        tracking=True,
+    )
+    reading_buffer_id = fields.Many2one(
+        "fuel.reading.buffer",
+        string="Source Reading",
+        readonly=True,
+        copy=False,
     )
     opening_meter = fields.Float(
         string="Opening Meter",
@@ -50,7 +69,7 @@ class FuelShiftLog(models.Model):
     )
     product_id = fields.Many2one(
         "product.product",
-        related="pump_id.product_id",
+        related="nozzle_id.product_id",
         string="Fuel Product",
         store=True,
         readonly=True,
@@ -72,7 +91,7 @@ class FuelShiftLog(models.Model):
     )
     company_id = fields.Many2one(
         "res.company",
-        related="pump_id.company_id",
+        related="nozzle_id.company_id",
         store=True,
         readonly=True,
     )
@@ -89,7 +108,7 @@ class FuelShiftLog(models.Model):
                 raise ValidationError(
                     _("Closing meter must be greater than or equal to opening meter.")
                 )
-            if log.volume_sold > log.pump_id.tank_id.current_volume:
+            if log.volume_sold > log.nozzle_id.tank_id.current_volume:
                 raise ValidationError(
                     _(
                         "Volume sold (%(sold)s L) exceeds available tank volume "
@@ -97,7 +116,7 @@ class FuelShiftLog(models.Model):
                     )
                     % {
                         "sold": log.volume_sold,
-                        "available": log.pump_id.tank_id.current_volume,
+                        "available": log.nozzle_id.tank_id.current_volume,
                     }
                 )
 
@@ -112,7 +131,7 @@ class FuelShiftLog(models.Model):
         self.ensure_one()
         if self.state == "confirmed":
             raise UserError(_("Shift log is already confirmed."))
-        if not self.product_id or not self.pump_id.tank_id.location_id:
+        if not self.product_id or not self.nozzle_id.tank_id.location_id:
             raise UserError(_("Missing fuel product or tank location."))
 
         picking_type = self.env["stock.picking.type"].search(
@@ -125,7 +144,7 @@ class FuelShiftLog(models.Model):
         if not picking_type:
             raise UserError(_("No outgoing operation type configured for this company."))
 
-        src_location = self.pump_id.tank_id.location_id
+        src_location = self.nozzle_id.tank_id.location_id
         customer_location = self.env.ref("stock.stock_location_customers")
 
         move = self.env["stock.move"].create(
@@ -147,11 +166,11 @@ class FuelShiftLog(models.Model):
         self.write({"stock_move_id": move.id, "state": "confirmed"})
 
         # Update tank volume
-        tank = self.pump_id.tank_id
+        tank = self.nozzle_id.tank_id
         tank.write({"current_volume": tank.current_volume - self.volume_sold})
 
-        # Update pump ending meter
-        self.pump_id.write({"meter_end": self.closing_meter})
+        # Update nozzle ending meter
+        self.nozzle_id.write({"meter_end": self.closing_meter})
 
     def action_reset_to_draft(self):
         self.ensure_one()

@@ -10,9 +10,12 @@
     "data": [
         "security/ir.model.access.csv",
         "data/ir_sequence.xml",
+        "data/ir_cron.xml",
         "views/fuel_tank_views.xml",
         "views/fuel_pump_views.xml",
         "views/fuel_shift_log_views.xml",
+        "views/fuel_forecourt_device_views.xml",
+        "views/fuel_reading_buffer_views.xml",
     ],
     "installable": True,
     "application": True,

@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_fuel_reading_buffer_tree" model="ir.ui.view">
+        <field name="name">fuel.reading.buffer.tree</field>
+        <field name="model">fuel.reading.buffer</field>
+        <field name="arch" type="xml">
+            <list decoration-danger="state == 'error'" decoration-muted="state == 'ignored'" decoration-success="state == 'processed'">
+                <field name="received_at"/>
+                <field name="device_id"/>
+                <field name="transaction_ref"/>
+                <field name="nozzle_address"/>
+                <field name="nozzle_id"/>
+                <field name="volume"/>
+                <field name="amount"/>
+                <field name="state"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="view_fuel_reading_buffer_form" model="ir.ui.view">
+        <field name="name">fuel.reading.buffer.form</field>
+        <field name="model">fuel.reading.buffer</field>
+        <field name="arch" type="xml">
+            <form string="Forecourt Reading">
+                <header>
+                    <button name="process" type="object" string="Retry Processing" invisible="state == 'processed'" class="oe_highlight"/>
+                    <field name="state" widget="statusbar" statusbar_visible="pending,processed,error,ignored"/>
+                </header>
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="device_id"/>
+                            <field name="transaction_ref"/>
+                            <field name="nozzle_address"/>
+                            <field name="nozzle_id"/>
+                            <field name="received_at"/>
+                            <field name="processed_at" readonly="1"/>
+                        </group>
+                        <group>
+                            <field name="volume"/>
+                            <field name="amount"/>
+                            <field name="unit_price"/>
+                            <field name="meter_total"/>
+                            <field name="controller_timestamp"/>
+                            <field name="shift_log_id" readonly="1"/>
+                        </group>
+                    </group>
+                    <group string="Error" invisible="not error_message">
+                        <field name="error_message" readonly="1" nolabel="1"/>
+                    </group>
+                    <group string="Raw Payload">
+                        <field name="raw_payload" readonly="1" nolabel="1"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_fuel_reading_buffer" model="ir.actions.act_window">
+        <field name="name">Forecourt Readings</field>
+        <field name="res_model">fuel.reading.buffer</field>
+        <field name="view_mode">list,form</field>
+    </record>
+
+    <menuitem id="menu_fuel_reading_buffer" name="Forecourt Readings" parent="menu_fuel_root" action="action_fuel_reading_buffer" sequence="35" groups="nexus_base_security.group_nexus_manager"/>
+</odoo>

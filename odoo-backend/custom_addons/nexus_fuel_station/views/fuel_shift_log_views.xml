@@ -7,7 +7,9 @@
             <list>
                 <field name="name"/>
                 <field name="date"/>
+                <field name="nozzle_id"/>
                 <field name="pump_id"/>
+                <field name="source"/>
                 <field name="user_id"/>
                 <field name="opening_meter"/>
                 <field name="closing_meter"/>
@@ -31,7 +33,9 @@
                         <group>
                             <field name="name" readonly="1"/>
                             <field name="date"/>
-                            <field name="pump_id"/>
+                            <field name="nozzle_id"/>
+                            <field name="pump_id" readonly="1"/>
+                            <field name="source" readonly="1"/>
                             <field name="user_id"/>
                             <field name="product_id" readonly="1"/>
                         </group>
@@ -40,6 +44,7 @@
                             <field name="closing_meter"/>
                             <field name="volume_sold" readonly="1"/>
                             <field name="stock_move_id" readonly="1"/>
+                            <field name="reading_buffer_id" readonly="1"/>
                             <field name="company_id" groups="base.group_multi_company"/>
                         </group>
                     </group>

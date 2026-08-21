@@ -7,3 +7,6 @@ access_fuel_pump_nozzle_user,Fuel Pump Nozzle User,nexus_fuel_station.model_fuel
 access_fuel_pump_nozzle_manager,Fuel Pump Nozzle Manager,nexus_fuel_station.model_fuel_pump_nozzle,nexus_base_security.group_nexus_manager,1,1,1,1
 access_fuel_shift_log_user,Fuel Shift Log User,nexus_fuel_station.model_fuel_shift_log,nexus_base_security.group_nexus_pos_user,1,1,1,0
 access_fuel_shift_log_manager,Fuel Shift Log Manager,nexus_fuel_station.model_fuel_shift_log,nexus_base_security.group_nexus_manager,1,1,1,1
+access_fuel_forecourt_device_manager,Fuel Forecourt Device Manager,nexus_fuel_station.model_fuel_forecourt_device,nexus_base_security.group_nexus_manager,1,1,1,1
+access_fuel_reading_buffer_user,Fuel Reading Buffer User,nexus_fuel_station.model_fuel_reading_buffer,nexus_base_security.group_nexus_pos_user,1,0,0,0
+access_fuel_reading_buffer_manager,Fuel Reading Buffer Manager,nexus_fuel_station.model_fuel_reading_buffer,nexus_base_security.group_nexus_manager,1,1,1,1
